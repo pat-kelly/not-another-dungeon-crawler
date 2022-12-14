@@ -4,10 +4,10 @@ class Monster{
     const baseStats = this.getBaseStats(nameStr);
     if(!baseStats) return;
     
-    this.hp = elite ? baseStats.hp : baseStats.hp * 2;
-    this.dph = elite ? baseStats.dph : baseStats.dph * 2;
-    this.type = elite ? baseStats.type : baseStats.type + ` - Elite`;
-    this.diff = elite ? baseStats.diff : baseStats.diff * 2;
+    this.hp = elite ? baseStats.hp * 2 : baseStats.hp;
+    this.dph = elite ? baseStats.dph * 2 : baseStats.dph;
+    this.type = elite ? baseStats.name + ` - Elite` : baseStats.name;
+    this.diff = elite ? baseStats.diff * 2 : baseStats.diff;
   }
 
   static dupeMonster(monster){
