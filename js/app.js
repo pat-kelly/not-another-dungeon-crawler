@@ -29,3 +29,27 @@ TODOO - Everything, duh.
   *moar to come.
 
 */
+
+/*------------ Constants ------------*/
+import "../data/monsters.js";
+import {Monster,goblinSpecs,slimeSpecs} from "../data/monsters.js";
+
+/*------------ Variables ------------*/
+
+
+/*---- Cached Element References ----*/
+
+
+
+
+/*--------- Event Listeners ---------*/
+
+
+
+/*------------ Functions ------------*/
+
+const gobbo1 = new Monster(3, 1, 'goblinoid', 1)
+const gobbo2 = Monster.createMonster(goblinSpecs)
+
+console.log(gobbo1.printMonster());
+console.log(gobbo2.printMonster());

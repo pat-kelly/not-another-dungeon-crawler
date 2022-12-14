@@ -20,4 +20,13 @@ class Monster{
     return new Monster(monster.hp, monster.dph, monster.type, monster.diff)
   }
   //put functions here when you figure out what's needed.
+  printMonster(){
+    return `This is a ${this.type}, with ${this.hp} hp and hits for ${this.dph}.`
+  }
 }
+
+export {
+  Monster,
+  slimeSpecs,
+  goblinSpecs
+};
