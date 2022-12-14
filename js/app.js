@@ -33,7 +33,7 @@ TODOO - Everything, duh.
 /*------------ Constants ------------*/
 // import "../data/monsters.js";
 import { Monster, monsterList } from "../data/monsters.js";
-import { map } from "../data/map.js"
+import { map, checkValid } from "../data/map.js"
 import { Character } from "../data/char.js";
 
 /*------------ Variables ------------*/
@@ -49,6 +49,36 @@ import { Character } from "../data/char.js";
 
 
 /*------------ Functions ------------*/
+function playerMove(char, direction){
+  /* playerMove takes a Character and the direction they're trying to move.
+    it should pull the current location from the player, and then check the next tile
+    in 'direction' in the map object. if its a valid move, change the player location to that.
+   */
+
+    const newLoc = new Array(char.location[0], char.location[1]);
+    let valid = false;
+
+    switch(direction.toLowerCase()){
+      case 'n': 
+        newLoc[1] +=1;
+        break;
+      case 'e':
+        newLoc[0] +=1;
+        break;
+      case 's':
+        newLoc[1] -=1;
+        break;
+      case 'w':
+        newLoc[0] -=1;
+        break;
+    }
+
+    console.log('char',char.location, 'newLoc',newLoc)
+    valid = checkValid(char.location, newLoc, direction);
+    console.log(valid);
+    if(valid) char.location = newLoc;
+}
+
 
 const gobbo = new Monster('goblin');
 const slime = new Monster('slime');
@@ -56,4 +86,13 @@ const eliteGobbo = new  Monster('goblin', true);
 console.log(gobbo, slime, eliteGobbo);
 
 const player = new Character(100, 0, [0,0]);
-console.log(player);
+console.log(player.location);
+
+playerMove(player, 'e');
+console.log(player.location);
+playerMove(player, 'n')
+console.log(player.location)
+playerMove(player, 'n')
+console.log(player.location)
+playerMove(player, 'w')
+console.log(player.location)
