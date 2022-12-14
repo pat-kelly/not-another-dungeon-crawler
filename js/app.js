@@ -32,13 +32,13 @@ TODOO - Everything, duh.
 
 /*------------ Constants ------------*/
 import "../data/monsters.js";
-import {Monster,goblinSpecs,slimeSpecs} from "../data/monsters.js";
+import {Monster, monsterList} from "../data/monsters.js";
 
 /*------------ Variables ------------*/
 
 
-/*---- Cached Element References ----*/
 
+/*---- Cached Element References ----*/
 
 
 
@@ -48,8 +48,6 @@ import {Monster,goblinSpecs,slimeSpecs} from "../data/monsters.js";
 
 /*------------ Functions ------------*/
 
-const gobbo1 = new Monster(3, 1, 'goblinoid', 1)
-const gobbo2 = Monster.createMonster(goblinSpecs)
-
-console.log(gobbo1.printMonster());
-console.log(gobbo2.printMonster());
+const gobbo = new Monster('goblin');
+const slime = new Monster('slime');
+const slime2 = new Monster('not');

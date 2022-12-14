@@ -1,32 +1,39 @@
-const slimeSpecs = [5,1,'Slime',1];
-const goblinSpecs = [8,2,'Goblinoid',2];
-
 class Monster{
 
-  constructor(hp, dph, type, diff){
-    this.hp = hp;
-    this.dph = dph;
-    this.type = type;
-    this.diff = diff;
+  constructor(nameStr, elite=false){
+    const baseStats = this.getBaseStats(nameStr);
+    if(!baseStats) return;
+    
+    this.hp = elite ? baseStats.hp : baseStats.hp * 2;
+    this.dph = elite ? baseStats.dph : baseStats.dph * 2;
+    this.type = elite ? baseStats.type : baseStats.type + ` - Elite`;
+    this.diff = elite ? baseStats.diff : baseStats.diff * 2;
   }
-  static createMonster(statsArray){
-    if(statsArray.length !== 4) return;
-    return new Monster(statsArray[0],statsArray[1],
-        statsArray[2],statsArray[3],)
-  }
+
   static dupeMonster(monster){
     if(!(monster instanceof Monster)) return;
-    
-    return new Monster(monster.hp, monster.dph, monster.type, monster.diff)
+  
+    return new Monster(monster.name)
   }
-  //put functions here when you figure out what's needed.
+
   printMonster(){
-    return `This is a ${this.type}, with ${this.hp} hp and hits for ${this.dph}.`
+    return `This is a ${this.name}, with ${this.hp} hp and hits for ${this.dph}.`
   }
+
+  getBaseStats(nameStr){
+    return monsterList.find(mon => mon.name.toLowerCase() === nameStr.toLowerCase())
+  }
+
 }
+
+const monsterList = [
+  {hp: 5, dph: 1, name: 'Slime', diff: 1},
+  {hp: 8, dph: 2, name: 'Goblin', diff: 2}
+]
+
+
 
 export {
   Monster,
-  slimeSpecs,
-  goblinSpecs
+  monsterList
 };
