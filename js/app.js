@@ -32,8 +32,9 @@ TODOO - Everything, duh.
 
 /*------------ Constants ------------*/
 // import "../data/monsters.js";
-import {Monster, monsterList} from "../data/monsters.js";
-import {map} from "../data/map.js"
+import { Monster, monsterList } from "../data/monsters.js";
+import { map } from "../data/map.js"
+import { Character } from "../data/char.js";
 
 /*------------ Variables ------------*/
 
@@ -54,3 +55,5 @@ const slime = new Monster('slime');
 const eliteGobbo = new  Monster('goblin', true);
 console.log(gobbo, slime, eliteGobbo);
 
+const player = new Character(100, 0, [0,0]);
+console.log(player);
