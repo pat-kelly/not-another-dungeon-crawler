@@ -3,7 +3,7 @@ Started 12.01.2022
 By: Patrick Kelly
 
 TODOO - Everything, duh.
-  * character object
+  * character class (includes player and monsters)
     - to include player, npcs?, monsters, etc.
     - Stats:
       - Health
@@ -13,9 +13,11 @@ TODOO - Everything, duh.
       - Money, items, etc.
     - status(es)
     - location & facing
-  * Location object
-    - internal map (maybe? might just be one screen deals)
-    - external 'door' location
+  * Location classes
+    - internal/external
+    - if external, basic structure.
+      - walls, hallway entrances
+      - 
     - what direction the door faces in the overworld
   * Map and where everything is.
     - Maybe each character/room/event/thing has a 'location' value? ie: tavern is at [5][3]
