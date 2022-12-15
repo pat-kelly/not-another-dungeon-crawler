@@ -24,6 +24,10 @@ class MapTile{
     }
   }
 
+  getNotes(){
+    return this.notes;
+  }
+
 }
 
 MapTile.find = function(toFind = []){
@@ -55,8 +59,7 @@ const mapData = [
     e: 'door',
     s: 'wall',
     w: 'wall',
-    notes: {flavor: 'you notice a faint sulfer smell entering this area',
-            poi: 'something unique about this tile'}
+    notes: 'You notice a faint sulfer smell entering this area'
   },
   {
     location: [1,0],
@@ -64,8 +67,7 @@ const mapData = [
     e: 'wall',
     s: 'wall',
     w: 'door',
-    notes: {flavor: '',
-            poi: ''}
+    notes: ''
   },
   {
     location: [0,1],
@@ -73,8 +75,7 @@ const mapData = [
     e: 'ldoor',
     s: 'wall',
     w: 'wall',
-    notes: {flavor: '',
-            poi: ''}
+    notes: ''
   },
   {
     location: [1,1],
@@ -82,8 +83,7 @@ const mapData = [
     e: 'wall',
     s: 'hallway',
     w: 'ldoor',
-    notes: {flavor: '',
-            poi: ''}
+    notes: ''
   }
 
 ]

@@ -36,8 +36,8 @@ import { checkValid, map, MapTile } from "../data/map.js"
 import { Character } from "../data/char.js";
 
 /*------------ Constants ------------*/
-
 const player = new Character(100, 0, [0,0]);
+const curPlayerTile = MapTile.find(player.location);
 
 
 /*---- Cached Element References ----*/
@@ -73,8 +73,6 @@ function navCheck(evt){
 
 }//end navCheck
 
-player.l
-
 function playerMove(char, direction){
   /* playerMove takes a Character and the direction they're trying to move.
     it should pull the current location from the player, and then check the next tile
@@ -96,16 +94,16 @@ function playerMove(char, direction){
       newLoc[0] -=1;
       break;
   }
-  writeToGameLog(`player location: ${(char.location)}`)
-  writeToGameLog(`new location: ${(newLoc)}`);
-  writeToGameLog(`direction of travel: ${direction}`);
+
+  
   if(checkValid(char.location, newLoc, direction)){ 
-    writeToGameLog(`You moved from ${char.location} to ${newLoc}`);
-    //!REPLACE WITH SOMETHING BETTER #mvp
+    writeToGameLog(`You walked through the ${curPlayerTile.getEdge(direction)} to the ${direction.toUpperCase()}`);
+    if(MapTile.find(newLoc).getNotes()){
+      writeToGameLog(MapTile.find(newLoc).getNotes())
+    }
     char.location = newLoc;
-    writeToGameLog(`test if char.location changed: ${char.location}`);
   }else {
-    writeToGameLog(`You can't move that direction. There's a ${MapTile.find(char.location).getEdge(direction)} in the way.`);
+    writeToGameLog(`You can't move that direction. There's a ${curPlayerTile.getEdge(direction)} in the way.`);
     // writeToGameLog(getWall(char.location, direction));
   }
   writeToGameLog('===============================================');
