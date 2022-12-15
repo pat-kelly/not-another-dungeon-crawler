@@ -32,15 +32,12 @@ TODOO - Everything, duh.
 
 /*------------ Imports ------------*/
 import { Monster, monsterList } from "../data/monsters.js";
-import { map, checkValid } from "../data/map.js"
+import { checkValid, map, MapTile } from "../data/map.js"
 import { Character } from "../data/char.js";
 
 /*------------ Constants ------------*/
+
 const player = new Character(100, 0, [0,0]);
-
-
-/*------------ Variables ------------*/
-
 
 
 /*---- Cached Element References ----*/
@@ -73,7 +70,10 @@ function navCheck(evt){
       playerMove(player, player.directions[2]);
       break;
   }
+
 }//end navCheck
+
+player.l
 
 function playerMove(char, direction){
   /* playerMove takes a Character and the direction they're trying to move.
@@ -81,8 +81,7 @@ function playerMove(char, direction){
     in 'direction' in the map object. if its a valid move, change the player location to that.*/
 
   const newLoc = new Array(char.location[0], char.location[1]);
-  let isValid = false;
-
+  
   switch(direction.toLowerCase()){
     case 'n': 
       newLoc[1] +=1;
@@ -97,15 +96,23 @@ function playerMove(char, direction){
       newLoc[0] -=1;
       break;
   }
-
+  writeToGameLog(`player location: ${(char.location)}`)
+  writeToGameLog(`new location: ${(newLoc)}`);
+  writeToGameLog(`direction of travel: ${direction}`);
   if(checkValid(char.location, newLoc, direction)){ 
-    writeToGameLog(`\nYou moved from ${char.location} to ${newLoc}`);
+    writeToGameLog(`You moved from ${char.location} to ${newLoc}`);
     //!REPLACE WITH SOMETHING BETTER #mvp
     char.location = newLoc;
-  }else writeToGameLog(`\nInvalid Move`);
+    writeToGameLog(`test if char.location changed: ${char.location}`);
+  }else {
+    writeToGameLog(`You can't move that direction. There's a ${MapTile.find(char.location).getEdge(direction)} in the way.`);
+    // writeToGameLog(getWall(char.location, direction));
+  }
+  writeToGameLog('===============================================');
 }
 
 function writeToGameLog(strToAdd){
+  gameLog.innerText += `\n`;
   gameLog.innerText += strToAdd;
   gameLog.scrollTop = gameLog.scrollHeight;
 }
@@ -114,8 +121,8 @@ function writeToGameLog(strToAdd){
 const gobbo = new Monster('goblin');
 const slime = new Monster('slime');
 const eliteGobbo = new  Monster('goblin', true);
-console.log(gobbo, slime, eliteGobbo);
+// console.log(gobbo, slime, eliteGobbo);
 
 const npc1 = new Character(1, 0, [0,1])
 
-console.log(player, npc1);
+// console.log(player, npc1);

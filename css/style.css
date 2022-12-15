@@ -25,19 +25,19 @@ body{
   display:flex;
   justify-content: space-between;
   background-color: gray;
-  min-width: 1600px;
+  /* min-width: 75vw; */
 }
 
 #container-bottom{
   display:flex;
   justify-content: space-between;
   background-color: gray;
-  min-width: 1600px;
+  /* min-width: 75vw; */
 }
 
 #display-area{
   background-color: lightgray;
-  position: static;
+  /* position: static; */
   /* border: 1px solid black; */
   width: 1280px;
   height: 800px;
