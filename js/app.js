@@ -53,8 +53,6 @@ navBox.addEventListener('click', navCheck);
 
 /*------------ Game Setup ------------*/
 
-gameLog.textContent = 'Would you like to play a game?';
-
 /*------------ Functions ------------*/
 function navCheck(evt){
   if(evt.target.className !== 'nav-btn') return;
@@ -83,7 +81,7 @@ function playerMove(char, direction){
     in 'direction' in the map object. if its a valid move, change the player location to that.*/
 
   const newLoc = new Array(char.location[0], char.location[1]);
-  let valid = false;
+  let isValid = false;
 
   switch(direction.toLowerCase()){
     case 'n': 
@@ -100,13 +98,16 @@ function playerMove(char, direction){
       break;
   }
 
-  // console.log('char',char.location, 'newLoc',newLoc)
-  valid = checkValid(char.location, newLoc, direction);
-  // console.log(valid);
-  if(valid){ 
-    console.log(`You moved from ${char.location} to ${newLoc}`);
+  if(checkValid(char.location, newLoc, direction)){ 
+    writeToGameLog(`\nYou moved from ${char.location} to ${newLoc}`);
+    //!REPLACE WITH SOMETHING BETTER #mvp
     char.location = newLoc;
-  }else console.log('Invalid Move');
+  }else writeToGameLog(`\nInvalid Move`);
+}
+
+function writeToGameLog(strToAdd){
+  gameLog.innerText += strToAdd;
+  gameLog.scrollTop = gameLog.scrollHeight;
 }
 
 
