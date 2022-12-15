@@ -54,6 +54,7 @@ body{
   width: 1280px;
   border: 1px solid black;
   background-color: lightgray;
+  padding: 25px;
 }
 
 #nav{
@@ -65,7 +66,7 @@ body{
 }
 
 #button-container{
-  margin-top: 20px;
+  margin-top: 40px;
   display:flex;
   flex-direction: column;
   align-items: center;

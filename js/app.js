@@ -45,11 +45,15 @@ const player = new Character(100, 0, [0,0]);
 
 /*---- Cached Element References ----*/
 const navBox = document.getElementById('nav');
+const gameLog = document.getElementById('text-log');
 
 
 /*--------- Event Listeners ---------*/
 navBox.addEventListener('click', navCheck);
 
+/*------------ Game Setup ------------*/
+
+gameLog.textContent = 'Would you like to play a game?';
 
 /*------------ Functions ------------*/
 function navCheck(evt){
@@ -70,40 +74,39 @@ function navCheck(evt){
     case 'back':
       playerMove(player, player.directions[2]);
       break;
-
   }
-    
-  // playerMove(player)
-}
+}//end navCheck
 
 function playerMove(char, direction){
   /* playerMove takes a Character and the direction they're trying to move.
     it should pull the current location from the player, and then check the next tile
-    in 'direction' in the map object. if its a valid move, change the player location to that.
-   */
+    in 'direction' in the map object. if its a valid move, change the player location to that.*/
 
-    const newLoc = new Array(char.location[0], char.location[1]);
-    let valid = false;
+  const newLoc = new Array(char.location[0], char.location[1]);
+  let valid = false;
 
-    switch(direction.toLowerCase()){
-      case 'n': 
-        newLoc[1] +=1;
-        break;
-      case 'e':
-        newLoc[0] +=1;
-        break;
-      case 's':
-        newLoc[1] -=1;
-        break;
-      case 'w':
-        newLoc[0] -=1;
-        break;
-    }
+  switch(direction.toLowerCase()){
+    case 'n': 
+      newLoc[1] +=1;
+      break;
+    case 'e':
+      newLoc[0] +=1;
+      break;
+    case 's':
+      newLoc[1] -=1;
+      break;
+    case 'w':
+      newLoc[0] -=1;
+      break;
+  }
 
-    console.log('char',char.location, 'newLoc',newLoc)
-    valid = checkValid(char.location, newLoc, direction);
-    // console.log(valid);
-    if(valid) char.location = newLoc;
+  // console.log('char',char.location, 'newLoc',newLoc)
+  valid = checkValid(char.location, newLoc, direction);
+  // console.log(valid);
+  if(valid){ 
+    console.log(`You moved from ${char.location} to ${newLoc}`);
+    char.location = newLoc;
+  }else console.log('Invalid Move');
 }
 
 
@@ -115,12 +118,3 @@ console.log(gobbo, slime, eliteGobbo);
 const npc1 = new Character(1, 0, [0,1])
 
 console.log(player, npc1);
-
-playerMove(player, 'e');
-console.log(player.location);
-playerMove(player, 'n')
-console.log(player.location)
-playerMove(player, 'n')
-console.log(player.location)
-playerMove(player, 'w')
-console.log(player.location)

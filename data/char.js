@@ -8,7 +8,6 @@ class Character{
     this.inventory = invObj;
     this.directions = ['n','e','s','w'];
     this.facing = this.directions[0];
-
   }
 
   getDirection(dir){
