@@ -1,0 +1,109 @@
+html {
+  box-sizing: border-box;
+}
+
+/* The Universal Selector */
+*, /* All elements*/
+*::before, /* All ::before pseudo-elements */
+*::after { /* All ::after pseudo-elements */
+  /* height & width will now include border & padding by default
+     but can be over-ridden as needed */
+  box-sizing: inherit;
+}
+
+body{
+  margin:0;
+  background-color: gray;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#container-top{
+  display:flex;
+  justify-content: space-between;
+  background-color: gray;
+  min-width: 1600px;
+}
+
+#container-bottom{
+  display:flex;
+  justify-content: space-between;
+  background-color: gray;
+  min-width: 1600px;
+}
+
+#display-area{
+  background-color: lightgray;
+  position: static;
+  border: 1px solid black;
+  width: 1280px;
+  height: 800px;
+}
+
+#right-panel{
+  width: 320px;
+  border: 1px solid black;
+  background-color: lightgray;
+}
+
+#text-log{
+  height:300px;
+  width: 1280px;
+  border: 1px solid black;
+  background-color: lightgray;
+}
+
+#nav{
+  width:320px;
+  border: 1px solid black;
+  background-color: lightgray;
+  display:flex;
+  justify-content: center;
+}
+
+#button-container{
+  margin-top: 20px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+#button-container div{
+  display:flex;
+  gap: 10px;
+}
+
+.nav-btn{
+  background-size: cover;
+  background-color: antiquewhite;
+  box-shadow: 0 0 5px;
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+}
+
+.nav-btn:hover{
+  filter: brightness(1.3);
+}
+
+.nav-btn:active{
+  filter: brightness(0.7);
+  box-shadow: inset 0 0 3px;
+}
+
+#nav-move-forward{
+  background-image: url('../assets/nav/forward.png');
+}
+#nav-move-back{
+  background-image: url('../assets/nav/back.png');
+}
+#nav-move-left{
+  background-image: url('../assets/nav/strafe_left.png');
+}
+#nav-move-right{
+  background-image: url('../assets/nav/strafe_right.png');
+}

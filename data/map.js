@@ -50,41 +50,36 @@ function checkValid(locA = [], locB = [], direction =''){
   - grab direction exit of locA
   - grab reverse of direction of locB
   - check if valid
-
    */
   const curTile = map.find(tile => JSON.stringify(tile.location) === JSON.stringify(locA))
   const dest = map.find(tile => JSON.stringify(tile.location) === JSON.stringify(locB))
 
-  console.log(curTile, dest);
+  // console.log(curTile, dest);
 
   if(dest){
-    console.log('target is in map');
+    // console.log('target is in map');
     switch(direction){
 
       case 'n':{
         if(curTile.n !== 'hallway' && curTile.n !== 'door') return false;
         if(dest.s !== 'hallway' && dest.s !== 'door') return false;
         return true;
-        break;
       }
       case 'e':{
-        console.log('in E', curTile.e, dest.w);
+        // console.log('in E', curTile.e, dest.w);
         if(curTile.e !== 'hallway' && curTile.e !== 'door') {return false;}
         if(dest.w !== 'hallway' && dest.w !== 'door') {return false;}
         return true;
-        break;
       }
       case 's':{
         if(curTile.s !== 'hallway' && curTile.s !== 'door') return false;
         if(dest.n !== 'hallway' && dest.n !== 'door') return false;
         return true;
-        break;
       }
       case 'w':{
         if(curTile.w !== 'hallway' && curTile.w !== 'door') return false;
         if(dest.e !== 'hallway' && dest.e !== 'door') return false;
         return true;
-        break;
       }
       default: {return true;}
     }

@@ -30,25 +30,52 @@ TODOO - Everything, duh.
 
 */
 
-/*------------ Constants ------------*/
-// import "../data/monsters.js";
+/*------------ Imports ------------*/
 import { Monster, monsterList } from "../data/monsters.js";
 import { map, checkValid } from "../data/map.js"
 import { Character } from "../data/char.js";
+
+/*------------ Constants ------------*/
+const player = new Character(100, 0, [0,0]);
+
 
 /*------------ Variables ------------*/
 
 
 
 /*---- Cached Element References ----*/
-
+const navBox = document.getElementById('nav');
 
 
 /*--------- Event Listeners ---------*/
-
+navBox.addEventListener('click', navCheck);
 
 
 /*------------ Functions ------------*/
+function navCheck(evt){
+  if(evt.target.className !== 'nav-btn') return;
+  
+  const dirClicked = evt.target.id.replace('nav-move-', '');
+  
+  switch(dirClicked){
+    case 'forward':
+      playerMove(player, player.facing);
+      break;
+    case 'left':
+      playerMove(player, player.getDirection(dirClicked));
+      break;
+    case 'right':
+      playerMove(player, player.getDirection(dirClicked));
+      break;
+    case 'back':
+      playerMove(player, player.directions[2]);
+      break;
+
+  }
+    
+  // playerMove(player)
+}
+
 function playerMove(char, direction){
   /* playerMove takes a Character and the direction they're trying to move.
     it should pull the current location from the player, and then check the next tile
@@ -75,7 +102,7 @@ function playerMove(char, direction){
 
     console.log('char',char.location, 'newLoc',newLoc)
     valid = checkValid(char.location, newLoc, direction);
-    console.log(valid);
+    // console.log(valid);
     if(valid) char.location = newLoc;
 }
 
@@ -85,8 +112,9 @@ const slime = new Monster('slime');
 const eliteGobbo = new  Monster('goblin', true);
 console.log(gobbo, slime, eliteGobbo);
 
-const player = new Character(100, 0, [0,0]);
-console.log(player.location);
+const npc1 = new Character(1, 0, [0,1])
+
+console.log(player, npc1);
 
 playerMove(player, 'e');
 console.log(player.location);
