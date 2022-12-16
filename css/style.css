@@ -26,6 +26,7 @@ body{
   background-image: url("../assets/Grass\ Dark\ Rocky.jpg");
   background-repeat: repeat;
   background-size: 300px;
+  z-index: 4;
 }
 
 #container-top{
@@ -33,22 +34,31 @@ body{
   justify-content: space-between;
   background-color: gray;
   /* min-width: 75vw; */
-  border-top: 5px solid;
+  /* border-top: 5px solid;
   border-left: 5px solid;
   border-right: 5px solid;
-  border-color: rgba(0, 0, 0, 0.8);
+  border-color: rgba(0, 0, 0, 1);  */
   /* border-top-left-radius: 5px;
   border-top-right-radius: 5px; */
-  margin: 2px 2px 0 2px;
+  /* margin: 2px 2px 0 2px; */
+  max-width: 1600px;
+  /* z-index: 5; */
 }
 
-#border{
-  border: 2px solid rgba(0, 0, 0, 0.6);
-  margin: 2px;
-}
 
-#border-ext{
-  border: 1px solid rgba(0, 0, 0, 0.4);
+
+#border-ext{  
+  background-image: url("../assets/gameBorder.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 1900px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  height: 1500px;
+  /* background-color: transparent; */
+  /* background-size: 1600px; */
+  /* border: 1px solid rgba(0, 0, 0, 0.4); */
 }
 
 #container-bottom{
@@ -56,13 +66,14 @@ body{
   justify-content: space-between;
   background-color: gray;
   /* min-width: 75vw; */
-  border-bottom: 5px solid;
+  /* border-bottom: 5px solid;
   border-left: 5px solid;
   border-right: 5px solid;
-  border-color: rgba(0, 0, 0, 0.8);
+  border-color: rgba(0, 0, 0, 1); */
   /* border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px; */
-  margin: 0 2px 2px 2px;
+  /* margin: 0 2px 2px 2px; */
+  max-width: 1600px;
 }
 
 #display-area{
@@ -96,7 +107,7 @@ body{
   height:275px;
   max-height: 300px;
   width: 1230px;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   /* background-color: blue; */
   padding: 25px;
   overflow-y: scroll;
