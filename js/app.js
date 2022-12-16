@@ -48,7 +48,9 @@ const gameLog = document.getElementById('text-log');
 const leftDoor = document.getElementById('left-door');
 const backDoor = document.getElementById('back-door');
 const rightDoor = document.getElementById('right-door');
-
+//tile objects
+const lTorch = document.getElementById('torch-left');
+const rTorch = document.getElementById('torch-right');
 
 /*--------- Event Listeners ---------*/
 navBox.addEventListener('click', navCheck);
@@ -60,6 +62,8 @@ function init(){
   leftDoor.style.display = 'none';
   rightDoor.style.display = 'none';
   backDoor.style.display = 'none';
+  // lTorch.style.display = 'none';
+  // rTorch.style.display = 'none';
   render();
 }
 /*------------ Functions ------------*/
