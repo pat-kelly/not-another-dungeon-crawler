@@ -78,12 +78,43 @@ body{
 
 #display-area{
   background-color: lightgray;
-  /* position: static; */
+  position: relative;
   /* border: 1px solid black; */
   width: 1280px;
   height: 800px;
   background-image: url("../assets/room.png");
   background-size: cover;
+  z-index: 1;
+}
+
+#left-door{
+  background-image: url("../assets/tile_objects/leftDoor.png");
+  background-size: cover;
+  z-index: 10;
+  position:absolute;
+  width: 100%;
+  height: 100%;
+  /* display:none; */
+}
+
+#right-door{
+  background-image: url("../assets/tile_objects/rightDoor.png");
+  background-size: cover;
+  z-index: 10;
+  position:absolute;
+  width: 100%;
+  height: 100%;
+  /* display:none; */
+}
+
+#back-door{
+  background-image: url("../assets/tile_objects/backDoor.png");
+  background-size: cover;
+  z-index: 10;
+  position:absolute;
+  width: 100%;
+  height: 100%;
+  /* display:none; */
 }
 
 #right-panel{
