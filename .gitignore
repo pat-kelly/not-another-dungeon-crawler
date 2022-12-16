@@ -23,6 +23,8 @@
 #                Unpack these files and commit the raw source.                #
 #                git has its own built in compression methods.                #
 
+assets/raw_assets/
+
 # Compressed Files #
 *.7z
 *.jar

@@ -1,6 +1,9 @@
 class MapTile{
-
-  constructor(tile = {}){
+  constructor(exits=[], dest=[]){
+    this.exits = exits;
+    this.dest = dest;
+  }
+  /* constructor(tile = {}){
     
     this.location = tile.location;
     this.n = tile.n;
@@ -9,6 +12,10 @@ class MapTile{
     this.w = tile.w;
 
     this.notes = tile.notes;
+  } */
+
+  getDest(exitNum){
+    return this.dest[this.exits.indexOf(exitNum)]
   }
 
   getEdge(dir=''){
@@ -50,9 +57,16 @@ function checkValid(locA = [], locB = [], direction =''){
   } else return false; //!return something else when the app can handle it.
 }
 
+const path = [];
 
+for(let i=0; i< 10; i++){
+  let exits = Math.floor((Math.random() * 3)+1)
+  let dest = i+1;
+  console.log(`idx: ${i}, exits: ${exits}, dest: ${dest}`)
+  path.push(new MapTile([exits], [dest]))
+}
 
-const mapData = [
+/* const mapData = [
   {
     location: [0,0],
     n: 'wall',
@@ -92,7 +106,7 @@ const map = [];
 
 for(const tile of mapData){
   map.push( new MapTile(tile));
-}
+} */
 
-export{MapTile, checkValid, map}
+export{MapTile, checkValid, path}
 

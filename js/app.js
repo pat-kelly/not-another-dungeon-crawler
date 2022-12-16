@@ -32,12 +32,12 @@ TODOO - Everything, duh.
 
 /*------------ Imports ------------*/
 import { Monster, monsterList } from "../data/monsters.js";
-import { checkValid, map, MapTile } from "../data/map.js"
+import { checkValid, path, MapTile } from "../data/map.js"
 import { Character } from "../data/char.js";
 
 /*------------ Constants ------------*/
-const player = new Character(100, 0, [0,0]);
-const curPlayerTile = MapTile.find(player.location);
+const player = new Character(100, 0, 0);
+// const curPlayerTile = MapTile.find(player.location);
 
 
 /*---- Cached Element References ----*/
@@ -58,6 +58,21 @@ function navCheck(evt){
   
   switch(dirClicked){
     case 'forward':
+      playerMove(player, 2);
+      break;
+    case 'left':
+      playerMove(player, 1);
+      break;
+    case 'right':
+      playerMove(player, 3);
+      break;
+    case 'back':
+      playerMove(player, 0);
+      break;
+  }
+  /* 
+  switch(dirClicked){
+    case 'forward':
       playerMove(player, player.facing);
       break;
     case 'left':
@@ -69,14 +84,27 @@ function navCheck(evt){
     case 'back':
       playerMove(player, player.directions[2]);
       break;
-  }
+  } */
 
 }//end navCheck
 
 function playerMove(char, direction){
-  /* playerMove takes a Character and the direction they're trying to move.
-    it should pull the current location from the player, and then check the next tile
-    in 'direction' in the map object. if its a valid move, change the player location to that.*/
+  //direction : 0 is back, 1 is left, 2 is forward, 3 is right.
+
+  let curTile = char.location;
+  let dest = path[curTile].getDest(direction);
+  // if(path[curTile].exits)
+  writeToGameLog(`exit num: ${direction}, destTile: ${dest}`);
+  console.log('curtile',player.location,path[player.location]);
+  if(dest) char.location = dest;
+  console.log('newTile',player.location, path[player.location])
+
+}
+
+/* function playerMove(char, direction){
+  // playerMove takes a Character and the direction they're trying to move.
+  //   it should pull the current location from the player, and then check the next tile
+  //   in 'direction' in the map object. if its a valid move, change the player location to that.
 
   const newLoc = new Array(char.location[0], char.location[1]);
   
@@ -107,7 +135,7 @@ function playerMove(char, direction){
     // writeToGameLog(getWall(char.location, direction));
   }
   writeToGameLog('===============================================');
-}
+} */
 
 function writeToGameLog(strToAdd){
   gameLog.innerText += `\n`;
