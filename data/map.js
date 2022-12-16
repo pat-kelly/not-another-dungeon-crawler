@@ -3,37 +3,14 @@ class MapTile{
     this.exits = exits;
     this.dest = dest;
   }
-  /* constructor(tile = {}){
-    
-    this.location = tile.location;
-    this.n = tile.n;
-    this.e = tile.e;
-    this.s = tile.s;
-    this.w = tile.w;
-
-    this.notes = tile.notes;
-  } */
 
   getDest(exitNum){
     return this.dest[this.exits.indexOf(exitNum)]
   }
 
-  getEdge(dir=''){
-    return this[dir];
-  }
-
-  getRevEdge(dir = ''){
-    switch(dir){
-      case 'n': return this['s'];
-      case 's': return this['n'];
-      case 'e': return this['w'];
-      case 'w': return this['e'];
-    }
-  }
-
-  getNotes(){
-    return this.notes;
-  }
+  // getNotes(){
+  //   return this.notes;
+  // }
 
 }
 
@@ -65,48 +42,6 @@ for(let i=0; i< 10; i++){
   console.log(`idx: ${i}, exits: ${exits}, dest: ${dest}`)
   path.push(new MapTile([exits], [dest]))
 }
-
-/* const mapData = [
-  {
-    location: [0,0],
-    n: 'wall',
-    e: 'door',
-    s: 'wall',
-    w: 'wall',
-    notes: 'You notice a faint sulfer smell entering this area'
-  },
-  {
-    location: [1,0],
-    n: 'hallway',
-    e: 'wall',
-    s: 'wall',
-    w: 'door',
-    notes: ''
-  },
-  {
-    location: [0,1],
-    n: 'wall',
-    e: 'ldoor',
-    s: 'wall',
-    w: 'wall',
-    notes: ''
-  },
-  {
-    location: [1,1],
-    n: 'wall',
-    e: 'wall',
-    s: 'hallway',
-    w: 'ldoor',
-    notes: ''
-  }
-
-]
-
-const map = [];
-
-for(const tile of mapData){
-  map.push( new MapTile(tile));
-} */
 
 export{MapTile, checkValid, path}
 
