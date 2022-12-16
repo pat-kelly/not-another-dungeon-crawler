@@ -32,7 +32,7 @@ TODOO - Everything, duh.
 
 /*------------ Imports ------------*/
 import { Monster, monsterList } from "../data/monsters.js";
-import { checkValid, path, MapTile } from "../data/map.js"
+import { path, MapTile } from "../data/map.js"
 import { Character } from "../data/char.js";
 
 /*------------ Constants ------------*/
@@ -121,7 +121,7 @@ function render(){
     writeToGameLog(exit);
     switch(exit){
       case 1:
-        console.log('case1')
+        // console.log('case1')
         leftDoor.style.display = '';
         break;
       case 2:
