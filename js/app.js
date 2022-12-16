@@ -108,8 +108,11 @@ function playerMove(direction){
 
 }
 
-function render(){const leftDoor = document.getElementById('left-door');
-  console.log('in render')
+function render(){
+  leftDoor.style.display = 'none';
+  rightDoor.style.display = 'none';
+  backDoor.style.display = 'none';
+
   path[player.location].exits.forEach(exit => {
     writeToGameLog(exit);
     switch(exit){
