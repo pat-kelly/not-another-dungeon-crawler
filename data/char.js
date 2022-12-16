@@ -7,6 +7,7 @@ class Character{
     this.hp = hp;
     this.mp = mp;
     this.location = location;
+    this.lastLocation = 0;
     this.inventory = invObj;
     this.directions = ['n','e','s','w'];
     this.facing = this.directions[0];
