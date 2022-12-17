@@ -67,6 +67,7 @@ function init(){
   render();
 }
 /*------------ Functions ------------*/
+
 function navCheck(evt){
   if(evt.target.className !== 'nav-btn') return;
   
@@ -94,7 +95,7 @@ function playerMove(direction){
   
   let dest = path[player.location].getDest(direction);
   // if(path[curTile].exits)
-  writeToGameLog(`exit num: ${direction}, destTile: ${dest}`);
+  // writeToGameLog(`exit num: ${direction}, destTile: ${dest}`);
   console.log('curtile',player.location,path[player.location]);
 
   if(direction === 0){
@@ -118,7 +119,7 @@ function render(){
   backDoor.style.display = 'none';
 
   path[player.location].exits.forEach(exit => {
-    writeToGameLog(exit);
+    // writeToGameLog(exit);
     switch(exit){
       case 1:
         // console.log('case1')

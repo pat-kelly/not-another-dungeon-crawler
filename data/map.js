@@ -13,6 +13,7 @@ class MapTile{
   // }
 }
 
+
 const path = [];
 const deadEnds = [];
 
@@ -21,16 +22,22 @@ for(let i=0; i< 10; i++){
   const exits = [];
   const dest = [];
 
-  console.log(numExits);
-
+  // console.log(numExits);
+  let idx = Math.floor((Math.random() * (numExits))+1);
+  // console.log(idx);
   for(let j=1; j<=numExits; j++){
+    if(numExits === 1) {dest.push(i+1)};
     exits.push(j);
-    if(dest.find(i+1)){
-      dest.push(undefined);
-    }else{
-      //!finish me
-    }
+    if(j === idx){
+      dest.push(i+1);
+    }else dest.push(undefined);
+    console.log(`cell ${i}'s exit is ${idx}`);
   }
+
+  if(exits.length !== 1){
+    
+  }
+
   
 
   // dest = i+1;
