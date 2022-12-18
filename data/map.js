@@ -2,9 +2,9 @@ class MapTile{
   constructor(roomType=0, exits=[], dest=[]){
     this.exits = exits;
     this.dest = dest;
-    this.roomType = roomType; //0 is path, 1 is monster room, 2 is treasure, 3 is boss, 4 is mimic.
+    this.roomType = roomType; //0 is path, 1 is monster room, 2 is treasure, 3 is boss, 4 is mimic. -1 is for deadends that have been cleared.
     this.flavorText = '';
-    this.deads = [];
+    this.difficulty = 0;
   }
 
   getDest(exitNum){
@@ -30,25 +30,33 @@ class MapTile{
   }
 }
 
-
+let diff = 1;
 const path = [];
-const deadEnds = [];
 
 function createDeadEnd(){
 //0 is deadend, 1 is monster room, 2 is treasure, 3 is boss, 4 is mimic.
   let roomType = Math.floor((Math.random() * 100)+1);
+  const curTile = new MapTile();
   
   if(roomType < 50){
-    return new MapTile(1);
+    curTile.roomType = 1;
+    curTile.difficulty = diff;
+    diff++;
+    return curTile;
   }
   if(roomType < 75){
-    return new MapTile(2);
-    
+    curTile.roomType = 2;
+    curTile.difficulty = diff;
+    diff++;
+    return curTile;    
   }
   if(roomType < 95){
     return new MapTile(); 
   }
-  return new MapTile(4);
+
+  curTile.roomType = 4;
+  curTile.difficulty = 100;
+  return curTile;
 }
 
 //* levelUp - make it so 1 and 2 door rooms are random.
@@ -71,8 +79,6 @@ for(let i=0; i< 10; i++){
           curTile.dest.push(i+1);
         }else{
           curTile.dest.push(createDeadEnd());
-          // deadEnds.push(createDeadEnd());
-          curTile.deads.push(deadEnds.length)
         } 
       }
     }
@@ -82,5 +88,5 @@ for(let i=0; i< 10; i++){
 
 }
 
-export{MapTile, path, deadEnds}
+export{MapTile, path}
 

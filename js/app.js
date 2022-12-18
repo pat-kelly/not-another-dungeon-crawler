@@ -1,12 +1,13 @@
 /*------------ Imports ------------*/
 import { Monster, monsterList } from "../data/monsters.js";
-import { path, MapTile, deadEnds } from "../data/map.js"
+import { path, MapTile } from "../data/map.js"
 import { Character } from "../data/char.js";
 
 /*------------ Constants ------------*/
 const player = new Character(100, 100, 0);
 // const curPlayerTile = MapTile.find(player.location);
 let combat = false;
+const monsters = [];
 
 
 /*---- Cached Element References ----*/
@@ -42,10 +43,6 @@ function init(){
     // writeToGameLog(JSON.stringify(tile));
     console.log(tile);
   });
-  deadEnds.forEach(tile =>{
-    // writeToGameLog(JSON.stringify(tile));
-    console.log(tile);
-  })
   writeToGameLog();
 
   writeToGameLog(path[player.location].getDescription())
@@ -110,9 +107,13 @@ function handleDeadEnd(tile = new MapTile()){
   console.log('deads', deadEnds)
   console.log('curDead', tile);
   // console.log(tile.roomType)
+
+  let percent = Math.floor((Math.random() * 100)+1);
+
   switch(tile.roomType){
     case 1:
       writeToGameLog('monster room!');
+      monsters.push(new Monster())
       break;
     case 2:
       writeToGameLog('treasure!');

@@ -1,6 +1,6 @@
 class Monster{
 
-  constructor(nameStr, elite=false){
+  constructor(nameStr, elite=false, location){
     const baseStats = this.getBaseStats(nameStr);
     if(!baseStats) return;
     
@@ -8,6 +8,7 @@ class Monster{
     this.dph = elite ? baseStats.dph * 2 : baseStats.dph;
     this.type = elite ? baseStats.name + ` - Elite` : baseStats.name;
     this.diff = elite ? baseStats.diff * 2 : baseStats.diff;
+    this.location = location
   }
 
   static dupeMonster(monster){
