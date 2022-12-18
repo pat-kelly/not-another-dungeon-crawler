@@ -7,21 +7,12 @@ class Character{
     this.hp = hp;
     this.mp = mp;
     this.location = location;
-    this.lastLocation = 0;
+    this.locationHistory = [];
     this.inventory = invObj;
     // this.directions = ['n','e','s','w'];
     // this.facing = this.directions[0];
   }
 
-  getDirection(dir){
-
-    if(!dir) return this.facing;
-
-    switch(dir){
-      case 'left': return this.directions[3];
-      case 'right': return this.directions[1];
-    }
-  }
 
 }
 

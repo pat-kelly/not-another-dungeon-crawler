@@ -68,6 +68,10 @@ function init(){
   // rTorch.style.display = 'none';
   hpEl.style.width = '0';
   manaEl.style.width = '0';
+  path.forEach(tile => {
+    writeToGameLog(JSON.stringify(tile));
+  });
+  writeToGameLog();
   render();
 }
 /*------------ Functions ------------*/
@@ -103,11 +107,10 @@ function playerMove(direction){
   console.log('curtile',player.location,path[player.location]);
 
   if(direction === 0){
-    let curTile = player.location;
-    player.location = player.lastLocation;
-    player.lastLocation = curTile;
+    player.location = player.locationHistory.pop();
   }else if(dest) {
-    player.lastLocation = player.location;
+    player.locationHistory.push(player.location);
+    console.log(player.locationHistory);
     player.location = dest;
   }
 
@@ -117,10 +120,7 @@ function playerMove(direction){
 
 }
 
-path.forEach(tile => {
-  writeToGameLog(JSON.stringify(tile));
-  
-});
+
 
 function render(){
   leftDoor.style.display = 'none';
@@ -130,6 +130,8 @@ function render(){
   hpEl.style.width = `${player.hp * 2}px`;
   manaEl.textContent = player.mp;
   manaEl.style.width = `${player.mp * 2}px`;
+
+  writeToGameLog(path[player.location].getDescription())
 
 
   path[player.location].exits.forEach(exit => {
@@ -151,7 +153,7 @@ function render(){
 
 function writeToGameLog(strToAdd){
   gameLog.innerText += `\n`;
-  gameLog.innerText += strToAdd;
+  if(strToAdd) gameLog.innerText += strToAdd;
   gameLog.scrollTop = gameLog.scrollHeight;
 }
 
