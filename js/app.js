@@ -36,13 +36,15 @@ import { path, MapTile } from "../data/map.js"
 import { Character } from "../data/char.js";
 
 /*------------ Constants ------------*/
-const player = new Character(100, 0, 0);
+const player = new Character(100, 100, 0);
 // const curPlayerTile = MapTile.find(player.location);
 
 
 /*---- Cached Element References ----*/
 const navBox = document.getElementById('nav');
 const gameLog = document.getElementById('text-log');
+const hpEl = document.getElementById('char-hp');
+const manaEl = document.getElementById('char-mana');
 
 //doors
 const leftDoor = document.getElementById('left-door');
@@ -64,6 +66,8 @@ function init(){
   backDoor.style.display = 'none';
   // lTorch.style.display = 'none';
   // rTorch.style.display = 'none';
+  hpEl.style.width = '0';
+  manaEl.style.width = '0';
   render();
 }
 /*------------ Functions ------------*/
@@ -113,10 +117,20 @@ function playerMove(direction){
 
 }
 
+path.forEach(tile => {
+  writeToGameLog(JSON.stringify(tile));
+  
+});
+
 function render(){
   leftDoor.style.display = 'none';
   rightDoor.style.display = 'none';
   backDoor.style.display = 'none';
+  hpEl.textContent = player.hp;
+  hpEl.style.width = `${player.hp * 2}px`;
+  manaEl.textContent = player.mp;
+  manaEl.style.width = `${player.mp * 2}px`;
+
 
   path[player.location].exits.forEach(exit => {
     // writeToGameLog(exit);

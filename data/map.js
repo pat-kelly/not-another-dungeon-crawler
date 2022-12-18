@@ -26,19 +26,16 @@ for(let i=0; i< 10; i++){
   let idx = Math.floor((Math.random() * (numExits))+1);
   // console.log(idx);
   for(let j=1; j<=numExits; j++){
-    if(numExits === 1) {dest.push(i+1)};
     exits.push(j);
+    if(numExits === 1){
+      dest.push(i+1)
+    }else{
     if(j === idx){
       dest.push(i+1);
     }else dest.push(undefined);
     console.log(`cell ${i}'s exit is ${idx}`);
+    }
   }
-
-  if(exits.length !== 1){
-    
-  }
-
-  
 
   // dest = i+1;
 
