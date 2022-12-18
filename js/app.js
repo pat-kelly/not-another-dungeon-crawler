@@ -39,10 +39,12 @@ function init(){
   hpEl.style.width = '0';
   manaEl.style.width = '0';
   path.forEach(tile => {
-    writeToGameLog(JSON.stringify(tile));
+    // writeToGameLog(JSON.stringify(tile));
+    console.log(tile);
   });
   deadEnds.forEach(tile =>{
-    writeToGameLog(JSON.stringify(tile));
+    // writeToGameLog(JSON.stringify(tile));
+    console.log(tile);
   })
   writeToGameLog();
 
@@ -82,37 +84,32 @@ function playerMove(direction){
     dest = path[player.location].getDest(direction);
   }
 
-  if(direction === 0 && !combat){
+  if(direction === 0){
     //player is going back
     if(player.locationHistory.length)
       player.location = player.locationHistory.pop();
-  }else if(dest) {
+    else writeToGameLog("The path back is blocked. The only way out is through...")
+  }else if(dest instanceof MapTile){
+    handleDeadEnd(dest);
+    player.locationHistory.push(player.location);
+    player.location = -1;
+  }else if(typeof dest === 'number'){
     //player chose correct direction.
     player.locationHistory.push(player.location);
     player.location = dest;
     writeToGameLog(path[player.location].getDescription())
   }else{
-    //player chose dead end.
-    if(path[player.location].deads.length == 1){
-      handleDeadEnd(deadEnds[path[player.location].deads[0]])
-    }else{
-      if(direction === 1){
-        handleDeadEnd(deadEnds[path[player.location].deads[0]]);
-      }else{
-        handleDeadEnd(deadEnds[path[player.location].deads[1]])
-      }
-    }
-    player.locationHistory.push(player.location);
-    player.location = -1;
-
+    writeToGameLog("You can't go that direction!")
   }
   render();
 }
 
 function handleDeadEnd(tile = new MapTile()){
   //0 is path, 1 is monster room, 2 is treasure, 3 is boss, 4 is mimic.
-  console.log(tile);
-  console.log(tile.roomType)
+  console.log('curTile', path[player.location])
+  console.log('deads', deadEnds)
+  console.log('curDead', tile);
+  // console.log(tile.roomType)
   switch(tile.roomType){
     case 1:
       writeToGameLog('monster room!');
@@ -127,7 +124,7 @@ function handleDeadEnd(tile = new MapTile()){
       writeToGameLog('treasure?');
       break;
     default:
-      tile.flavorText = `You seem to have hit a dead end.`
+      writeToGameLog(`You seem to have hit a dead end.`)
       // writeToGameLog('real dead end');
       break;
 

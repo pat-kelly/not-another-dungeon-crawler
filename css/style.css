@@ -208,7 +208,7 @@ body{
   padding: 25px;
   overflow-y: scroll;
   scrollbar-color: black;
-  
+  line-height: 2;
 
 }
 

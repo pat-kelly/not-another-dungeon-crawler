@@ -35,7 +35,7 @@ const path = [];
 const deadEnds = [];
 
 function createDeadEnd(){
-  //roomType < 40 = monster room.
+//0 is deadend, 1 is monster room, 2 is treasure, 3 is boss, 4 is mimic.
   let roomType = Math.floor((Math.random() * 100)+1);
   
   if(roomType < 50){
@@ -70,8 +70,8 @@ for(let i=0; i< 10; i++){
         if(j === idx){
           curTile.dest.push(i+1);
         }else{
-          curTile.dest.push(undefined);
-          deadEnds.push(createDeadEnd());
+          curTile.dest.push(createDeadEnd());
+          // deadEnds.push(createDeadEnd());
           curTile.deads.push(deadEnds.length)
         } 
       }
