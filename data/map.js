@@ -1,3 +1,7 @@
+//!var diff controls overall game difficulty.
+var diff = 4;
+const path = [];
+
 class MapTile{
   constructor(roomType=0, exits=[], dest=[]){
     this.exits = exits;
@@ -30,23 +34,21 @@ class MapTile{
   }
 }
 
-let diff = 1;
-const path = [];
 
-function createDeadEnd(){
+function createDeadEnd(inheritedDiff =0){
 //0 is deadend, 1 is monster room, 2 is treasure, 3 is boss, 4 is mimic.
   let roomType = Math.floor((Math.random() * 100)+1);
   const curTile = new MapTile();
   
   if(roomType < 50){
     curTile.roomType = 1;
-    curTile.difficulty = diff;
+    curTile.difficulty = diff+inheritedDiff;
     diff++;
     return curTile;
   }
   if(roomType < 75){
     curTile.roomType = 2;
-    curTile.difficulty = diff;
+    curTile.difficulty = diff+inheritedDiff;
     diff++;
     return curTile;    
   }
@@ -65,7 +67,7 @@ for(let i=0; i< 10; i++){
   let numExits = Math.floor((Math.random() * 3)+1);
 
   const curTile = new MapTile();
-
+  curTile.difficulty = i+1;
   // console.log(numExits);
   let idx = Math.floor((Math.random() * (numExits))+1);
   // console.log(idx);
@@ -78,7 +80,7 @@ for(let i=0; i< 10; i++){
         if(j === idx){
           curTile.dest.push(i+1);
         }else{
-          curTile.dest.push(createDeadEnd());
+          curTile.dest.push(createDeadEnd(i));
         } 
       }
     }

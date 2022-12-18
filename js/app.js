@@ -103,9 +103,9 @@ function playerMove(direction){
 
 function handleDeadEnd(tile = new MapTile()){
   //0 is path, 1 is monster room, 2 is treasure, 3 is boss, 4 is mimic.
-  console.log('curTile', path[player.location])
-  console.log('deads', deadEnds)
-  console.log('curDead', tile);
+  // console.log('curTile', path[player.location])
+  // console.log('deads', deadEnds)
+  // console.log('curDead', tile);
   // console.log(tile.roomType)
 
   let percent = Math.floor((Math.random() * 100)+1);
@@ -113,7 +113,7 @@ function handleDeadEnd(tile = new MapTile()){
   switch(tile.roomType){
     case 1:
       writeToGameLog('monster room!');
-      monsters.push(new Monster())
+      generateMonsters(tile);
       break;
     case 2:
       writeToGameLog('treasure!');
@@ -132,7 +132,29 @@ function handleDeadEnd(tile = new MapTile()){
   }
 }
 
+function generateMonsters(tile=new MapTile()){
 
+  if(monsters.find(mon => mon.location === player.location)){
+    writeToGameLog("found a monster already at your location");
+    const monstersAtLocation = monsters.filter(mon => mon.location === player.location);
+    
+    let existingDiff = monstersAtLocation.reduce((acc, mon)=>{
+      acc += mon.diff;
+      return acc;
+    },0)
+
+    if(existingDiff < tile.difficulty && tile.roomType !==4){
+      
+      monsters.push(new Monster())
+    }
+
+    console.log(existingDiff);
+  }else{
+    monsters.push(new Monster('slime', false, player.location));
+    writeToGameLog('generating new monster');
+  }
+  console.log(monsters)
+}
 
 function render(){
   leftDoor.style.display = 'none';
