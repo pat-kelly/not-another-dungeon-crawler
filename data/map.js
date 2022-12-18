@@ -1,8 +1,8 @@
 class MapTile{
-  constructor(exits=[], dest=[]){
+  constructor(roomType=0, exits=[], dest=[]){
     this.exits = exits;
     this.dest = dest;
-    this.roomType = 0; //0 is path, 1 is monster room, 2 is treasure, 3 is boss.
+    this.roomType = roomType; //0 is path, 1 is monster room, 2 is treasure, 3 is boss, 4 is mimic.
     this.flavorText = '';
   }
 
@@ -33,6 +33,23 @@ class MapTile{
 const path = [];
 const deadEnds = [];
 
+function createDeadEnd(){
+  //roomType < 40 = monster room.
+  let roomType = Math.floor((Math.random() * 100)+1);
+  
+  if(roomType < 50){
+    return new MapTile(1);
+  }
+  if(roomType < 75){
+    return new MapTile(2);
+    
+  }
+  if(roomType < 95){
+    return new MapTile(); 
+  }
+  return new MapTile(4);
+}
+
 //* levelUp - make it so 1 and 2 door rooms are random.
 
 for(let i=0; i< 10; i++){
@@ -53,7 +70,10 @@ for(let i=0; i< 10; i++){
       }else{
       if(j === idx){
         curTile.dest.push(i+1);
-      }else curTile.dest.push(undefined);
+      }else{
+        curTile.dest.push(undefined);
+        deadEnds.push(createDeadEnd());
+      } 
       // console.log(`cell ${i}'s exit is ${idx}`);
       }
     }
@@ -63,5 +83,5 @@ for(let i=0; i< 10; i++){
 
 }
 
-export{MapTile, path}
+export{MapTile, path, deadEnds}
 

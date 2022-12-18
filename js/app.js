@@ -32,7 +32,7 @@ TODOO - Everything, duh.
 
 /*------------ Imports ------------*/
 import { Monster, monsterList } from "../data/monsters.js";
-import { path, MapTile } from "../data/map.js"
+import { path, MapTile, deadEnds } from "../data/map.js"
 import { Character } from "../data/char.js";
 
 /*------------ Constants ------------*/
@@ -58,7 +58,8 @@ const rTorch = document.getElementById('torch-right');
 navBox.addEventListener('click', navCheck);
 
 
-init();
+document.onload = init();
+
 /*------------ Game Setup ------------*/
 function init(){
   leftDoor.style.display = 'none';
@@ -71,7 +72,12 @@ function init(){
   path.forEach(tile => {
     writeToGameLog(JSON.stringify(tile));
   });
+  deadEnds.forEach(tile =>{
+    writeToGameLog(JSON.stringify(tile));
+  })
   writeToGameLog();
+
+  writeToGameLog(path[player.location].getDescription())
   render();
 }
 /*------------ Functions ------------*/
@@ -97,24 +103,24 @@ function navCheck(evt){
   }
 }//end navCheck
 
+
 function playerMove(direction){
   //direction : 0 is back, 1 is left, 2 is forward, 3 is right.
 
   
   let dest = path[player.location].getDest(direction);
-  // if(path[curTile].exits)
-  // writeToGameLog(`exit num: ${direction}, destTile: ${dest}`);
-  console.log('curtile',player.location,path[player.location]);
 
   if(direction === 0){
-    player.location = player.locationHistory.pop();
+    if(player.locationHistory.length)
+      player.location = player.locationHistory.pop();
   }else if(dest) {
     player.locationHistory.push(player.location);
-    console.log(player.locationHistory);
     player.location = dest;
-  }
+    writeToGameLog(path[player.location].getDescription())
+  }else{
+    player.locationHistory.push(player.location);
 
-  console.log('newTile',player.location, path[player.location])
+  }
 
   render();
 
@@ -130,9 +136,6 @@ function render(){
   hpEl.style.width = `${player.hp * 2}px`;
   manaEl.textContent = player.mp;
   manaEl.style.width = `${player.mp * 2}px`;
-
-  writeToGameLog(path[player.location].getDescription())
-
 
   path[player.location].exits.forEach(exit => {
     // writeToGameLog(exit);
