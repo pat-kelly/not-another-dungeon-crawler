@@ -4,6 +4,7 @@ class MapTile{
     this.dest = dest;
     this.roomType = roomType; //0 is path, 1 is monster room, 2 is treasure, 3 is boss, 4 is mimic.
     this.flavorText = '';
+    this.deads = [];
   }
 
   getDest(exitNum){
@@ -54,8 +55,6 @@ function createDeadEnd(){
 
 for(let i=0; i< 10; i++){
   let numExits = Math.floor((Math.random() * 3)+1);
-  const exits = [];
-  const dest = [];
 
   const curTile = new MapTile();
 
@@ -68,13 +67,13 @@ for(let i=0; i< 10; i++){
       if(numExits === 1){
         curTile.dest.push(i+1)
       }else{
-      if(j === idx){
-        curTile.dest.push(i+1);
-      }else{
-        curTile.dest.push(undefined);
-        deadEnds.push(createDeadEnd());
-      } 
-      // console.log(`cell ${i}'s exit is ${idx}`);
+        if(j === idx){
+          curTile.dest.push(i+1);
+        }else{
+          curTile.dest.push(undefined);
+          deadEnds.push(createDeadEnd());
+          curTile.deads.push(deadEnds.length)
+        } 
       }
     }
   }else curTile.roomType = 3;

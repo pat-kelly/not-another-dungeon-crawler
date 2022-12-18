@@ -1,35 +1,3 @@
-/*
-Started 12.01.2022
-By: Patrick Kelly
-
-TODOO - Everything, duh.
-  * character class (includes player and monsters)
-    - to include player, npcs?, monsters, etc.
-    - Stats:
-      - Health
-      - Magic
-      - str, dex, etc. (might be too much)
-    - Inventory
-      - Money, items, etc.
-    - status(es)
-    - location & facing
-  * Location classes
-    - internal/external
-    - if external, basic structure.
-      - walls, hallway entrances
-      - 
-    - what direction the door faces in the overworld
-  * Map and where everything is.
-    - Maybe each character/room/event/thing has a 'location' value? ie: tavern is at [5][3]
-    - 2d array? and keep everything set in a grid.
-    - [0][0] [1][0] [2][0]
-    - [0][1] [1][1] [2][1]  <-- This kind of thing
-    - [0][2] [1][2] [2][2]
-    ? keep a log of where the player has been, and use that as a viewable 'map'?
-  *moar to come.
-
-*/
-
 /*------------ Imports ------------*/
 import { Monster, monsterList } from "../data/monsters.js";
 import { path, MapTile, deadEnds } from "../data/map.js"
@@ -38,6 +6,7 @@ import { Character } from "../data/char.js";
 /*------------ Constants ------------*/
 const player = new Character(100, 100, 0);
 // const curPlayerTile = MapTile.find(player.location);
+let combat = false;
 
 
 /*---- Cached Element References ----*/
@@ -106,24 +75,63 @@ function navCheck(evt){
 
 function playerMove(direction){
   //direction : 0 is back, 1 is left, 2 is forward, 3 is right.
-
   
-  let dest = path[player.location].getDest(direction);
+  let dest;
 
-  if(direction === 0){
+  if(player.location !== -1){
+    dest = path[player.location].getDest(direction);
+  }
+
+  if(direction === 0 && !combat){
+    //player is going back
     if(player.locationHistory.length)
       player.location = player.locationHistory.pop();
   }else if(dest) {
+    //player chose correct direction.
     player.locationHistory.push(player.location);
     player.location = dest;
     writeToGameLog(path[player.location].getDescription())
   }else{
+    //player chose dead end.
+    if(path[player.location].deads.length == 1){
+      handleDeadEnd(deadEnds[path[player.location].deads[0]])
+    }else{
+      if(direction === 1){
+        handleDeadEnd(deadEnds[path[player.location].deads[0]]);
+      }else{
+        handleDeadEnd(deadEnds[path[player.location].deads[1]])
+      }
+    }
     player.locationHistory.push(player.location);
+    player.location = -1;
 
   }
-
   render();
+}
 
+function handleDeadEnd(tile = new MapTile()){
+  //0 is path, 1 is monster room, 2 is treasure, 3 is boss, 4 is mimic.
+  console.log(tile);
+  console.log(tile.roomType)
+  switch(tile.roomType){
+    case 1:
+      writeToGameLog('monster room!');
+      break;
+    case 2:
+      writeToGameLog('treasure!');
+      break;
+    case 3:
+      writeToGameLog('you should never see this message');
+      break;
+    case 4:
+      writeToGameLog('treasure?');
+      break;
+    default:
+      tile.flavorText = `You seem to have hit a dead end.`
+      // writeToGameLog('real dead end');
+      break;
+
+  }
 }
 
 
@@ -136,22 +144,25 @@ function render(){
   hpEl.style.width = `${player.hp * 2}px`;
   manaEl.textContent = player.mp;
   manaEl.style.width = `${player.mp * 2}px`;
-
-  path[player.location].exits.forEach(exit => {
-    // writeToGameLog(exit);
-    switch(exit){
-      case 1:
-        // console.log('case1')
-        leftDoor.style.display = '';
-        break;
-      case 2:
-        backDoor.style.display = '';
-        break;
-      case 3:
-        rightDoor.style.display = '';
-        break;
-    }
-  });
+  
+  if(player.location !== -1){
+    path[player.location].exits.forEach(exit => {
+      // writeToGameLog(exit);
+      switch(exit){
+        case 1:
+          // console.log('case1')
+          leftDoor.style.display = '';
+          break;
+        case 2:
+          backDoor.style.display = '';
+          break;
+        case 3:
+          rightDoor.style.display = '';
+          break;
+      }
+    });
+    
+  }
 }
 
 function writeToGameLog(strToAdd){
