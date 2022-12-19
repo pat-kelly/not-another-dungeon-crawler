@@ -134,32 +134,14 @@ function handleDeadEnd(tile = new MapTile()){
 
 function generateMonsters(tile=new MapTile()){
 
-  /*
-    Get current tile diff (1 through 9);
-    Then get any current monsters
-
-  */
-
-  let monLvl = path[player.location].difficulty; //highest monster diff available for spawning.
-
-  console.log('highestMonlvl',monLvl);
-
   //If there are monsters at current location
   if(tile.monsters.length !== 0){
     writeToGameLog("found a monster already at your location");
     // const monstersAtLocation = monsters.filter(mon => mon.location === player.location);
+
     
-    let existingDiff = tile.monsters.reduce((acc, mon)=>{
-      acc += mon.diff;
-      return acc;
-    },0)
 
-    console.log('existingdiff',existingDiff);
-
-    if(existingDiff < tile.difficulty && tile.roomType !==4){
-
-      // monsters.push(new Monster())
-    }
+    
 
   //else no monsters at current location
   }else{
@@ -167,7 +149,11 @@ function generateMonsters(tile=new MapTile()){
     // while(existingDiff < tile.difficulty && tile.roomType !==4){
     
     // }
-    tile.monsters.push(generateMonster(pathDiff))
+    let tileDiff = 0;
+    while(tileDiff <= tile.difficulty){
+      tile.monsters.push(generateMonster(pathDiff))
+      tileDiff = (tile.getMonsterDiff());
+    }
     console.log('deTile',tile);
     writeToGameLog('generating new monster');
   }

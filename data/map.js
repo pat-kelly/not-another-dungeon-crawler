@@ -1,5 +1,5 @@
 //!var diff controls overall game difficulty.
-var diff = 4;
+var diff = 0;
 const path = [];
 
 class MapTile{
@@ -33,6 +33,13 @@ class MapTile{
     }
     return retStr;
   }
+
+  getMonsterDiff(){
+    return this.monsters.reduce((acc,mon)=>{
+      acc += mon.diff;
+      return acc;
+    },0);
+  }
 }
 
 
@@ -41,7 +48,7 @@ function createDeadEnd(inheritedDiff =0){
   let roomType = Math.floor((Math.random() * 100)+1);
   const curTile = new MapTile();
   
-  if(roomType < 50){
+  if(roomType < 110){
     curTile.roomType = 1;
     curTile.difficulty = diff+inheritedDiff;
     diff++;
