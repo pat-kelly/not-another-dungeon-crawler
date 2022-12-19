@@ -154,6 +154,7 @@ body{
   display:flex;
   flex-direction: column;
   align-items: center;
+  max-height: 800px;
 }
 
 #character-panel{
@@ -176,11 +177,46 @@ body{
   height: 200px;
 }
 
-#char-hp{
+.health-bar{
   background-color: rgb(184, 0, 0);
   color:white;
   border-radius: 20px;
   text-align: center;
+}
+
+#monster-health-bars{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  width:100%;
+  margin-top: 30px;
+  overflow: scroll;
+  height:400px;
+}
+
+#monster-health-bars *{
+  margin:6px 0;
+  font-family: daleLands;
+  height: 10px;
+}
+
+#map-inv-panel{
+  margin-top: 20px;
+  width: 320px;
+  /* height:320px; */
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#attack{
+  font-family: daleLands;
+  font-size: 24px;
+  width: 150px;
+  height: 50px;
+  border-radius: 10px;
 }
 
 #monster-container{

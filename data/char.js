@@ -6,6 +6,7 @@ class Character{
 
     this.hp = hp;
     this.mp = mp;
+    this.dmg = 1;
     this.location = location;
     this.locationHistory = [];
     this.inventory = invObj;

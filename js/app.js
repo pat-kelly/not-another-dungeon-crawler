@@ -17,6 +17,9 @@ const hpEl = document.getElementById('char-hp');
 const manaEl = document.getElementById('char-mana');
 const displayWindowEl = document.getElementById('display-area');
 const monsterContainerEl = document.getElementById('monster-container');
+const attackButtonEl = document.getElementById('attack');
+const monsterHealthEl = document.getElementById('monster-health-bars');
+
 
 //doors
 const leftDoor = document.getElementById('left-door');
@@ -28,6 +31,7 @@ const rTorch = document.getElementById('torch-right');
 
 /*--------- Event Listeners ---------*/
 navBox.addEventListener('click', navCheck);
+attackButtonEl.addEventListener('click', attack);
 
 
 document.onload = init();
@@ -37,6 +41,7 @@ function init(){
   leftDoor.style.display = 'none';
   rightDoor.style.display = 'none';
   backDoor.style.display = 'none';
+  attackButtonEl.style.display = 'none';
   // lTorch.style.display = 'none';
   // rTorch.style.display = 'none';
   hpEl.style.width = '0';
@@ -153,7 +158,7 @@ function generateMonsters(tile=new MapTile()){
     
     // }
     let tileDiff = 0;
-    while(tileDiff <= tile.difficulty){
+    while(tileDiff <= tile.difficulty && tileDiff <6){
       tile.monsters.push(generateMonster(pathDiff))
       tileDiff = (tile.getMonsterDiff());
     }
@@ -163,27 +168,61 @@ function generateMonsters(tile=new MapTile()){
   
 }
 
+function attack(){
+  if(!combat) return;
+
+  const curTarget = player.location.monsters.find(mon => mon.hp > 0);
+  if(curTarget){
+    curTarget.hp -= player.dmg;
+  }else{
+    writeToGameLog(`There's nothing to attack!`)
+  }
+  console.log(curTarget);
+
+  render();
+
+}
+
 function render(){
   console.log(player.location.monsters);
   if(!combat){
     displayWindowEl.style.backgroundImage = 'url("../assets/images/room.png")';
     monsterContainerEl.style.display = 'none';
+    attackButtonEl.style.display = 'none';
+    monsterHealthEl.style.display = 'none';
   }else{
     displayWindowEl.style.backgroundImage = 'url("../assets/images/battle_room.png")'
+    attackButtonEl.style.display = '';
     monsterContainerEl.style.display = '';
+    monsterHealthEl.style.display = '';
     let monstersToAdd = '';
     monsterContainerEl.innerHTML = '';
+    monsterHealthEl.innerHTML = '';
 
     player.location.monsters.forEach((monster, idx) => {
       console.log(monster, idx);
-      const monDiv = document.createElement('div');
-      monDiv.id = `${monster.type}_${idx}`;
-      monDiv.classList.add('monster');
-      monDiv.style.background = `transparent 0 0 no-repeat`;
-      monDiv.style.backgroundImage = `url("../assets/images/monsters/${monster.type}_idle.png")`
-      monDiv.style.height= '180px';
-      monDiv.style.width= '450px';
-      monsterContainerEl.appendChild(monDiv);
+      if(monster.hp > 0){
+        const monDiv = document.createElement('div');
+        const monHp = document.createElement('div');
+        const monLabel = document.createElement('p');
+
+        monLabel.textContent = `${monster.type} HP`;
+        monsterHealthEl.appendChild(monLabel);
+
+        monHp.id = `${monster.type}_${idx}_hp`; //!I don't think i'm using this right now.
+        monHp.classList.add('health-bar');
+        monHp.style.width = `${monster.hp * 50}px`;
+        monHp.style.height = '10px'
+        monsterHealthEl.appendChild(monHp);
+
+        monDiv.id = `${monster.type}_${idx}`;
+        monDiv.classList.add('monster');
+        monDiv.style.background = `transparent 0 0 no-repeat`;
+        monDiv.style.backgroundImage = `url("../assets/images/monsters/${monster.type}_idle.png")`
+        monDiv.style.height= '180px';
+        monDiv.style.width= '450px';
+        monsterContainerEl.appendChild(monDiv);
+      }
     });
 
     // console.log(monstersToAdd);
