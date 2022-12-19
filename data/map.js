@@ -9,6 +9,7 @@ class MapTile{
     this.roomType = roomType; //0 is path, 1 is monster room, 2 is treasure, 3 is boss, 4 is mimic. -1 is for deadends that have been cleared.
     this.flavorText = '';
     this.difficulty = 0;
+    this.monsters = [];
   }
 
   getDest(exitNum){

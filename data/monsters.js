@@ -27,17 +27,24 @@ class Monster{
 
 }
 
+function generateMonster(diffLvl=1){
+  const curMonsterList = monsterList.filter((mon) => mon.diff === diffLvl);
+  console.log(curMonsterList);
+  return new Monster( curMonsterList[Math.floor((Math.random() * curMonsterList.length))].name, false);
+}
+
 const monsterList = [
   {hp: 3, dph: 1, name: 'Slime', diff: 1},
   {hp: 7, dph: 2, name: 'Goblin', diff: 1},
-  {hp: 5, dph: 2, name: 'Zombie', diff: 1},
+  {hp: 5, dph: 2, name: 'Kobold', diff: 1},
+  {hp: 5, dph: 3, name: 'Zombie', diff: 2},
   {hp: 13, dph: 4, name: 'HobGoblin', diff:2},
-  {hp: 10, dph: 3, name: 'Skeleton', diff: 2},
+  {hp: 10, dph: 3, name: 'Skeleton', diff: 2}
 ]
 
 
 
 export {
   Monster,
-  monsterList
+  generateMonster
 };

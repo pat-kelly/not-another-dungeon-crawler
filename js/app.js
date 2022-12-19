@@ -1,5 +1,5 @@
 /*------------ Imports ------------*/
-import { Monster, monsterList } from "../data/monsters.js";
+import { Monster,generateMonster } from "../data/monsters.js";
 import { path, MapTile } from "../data/map.js"
 import { Character } from "../data/char.js";
 
@@ -7,7 +7,7 @@ import { Character } from "../data/char.js";
 const player = new Character(100, 100, 0);
 // const curPlayerTile = MapTile.find(player.location);
 let combat = false;
-const monsters = [];
+//const monsters = []; //?Depreciated - moved to map tiles
 
 
 /*---- Cached Element References ----*/
@@ -108,7 +108,7 @@ function handleDeadEnd(tile = new MapTile()){
   // console.log('curDead', tile);
   // console.log(tile.roomType)
 
-  let percent = Math.floor((Math.random() * 100)+1);
+  // let percent = Math.floor((Math.random() * 100)+1);
 
   switch(tile.roomType){
     case 1:
@@ -134,40 +134,44 @@ function handleDeadEnd(tile = new MapTile()){
 
 function generateMonsters(tile=new MapTile()){
 
-  //reduce down monsters list to names and diff.
-  let numberOfDiffs = monsterList.reduce((acc, mon) =>{
-    if(!(acc.find(mon.diff))){
-      acc.push(mon.diff);
-      return acc;
-    }
-  },[])
-  console.log(numberOfDiffs);
+  /*
+    Get current tile diff (1 through 9);
+    Then get any current monsters
 
-  if(monsters.find(mon => mon.location === player.location)){
+  */
+
+  let monLvl = path[player.location].difficulty; //highest monster diff available for spawning.
+
+  console.log('highestMonlvl',monLvl);
+
+  //If there are monsters at current location
+  if(tile.monsters.length !== 0){
     writeToGameLog("found a monster already at your location");
-    const monstersAtLocation = monsters.filter(mon => mon.location === player.location);
+    // const monstersAtLocation = monsters.filter(mon => mon.location === player.location);
     
-    let existingDiff = monstersAtLocation.reduce((acc, mon)=>{
+    let existingDiff = tile.monsters.reduce((acc, mon)=>{
       acc += mon.diff;
       return acc;
     },0)
 
-    console.log(existingDiff);
+    console.log('existingdiff',existingDiff);
 
     if(existingDiff < tile.difficulty && tile.roomType !==4){
 
-      monsters.push(new Monster())
+      // monsters.push(new Monster())
     }
 
+  //else no monsters at current location
   }else{
-    let existingDiff =0;
+    let pathDiff = path[player.location].difficulty;
     // while(existingDiff < tile.difficulty && tile.roomType !==4){
-
+    
     // }
-    monsters.push(new Monster('slime', false, player.location));
+    tile.monsters.push(generateMonster(pathDiff))
+    console.log('deTile',tile);
     writeToGameLog('generating new monster');
   }
-  console.log(monsters)
+  
 }
 
 function render(){
