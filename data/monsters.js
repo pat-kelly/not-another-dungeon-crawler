@@ -28,9 +28,9 @@ class Monster{
 }
 
 function generateMonster(diffLvl=1){
-  const curMonsterList = monsterList.filter((mon) => mon.diff === diffLvl);
-  console.log(curMonsterList);
-  if(curMonsterList.length === 0) return;
+  const curMonsterList = monsterList.filter((mon) => mon.diff <= diffLvl);
+  // console.log(curMonsterList);
+  if(curMonsterList.length === 0) return; //*don't think i need this anymore.
   return new Monster( curMonsterList[Math.floor((Math.random() * curMonsterList.length))].name, false);
 }
 

@@ -136,7 +136,7 @@ function generateMonsters(tile=new MapTile()){
 
   //If there are monsters at current location
   if(tile.monsters.length !== 0){
-    writeToGameLog("found a monster already at your location");
+    // writeToGameLog("found a monster already at your location");
     // const monstersAtLocation = monsters.filter(mon => mon.location === player.location);
 
     
@@ -154,8 +154,8 @@ function generateMonsters(tile=new MapTile()){
       tile.monsters.push(generateMonster(pathDiff))
       tileDiff = (tile.getMonsterDiff());
     }
-    console.log('deTile',tile);
-    writeToGameLog('generating new monster');
+    // console.log('deTile',tile);
+    // writeToGameLog('generating new monster');
   }
   
 }
