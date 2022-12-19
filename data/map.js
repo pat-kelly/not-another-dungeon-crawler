@@ -48,7 +48,7 @@ function createDeadEnd(inheritedDiff =0){
   let roomType = Math.floor((Math.random() * 100)+1);
   const curTile = new MapTile();
   
-  if(roomType < 50){
+  if(roomType < 110){ //set back to 50
     curTile.roomType = 1;
     curTile.difficulty = diff+inheritedDiff;
     diff++;

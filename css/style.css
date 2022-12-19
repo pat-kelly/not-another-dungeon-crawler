@@ -189,10 +189,22 @@ body{
   background-repeat: no-repeat;
   background-size: cover; */
   /* background-color: darkgray; */
-  z-index: 30;
-  height: 300px;
-  width: 300px;
-  
+  display:flex;
+  /* flex-direction: column; */
+  margin-top: 250px;
+  height:550px;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  overflow-y: scroll;
+}
+.monster{
+  animation: idle 1s steps(4) infinite;
+}
+
+@keyframes idle {
+  100% {
+    background-position: -1800px, 0;
+  }
 }
 
 #char-mana{

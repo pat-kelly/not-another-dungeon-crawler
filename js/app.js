@@ -15,7 +15,8 @@ const navBox = document.getElementById('nav');
 const gameLog = document.getElementById('text-log');
 const hpEl = document.getElementById('char-hp');
 const manaEl = document.getElementById('char-mana');
-const displayWindowEl = document.getElementById('display-area')
+const displayWindowEl = document.getElementById('display-area');
+const monsterContainerEl = document.getElementById('monster-container');
 
 //doors
 const leftDoor = document.getElementById('left-door');
@@ -163,11 +164,29 @@ function generateMonsters(tile=new MapTile()){
 }
 
 function render(){
+  console.log(player.location.monsters);
   if(!combat){
     displayWindowEl.style.backgroundImage = 'url("../assets/images/room.png")';
+    monsterContainerEl.style.display = 'none';
   }else{
     displayWindowEl.style.backgroundImage = 'url("../assets/images/battle_room.png")'
+    monsterContainerEl.style.display = '';
+    let monstersToAdd = '';
+    monsterContainerEl.innerHTML = '';
 
+    player.location.monsters.forEach((monster, idx) => {
+      console.log(monster, idx);
+      const monDiv = document.createElement('div');
+      monDiv.id = `${monster.type}_${idx}`;
+      monDiv.classList.add('monster');
+      monDiv.style.background = `transparent 0 0 no-repeat`;
+      monDiv.style.backgroundImage = `url("../assets/images/monsters/${monster.type}_idle.png")`
+      monDiv.style.height= '180px';
+      monDiv.style.width= '450px';
+      monsterContainerEl.appendChild(monDiv);
+    });
+
+    // console.log(monstersToAdd);
   }
   leftDoor.style.display = 'none';
   rightDoor.style.display = 'none';
