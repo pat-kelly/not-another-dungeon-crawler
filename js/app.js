@@ -15,6 +15,7 @@ const navBox = document.getElementById('nav');
 const gameLog = document.getElementById('text-log');
 const hpEl = document.getElementById('char-hp');
 const manaEl = document.getElementById('char-mana');
+const displayWindowEl = document.getElementById('display-area')
 
 //doors
 const leftDoor = document.getElementById('left-door');
@@ -43,9 +44,6 @@ function init(){
     // writeToGameLog(JSON.stringify(tile));
     console.log(tile);
   });
-  writeToGameLog();
-
-  writeToGameLog(path[player.location].getDescription())
   render();
 }
 /*------------ Functions ------------*/
@@ -77,24 +75,27 @@ function playerMove(direction){
   
   let dest;
 
-  if(player.location !== -1){
+  if(typeof player.location === 'number'){
     dest = path[player.location].getDest(direction);
   }
 
   if(direction === 0){
     //player is going back
-    if(player.locationHistory.length)
+    if(player.locationHistory.length){
+      if(combat) combat = false;
       player.location = player.locationHistory.pop();
+      writeToGameLog(path[player.location].getDescription());
+    }
     else writeToGameLog("The path back is blocked. The only way out is through...")
   }else if(dest instanceof MapTile){
     handleDeadEnd(dest);
     player.locationHistory.push(player.location);
-    player.location = -1;
+    player.location = dest;
   }else if(typeof dest === 'number'){
     //player chose correct direction.
     player.locationHistory.push(player.location);
     player.location = dest;
-    writeToGameLog(path[player.location].getDescription())
+    writeToGameLog(path[player.location].getDescription());
   }else{
     writeToGameLog("You can't go that direction!")
   }
@@ -114,6 +115,7 @@ function handleDeadEnd(tile = new MapTile()){
     case 1:
       writeToGameLog('monster room!');
       generateMonsters(tile);
+      combat = true;
       break;
     case 2:
       writeToGameLog('treasure!');
@@ -161,6 +163,12 @@ function generateMonsters(tile=new MapTile()){
 }
 
 function render(){
+  if(!combat){
+    displayWindowEl.style.backgroundImage = 'url("../assets/images/room.png")';
+  }else{
+    displayWindowEl.style.backgroundImage = 'url("../assets/images/battle_room.png")'
+
+  }
   leftDoor.style.display = 'none';
   rightDoor.style.display = 'none';
   backDoor.style.display = 'none';
@@ -169,7 +177,7 @@ function render(){
   manaEl.textContent = player.mp;
   manaEl.style.width = `${player.mp * 2}px`;
   
-  if(player.location !== -1){
+  if(typeof player.location === 'number' && !combat){
     path[player.location].exits.forEach(exit => {
       // writeToGameLog(exit);
       switch(exit){
@@ -185,7 +193,6 @@ function render(){
           break;
       }
     });
-    
   }
 }
 

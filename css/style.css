@@ -99,7 +99,6 @@ body{
   /* border: 1px solid black; */
   width: 1280px;
   height: 800px;
-  background-image: url("../assets/images/room.png");
   background-size: cover;
   z-index: 1;
 }
@@ -182,6 +181,18 @@ body{
   color:white;
   border-radius: 20px;
   text-align: center;
+}
+
+#monster-container{
+  /* background-image: url("../assets/raw_assets/Idle_scaled_3x_pngcrushed.png"); */
+  /* background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: cover; */
+  /* background-color: darkgray; */
+  z-index: 30;
+  height: 300px;
+  width: 300px;
+  
 }
 
 #char-mana{
