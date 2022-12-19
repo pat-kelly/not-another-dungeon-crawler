@@ -28,10 +28,11 @@ class Monster{
 }
 
 const monsterList = [
-  {hp: 5, dph: 1, name: 'Slime', diff: 1},
-  {hp: 8, dph: 2, name: 'Goblin', diff: 1},
+  {hp: 3, dph: 1, name: 'Slime', diff: 1},
+  {hp: 7, dph: 2, name: 'Goblin', diff: 1},
+  {hp: 5, dph: 2, name: 'Zombie', diff: 1},
   {hp: 13, dph: 4, name: 'HobGoblin', diff:2},
-  {hp: 10, dph: 3, name: 'Skeleton', diff: 2}
+  {hp: 10, dph: 3, name: 'Skeleton', diff: 2},
 ]
 
 

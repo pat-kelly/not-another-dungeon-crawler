@@ -134,6 +134,15 @@ function handleDeadEnd(tile = new MapTile()){
 
 function generateMonsters(tile=new MapTile()){
 
+  //reduce down monsters list to names and diff.
+  let numberOfDiffs = monsterList.reduce((acc, mon) =>{
+    if(!(acc.find(mon.diff))){
+      acc.push(mon.diff);
+      return acc;
+    }
+  },[])
+  console.log(numberOfDiffs);
+
   if(monsters.find(mon => mon.location === player.location)){
     writeToGameLog("found a monster already at your location");
     const monstersAtLocation = monsters.filter(mon => mon.location === player.location);
@@ -143,13 +152,18 @@ function generateMonsters(tile=new MapTile()){
       return acc;
     },0)
 
+    console.log(existingDiff);
+
     if(existingDiff < tile.difficulty && tile.roomType !==4){
-      
+
       monsters.push(new Monster())
     }
 
-    console.log(existingDiff);
   }else{
+    let existingDiff =0;
+    // while(existingDiff < tile.difficulty && tile.roomType !==4){
+
+    // }
     monsters.push(new Monster('slime', false, player.location));
     writeToGameLog('generating new monster');
   }
