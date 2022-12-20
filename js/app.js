@@ -42,8 +42,8 @@ function init(){
   rightDoor.style.display = 'none';
   backDoor.style.display = 'none';
   attackButtonEl.style.display = 'none';
-  // lTorch.style.display = 'none';
-  // rTorch.style.display = 'none';
+  lTorch.style.display = 'none';
+  rTorch.style.display = 'none';
   hpEl.style.width = '0';
   manaEl.style.width = '0';
   
@@ -180,17 +180,22 @@ function attack(evt){
   const curTarget = player.location.monsters[idx];
   const targetEl = document.getElementById(`${curTarget.type}_${idx}`);
 
+  //adjust monster hp and animate either hit or death
   if(curTarget.hp > 0){
     curTarget.hp -= player.dmg;
     if(curTarget.hp){
       targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_hit.gif`
-    setTimeout(function(){
-      targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_idle.gif`
-    },400)
-    player.hp -= curTarget.dph;
+      setTimeout(function(){
+        targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_attack.gif`
+        setTimeout(function(){
+          player.hp -= curTarget.dph;
+          combatRender(true);
+          targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_idle.gif`
+        },800)
+      },400)
   }else{
     targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_hit.gif`
-    targetEl.classList.remove('monster');
+    // targetEl.classList.remove('monster');
     setTimeout(()=>{
       targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_death.gif`
       setTimeout(()=>{
@@ -201,7 +206,6 @@ function attack(evt){
   }else{
     writeToGameLog(`Why are you stabbing the dead ${curTarget.type}?`)
   }
-
   combatRender(true);
 }
 
@@ -209,7 +213,7 @@ function combatRender(atk = false){
   hideDoorsUpdateHP();
   if(typeof player.location === 'number') return; //*if the player's location is a number, we shouldn't be here.
   displayWindowEl.style.backgroundImage = 'url("../assets/images/battle_room.png")'
-  attackButtonEl.style.display = '';
+  // attackButtonEl.style.display = '';
   monsterContainerEl.style.display = '';
   monsterHealthEl.style.display = '';
 
@@ -221,6 +225,7 @@ function combatRender(atk = false){
   player.location.monsters.forEach((monster, idx) => {
     console.log(monster, idx);
     
+    //Things that only need to render the first time.
     if(!atk){
       const monImg = document.createElement('img'); 
       monImg.id = `${monster.type}_${idx}`; 
@@ -229,13 +234,13 @@ function combatRender(atk = false){
       monImg.style.height= `${monImg.naturalHeight}px`; 
       monImg.style.width= `${monImg.naturalWidth}px`; 
       monsterContainerEl.appendChild(monImg);
+      //need to check if we've visited before, and display them dead if they're dead.
       if(monster.hp === 0){
         const monsterEl = document.getElementById(`${monster.type}_${idx}`)
         monsterEl.src = `./assets/images/monsters/${monster.type}/${monster.type}_corpse.png`
       }
     }
-
-
+    //Things that will render all the time
     const monHp = document.createElement('div');
     const monLabel = document.createElement('p');
     monLabel.textContent = `${monster.type} HP`;
@@ -244,15 +249,7 @@ function combatRender(atk = false){
     monHp.style.width = `${monster.hp * 10}px`;
     monHp.style.height = '10px'
     monsterHealthEl.appendChild(monHp);
-    
-    
-    
-    
   });
-  
-  
-
-  // console.log(monstersToAdd);
 }//*END combatRender
 
 function updateMonsterHealth(){

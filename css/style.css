@@ -236,6 +236,7 @@ body{
   /* animation: idle 1s steps(4) infinite; */
   border:none;
   border-radius: 100%;
+  /* transition: .2s; */
 }
 
 .monster:hover{
