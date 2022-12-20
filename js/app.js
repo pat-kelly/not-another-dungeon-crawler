@@ -5,7 +5,7 @@ import { Character } from "../data/char.js";
 
 /*------------ Constants ------------*/
 const player = new Character(100, 100, 0);
-let gameOver = false, combat = false, won = false;
+let gameOver, combat, won;
 //const monsters = []; //?Depreciated - moved to map tiles
 
 
@@ -18,6 +18,7 @@ const displayWindowEl = document.getElementById('display-area');
 const monsterContainerEl = document.getElementById('monster-container');
 const attackButtonEl = document.getElementById('attack');
 const monsterHealthEl = document.getElementById('monster-health-bars');
+const transitionEl = document.getElementById('transition');
 
 
 //doors
@@ -37,6 +38,10 @@ document.onload = init();
 
 /*------------ Game Setup ------------*/
 function init(){
+  gameOver = false;
+  won = false;
+  combat = false;
+  // transitionEl.style.display = 'none';
   leftDoor.style.display = 'none';
   rightDoor.style.display = 'none';
   backDoor.style.display = 'none';
@@ -45,6 +50,7 @@ function init(){
   rTorch.style.display = 'none';
   hpEl.style.width = '0';
   manaEl.style.width = '0';
+  
   
   //!REMOVE BEFORE LAUNCH #TODO
   path.forEach(tile => {
@@ -95,7 +101,10 @@ function playerMove(direction){
       player.location = player.locationHistory.pop();
       writeToGameLog(path[player.location].getDescription());
     }
-    else writeToGameLog("The path back is blocked. The only way out is through...")
+    else {
+      writeToGameLog("The path back is blocked. The only way out is through...")
+      return;
+    }
   }else if(dest instanceof MapTile){
     handleDeadEnd(dest);
     player.locationHistory.push(player.location);
@@ -107,8 +116,19 @@ function playerMove(direction){
     writeToGameLog(path[player.location].getDescription());
   }else{
     writeToGameLog("You can't go that direction!")
+    return;
   }
-  combat ? combatRender() : render();
+
+  transitionEl.style.backgroundColor = 'black';
+  for(let el of document.getElementsByClassName('monster')){
+    // console.log(el);
+    el.style.zIndex = '99';
+  }
+  setTimeout(() => {
+    transitionEl.style.backgroundColor = '';
+    for(let el of document.getElementsByClassName('monster')){el.style.zIndex = '101'}
+    combat ? combatRender() : render();
+  }, 200);
 }
 
 function handleDeadEnd(tile = new MapTile()){
@@ -173,12 +193,16 @@ function generateMonsters(tile=new MapTile()){
 function attack(evt){
   if(!combat) return;
   if(!(evt.target.classList.contains('monster'))) return;
+  if(evt.target.classList.contains('noClick')) return;
   //<img id="Goblin_0" class="monster" src="./assets/images/monsters/Goblin_hit.gif" style="height: 300px; width: 300px;">
   let idx = evt.target.id.slice(-1);
   
   const curTarget = player.location.monsters[idx];
   const targetEl = document.getElementById(`${curTarget.type}_${idx}`);
-
+  targetEl.classList.add('noClick');
+  setTimeout(() => {
+    targetEl.classList.remove('noClick');
+  }, 1200);
   //adjust monster hp and animate either hit or death
   if(curTarget.hp > 0){
     curTarget.hp -= player.dmg;
@@ -230,8 +254,10 @@ function combatRender(atk = false){
       monImg.id = `${monster.type}_${idx}`; 
       monImg.classList.add('monster'); 
       monImg.src = `./assets/images/monsters/${monster.type}/${monster.type}_idle.gif` 
-      monImg.style.height= `${monImg.naturalHeight}px`; 
-      monImg.style.width= `${monImg.naturalWidth}px`; 
+      monImg.onload= ()=>{
+        monImg.style.height= `${monImg.naturalHeight}px`; 
+        monImg.style.width= `${monImg.naturalWidth}px`; 
+      }
       monsterContainerEl.appendChild(monImg);
       //need to check if we've visited before, and display them dead if they're dead.
       if(monster.hp === 0){
