@@ -80,7 +80,9 @@ for(let i=0; i< pathLength; i++){
   curTile.difficulty = i+1;
   
   let idx = Math.floor((Math.random() * (numExits))+1);
-  console.log(idx);
+  
+  //This stops the game from taking the same exit twice.
+  //UNLESS the room being generated only has 1 exit. see above todo.
   while(idx === lastDest){
     idx = Math.floor((Math.random() * (numExits))+1);
     idx === lastDest ? idx === lastDest : lastDest=idx;
