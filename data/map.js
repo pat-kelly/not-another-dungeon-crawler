@@ -1,5 +1,5 @@
 //!var diff controls overall game difficulty.
-var diff = 0;
+var diff = 0, numMimics=0, pathLength =10;
 const path = [];
 
 class MapTile{
@@ -69,14 +69,23 @@ function createDeadEnd(inheritedDiff =0){
   return curTile;
 }
 
-//* levelUp - make it so 1 and 2 door rooms are random.
+//* levelUp - make it so 1 and 2 door rooms are random. #TODO
 
-for(let i=0; i< 10; i++){
+let lastDest = 0;
+
+for(let i=0; i< pathLength; i++){
   let numExits = Math.floor((Math.random() * 3)+1);
 
   const curTile = new MapTile();
   curTile.difficulty = i+1;
+  
   let idx = Math.floor((Math.random() * (numExits))+1);
+  console.log(idx);
+  while(idx === lastDest){
+    idx = Math.floor((Math.random() * (numExits))+1);
+    idx === lastDest ? idx === lastDest : lastDest=idx;
+  }
+
   if(i !== 9){
     for(let j=1; j<=numExits; j++){
       curTile.exits.push(j);
