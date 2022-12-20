@@ -174,10 +174,18 @@ function attack(){
   const curTarget = player.location.monsters.find(mon => mon.hp > 0);
   if(curTarget){
     curTarget.hp -= player.dmg;
+    const targetEl = document.querySelector('.monster');
+    // targetEl.classList.remove('monster');
+    targetEl.style.backgroundImage = `url("../assets/images/monsters/${curTarget.type}_hit.png")`
+    // targetEl.classList.add('monster');
+    // setTimeout(function(){
+    //   document.querySelector('.monster').style.backgroundImage = `url("../assets/images/monsters/${monster.type}_idle.png")`
+    // },1000)
+    console.log(targetEl);
+    player.hp -= curTarget.dph;
   }else{
     writeToGameLog(`There's nothing to attack!`)
   }
-  console.log(curTarget);
 
   render();
 
@@ -211,14 +219,14 @@ function render(){
 
         monHp.id = `${monster.type}_${idx}_hp`; //!I don't think i'm using this right now.
         monHp.classList.add('health-bar');
-        monHp.style.width = `${monster.hp * 50}px`;
+        monHp.style.width = `${monster.hp * 10}px`;
         monHp.style.height = '10px'
         monsterHealthEl.appendChild(monHp);
 
         monDiv.id = `${monster.type}_${idx}`;
         monDiv.classList.add('monster');
         monDiv.style.background = `transparent 0 0 no-repeat`;
-        monDiv.style.backgroundImage = `url("../assets/images/monsters/${monster.type}_idle.png")`
+        monDiv.style.backgroundImage = `url("../assets/images/monsters/${monster.type}_idle.gif")`
         monDiv.style.height= '180px';
         monDiv.style.width= '450px';
         monsterContainerEl.appendChild(monDiv);
