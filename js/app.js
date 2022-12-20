@@ -5,8 +5,7 @@ import { Character } from "../data/char.js";
 
 /*------------ Constants ------------*/
 const player = new Character(100, 100, 0);
-// const curPlayerTile = MapTile.find(player.location);
-let combat = false;
+let gameOver = false, combat = false, won = false;
 //const monsters = []; //?Depreciated - moved to map tiles
 
 
@@ -252,11 +251,6 @@ function combatRender(atk = false){
   });
 }//*END combatRender
 
-function updateMonsterHealth(){
-
-  
-}
-
 function render(){
   displayWindowEl.style.backgroundImage = 'url("../assets/images/room.png")';
   hideDoorsUpdateHP();
@@ -287,10 +281,20 @@ function hideDoorsUpdateHP(){
   leftDoor.style.display = 'none';
   rightDoor.style.display = 'none';
   backDoor.style.display = 'none';
-  hpEl.textContent = player.hp;
-  hpEl.style.width = `${player.hp * 2}px`;
-  manaEl.textContent = player.mp;
-  manaEl.style.width = `${player.mp * 2}px`;
+  if(player.hp < 1){
+    writeToGameLog(`You have died! so sad.`)
+    gameOverRender();
+    hpEl.textContent = '0';
+  }else{
+    hpEl.textContent = player.hp;
+    hpEl.style.width = `${player.hp * 2}px`;
+    manaEl.textContent = player.mp;
+    manaEl.style.width = `${player.mp * 2}px`;
+  }
+}
+
+function gameOverRender(){
+
 }
 
 function writeToGameLog(strToAdd){
