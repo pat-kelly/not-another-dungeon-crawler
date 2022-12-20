@@ -31,7 +31,7 @@ const rTorch = document.getElementById('torch-right');
 
 /*--------- Event Listeners ---------*/
 navBox.addEventListener('click', navCheck);
-attackButtonEl.addEventListener('click', attack);
+displayWindowEl.addEventListener('click', attack);
 
 
 document.onload = init();
@@ -46,10 +46,14 @@ function init(){
   // rTorch.style.display = 'none';
   hpEl.style.width = '0';
   manaEl.style.width = '0';
+  
+  //!REMOVE BEFORE LAUNCH #TODO
   path.forEach(tile => {
     // writeToGameLog(JSON.stringify(tile));
     console.log(tile);
   });
+
+
   render();
 }
 /*------------ Functions ------------*/
@@ -105,7 +109,7 @@ function playerMove(direction){
   }else{
     writeToGameLog("You can't go that direction!")
   }
-  render();
+  combat ? combatRender() : render();
 }
 
 function handleDeadEnd(tile = new MapTile()){
@@ -134,7 +138,6 @@ function handleDeadEnd(tile = new MapTile()){
       break;
     default:
       writeToGameLog(`You seem to have hit a dead end.`)
-      // writeToGameLog('real dead end');
       break;
 
   }
@@ -148,7 +151,7 @@ function generateMonsters(tile=new MapTile()){
     // const monstersAtLocation = monsters.filter(mon => mon.location === player.location);
 
     
-
+      //!Dont forget to re-visit this later #TODO
     
 
   //else no monsters at current location
@@ -168,80 +171,101 @@ function generateMonsters(tile=new MapTile()){
   
 }
 
-function attack(){
+function attack(evt){
   if(!combat) return;
+  if(!(evt.target.classList.contains('monster'))) return;
+  //<img id="Goblin_0" class="monster" src="./assets/images/monsters/Goblin_hit.gif" style="height: 300px; width: 300px;">
+  let idx = evt.target.id.slice(-1);
+  
+  const curTarget = player.location.monsters[idx];
+  const targetEl = document.getElementById(`${curTarget.type}_${idx}`);
 
-  const curTarget = player.location.monsters.find(mon => mon.hp > 0);
-  if(curTarget){
+  if(curTarget.hp > 0){
     curTarget.hp -= player.dmg;
-    const targetEl = document.querySelector('.monster');
-    // targetEl.classList.remove('monster');
-    targetEl.style.backgroundImage = `url("../assets/images/monsters/${curTarget.type}_hit.png")`
-    // targetEl.classList.add('monster');
-    // setTimeout(function(){
-    //   document.querySelector('.monster').style.backgroundImage = `url("../assets/images/monsters/${monster.type}_idle.png")`
-    // },1000)
-    console.log(targetEl);
+    if(curTarget.hp){
+      targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_hit.gif`
+    setTimeout(function(){
+      targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_idle.gif`
+    },400)
     player.hp -= curTarget.dph;
   }else{
-    writeToGameLog(`There's nothing to attack!`)
+    targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_hit.gif`
+    targetEl.classList.remove('monster');
+    setTimeout(()=>{
+      targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_death.gif`
+      setTimeout(()=>{
+        targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_corpse.png`
+      },800)
+    }, 200)
+  }
+  }else{
+    writeToGameLog(`Why are you stabbing the dead ${curTarget.type}?`)
   }
 
-  render();
+  combatRender(true);
+}
 
+function combatRender(atk = false){
+  hideDoorsUpdateHP();
+  if(typeof player.location === 'number') return; //*if the player's location is a number, we shouldn't be here.
+  displayWindowEl.style.backgroundImage = 'url("../assets/images/battle_room.png")'
+  attackButtonEl.style.display = '';
+  monsterContainerEl.style.display = '';
+  monsterHealthEl.style.display = '';
+
+
+  if(!atk) monsterContainerEl.innerHTML = ''; 
+  
+  monsterHealthEl.innerHTML = '';
+  
+  player.location.monsters.forEach((monster, idx) => {
+    console.log(monster, idx);
+    
+    if(!atk){
+      const monImg = document.createElement('img'); 
+      monImg.id = `${monster.type}_${idx}`; 
+      monImg.classList.add('monster'); 
+      monImg.src = `./assets/images/monsters/${monster.type}/${monster.type}_idle.gif` 
+      monImg.style.height= `${monImg.naturalHeight}px`; 
+      monImg.style.width= `${monImg.naturalWidth}px`; 
+      monsterContainerEl.appendChild(monImg);
+      if(monster.hp === 0){
+        const monsterEl = document.getElementById(`${monster.type}_${idx}`)
+        monsterEl.src = `./assets/images/monsters/${monster.type}/${monster.type}_corpse.png`
+      }
+    }
+
+
+    const monHp = document.createElement('div');
+    const monLabel = document.createElement('p');
+    monLabel.textContent = `${monster.type} HP`;
+    monsterHealthEl.appendChild(monLabel);
+    monHp.classList.add('health-bar');
+    monHp.style.width = `${monster.hp * 10}px`;
+    monHp.style.height = '10px'
+    monsterHealthEl.appendChild(monHp);
+    
+    
+    
+    
+  });
+  
+  
+
+  // console.log(monstersToAdd);
+}//*END combatRender
+
+function updateMonsterHealth(){
+
+  
 }
 
 function render(){
-  console.log(player.location.monsters);
-  if(!combat){
-    displayWindowEl.style.backgroundImage = 'url("../assets/images/room.png")';
-    monsterContainerEl.style.display = 'none';
-    attackButtonEl.style.display = 'none';
-    monsterHealthEl.style.display = 'none';
-  }else{
-    displayWindowEl.style.backgroundImage = 'url("../assets/images/battle_room.png")'
-    attackButtonEl.style.display = '';
-    monsterContainerEl.style.display = '';
-    monsterHealthEl.style.display = '';
-    let monstersToAdd = '';
-    monsterContainerEl.innerHTML = '';
-    monsterHealthEl.innerHTML = '';
-
-    player.location.monsters.forEach((monster, idx) => {
-      console.log(monster, idx);
-      if(monster.hp > 0){
-        const monDiv = document.createElement('div');
-        const monHp = document.createElement('div');
-        const monLabel = document.createElement('p');
-
-        monLabel.textContent = `${monster.type} HP`;
-        monsterHealthEl.appendChild(monLabel);
-
-        monHp.id = `${monster.type}_${idx}_hp`; //!I don't think i'm using this right now.
-        monHp.classList.add('health-bar');
-        monHp.style.width = `${monster.hp * 10}px`;
-        monHp.style.height = '10px'
-        monsterHealthEl.appendChild(monHp);
-
-        monDiv.id = `${monster.type}_${idx}`;
-        monDiv.classList.add('monster');
-        monDiv.style.background = `transparent 0 0 no-repeat`;
-        monDiv.style.backgroundImage = `url("../assets/images/monsters/${monster.type}_idle.gif")`
-        monDiv.style.height= '180px';
-        monDiv.style.width= '450px';
-        monsterContainerEl.appendChild(monDiv);
-      }
-    });
-
-    // console.log(monstersToAdd);
-  }
-  leftDoor.style.display = 'none';
-  rightDoor.style.display = 'none';
-  backDoor.style.display = 'none';
-  hpEl.textContent = player.hp;
-  hpEl.style.width = `${player.hp * 2}px`;
-  manaEl.textContent = player.mp;
-  manaEl.style.width = `${player.mp * 2}px`;
+  displayWindowEl.style.backgroundImage = 'url("../assets/images/room.png")';
+  hideDoorsUpdateHP();
+  monsterContainerEl.style.display = 'none';
+  attackButtonEl.style.display = 'none';
+  monsterHealthEl.style.display = 'none';
   
   if(typeof player.location === 'number' && !combat){
     path[player.location].exits.forEach(exit => {
@@ -262,18 +286,18 @@ function render(){
   }
 }
 
+function hideDoorsUpdateHP(){
+  leftDoor.style.display = 'none';
+  rightDoor.style.display = 'none';
+  backDoor.style.display = 'none';
+  hpEl.textContent = player.hp;
+  hpEl.style.width = `${player.hp * 2}px`;
+  manaEl.textContent = player.mp;
+  manaEl.style.width = `${player.mp * 2}px`;
+}
+
 function writeToGameLog(strToAdd){
   gameLog.innerText += `\n`;
   if(strToAdd) gameLog.innerText += strToAdd;
   gameLog.scrollTop = gameLog.scrollHeight;
 }
-
-
-const gobbo = new Monster('goblin');
-const slime = new Monster('slime');
-const eliteGobbo = new  Monster('goblin', true);
-// console.log(gobbo, slime, eliteGobbo);
-
-const npc1 = new Character(1, 0, [0,1])
-
-// console.log(player, npc1);

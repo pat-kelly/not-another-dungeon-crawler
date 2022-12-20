@@ -123,7 +123,6 @@ body{
 #torch-left{
   background-image: url("../assets/images/tile_objects/torch_L.png");
   background-size: cover;
-  z-index: 10;
   position:absolute;
   width: 100%;
   height: 100%;
@@ -131,7 +130,6 @@ body{
 #torch-right{
   background-image: url("../assets/images/tile_objects/torch_R.png");
   background-size: cover;
-  z-index: 10;
   position:absolute;
   width: 100%;
   height: 100%;
@@ -236,6 +234,16 @@ body{
 
 .monster{
   /* animation: idle 1s steps(4) infinite; */
+  border:none;
+  border-radius: 100%;
+}
+
+.monster:hover{
+  filter: brightness(1.5);  
+}
+
+img{
+  border: none;
 }
 
 @keyframes idle {
