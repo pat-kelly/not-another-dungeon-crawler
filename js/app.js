@@ -246,6 +246,8 @@ function attack(evt){
         },curTarget.atkTime)//* atk timeout
       },curTarget.hitTime) //*hit timeout
   }else{
+    
+    writeToGameLog(`The ${curTarget.type} dropped ${rewardPlayer('monster',curTarget)} gold!`);
     targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_hit.gif`
     // targetEl.classList.remove('monster');
     setTimeout(()=>{
@@ -300,24 +302,27 @@ function openTreasure(){
   const chestImg = document.getElementById('Mimic_0');
   chestImg.src = './assets/images/tile_objects/Chest_opening.gif';
   player.location.treasureClaimed = true;
-  rewardPlayer('chest');
+  writeToGameLog(`The chest contained ${rewardPlayer('chest')} gold!\nThank goodness it wasn't a mimic....`) ;
   setTimeout(() => {
     chestImg.src = './assets/images/tile_objects/Chest_idle_gold.gif';
   }, 2000);
 }
 
-function rewardPlayer(type = ''){
-  let diff;
+function rewardPlayer(type = '',mon){
+  let diff, amount;
   typeof player.location === 'number' ? diff=player.location : diff=player.location.difficulty;
   switch(type){
     case 'chest':
-      player.inventory.gold += Math.floor((Math.random() * diff)+1) *diff;
+      amount = Math.floor((Math.random() * diff)+1) *diff;
+      player.inventory.gold += amount;
       break;
     case 'monster':
-      player.inventory.gold += Math.floor((Math.random() * diff)+1);
+      typeof mon === 'Monster' ? amount = Math.floor((Math.random() * mon.diff)+1)
+          : amount = Math.floor((Math.random())+1)
+      player.inventory.gold += amount;
       break;
-
   }
+  return amount;
 }
 
 function spawnMimic(){
