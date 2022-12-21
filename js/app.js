@@ -19,6 +19,7 @@ const monsterContainerEl = document.getElementById('monster-container');
 const attackButtonEl = document.getElementById('attack');
 const monsterHealthEl = document.getElementById('monster-health-bars');
 const transitionEl = document.getElementById('transition');
+const goldEl = document.getElementById('char-gold');
 
 
 //doors
@@ -217,6 +218,7 @@ function attack(evt){
   if(!combat){
     if(player.location.roomType === 4 || player.location.roomType === 2){
       treasureRender(true, evt);
+      return;
     }else return;
   }
   if(evt.target.classList.contains('noClick')) return;
@@ -297,15 +299,25 @@ function treasureRender(openChest, evt){
 function openTreasure(){
   const chestImg = document.getElementById('Mimic_0');
   chestImg.src = './assets/images/tile_objects/Chest_opening.gif';
+  player.location.treasureClaimed = true;
+  rewardPlayer('chest');
   setTimeout(() => {
     chestImg.src = './assets/images/tile_objects/Chest_idle_gold.gif';
-    player.location.treasureClaimed = true;
-    rewardPlayer('chest');
   }, 2000);
 }
 
 function rewardPlayer(type = ''){
+  let diff;
+  typeof player.location === 'number' ? diff=player.location : diff=player.location.difficulty;
+  switch(type){
+    case 'chest':
+      player.inventory.gold += Math.floor((Math.random() * diff)+1) *diff;
+      break;
+    case 'monster':
+      player.inventory.gold += Math.floor((Math.random() * diff)+1);
+      break;
 
+  }
 }
 
 function spawnMimic(){
@@ -403,6 +415,7 @@ function hideDoorsUpdateHP(){
     hpEl.style.width = `${player.hp * 2}px`;
     manaEl.textContent = player.mp;
     manaEl.style.width = `${player.mp * 2}px`;
+    goldEl.textContent = `Gold: ${player.inventory.gold}`
   }
 }
 
