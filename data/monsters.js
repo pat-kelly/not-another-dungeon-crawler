@@ -45,7 +45,7 @@ function generateMonster(tile = new MapTile){
   console.log('roomtype',tile.roomType);
 
   if(tile.roomType === 4){
-    return new Monster( monsterList[monsterList.findIndex(mon => mon.name = 'Mimic')].name);
+    return new Monster('Mimic', false);
   }else{
     return new Monster( curMonsterList[Math.floor((Math.random() * curMonsterList.length))].name, false);
   }

@@ -92,6 +92,7 @@ function playerMove(direction){
 
   if(typeof player.location === 'number'){
     dest = path[player.location].getDest(direction);
+    console.log(dest,'dest');
   }
 
   if(direction === 0){
@@ -127,17 +128,24 @@ function playerMove(direction){
   setTimeout(() => {
     transitionEl.style.backgroundColor = '';
     for(let el of document.getElementsByClassName('monster')){el.style.zIndex = '101'}
-    switch(dest.roomType){
-      case 4:
-        treasureRender();
-        break;
-      case 3:
-        //bossRender();
-        break;
-      default:
-        combat ? combatRender() : render();
-        break;
+    
+    if(!dest){
+      combat ? combatRender() : render();
+      return;
+    }else{
+      switch(dest.roomType){
+        case 4:
+          treasureRender();
+          break;
+        case 3:
+          //bossRender();
+          break;
+        default:
+          combat ? combatRender() : render();
+          break;
+      }
     }
+
   }, 200);
 }//*END playerMove
 
@@ -180,8 +188,9 @@ function createMonsterList(tile=new MapTile()){
   //If there are monsters at current location
   if(tile.roomType === 4 || tile.roomType === 3){
     //4 = mimic room, 3 = boss room. Both are outside the scope of path difficulty
-    if(tile.roomType ===4){
+    if(tile.roomType === 4 && !tile.monsters.length){
       tile.monsters.push(generateMonster(tile))
+      console.log('createMonsterList', tile);
     }
   }else{
     let pathDiff = path[player.location].difficulty;
@@ -201,6 +210,9 @@ function createMonsterList(tile=new MapTile()){
 }
 
 function attack(evt){
+  if(player.location.roomType === 4 || player.location.roomType === 2 && !combat){
+    treasureRender(true, evt);
+  }
   if(!combat) return;
   if(!(evt.target.classList.contains('monster'))) return;
   if(evt.target.classList.contains('noClick')) return;
@@ -240,6 +252,44 @@ function attack(evt){
     writeToGameLog(`Why are you stabbing the dead ${curTarget.type}?`)
   }
   combatRender(true);
+}
+
+function treasureRender(openChest, evt){
+  hideDoorsUpdateHP();
+  if(typeof player.location === 'number') return; //*if the player's location is a number, we shouldn't be here.
+  displayWindowEl.style.backgroundImage = 'url("../assets/images/battle_room.png")'
+  // attackButtonEl.style.display = '';
+  monsterContainerEl.style.display = '';
+  monsterHealthEl.style.display = '';
+  monsterHealthEl.innerHTML = '';
+
+  if(openChest){
+    if(player.location.roomType === 4){
+      spawnMimic();
+    }else if(player.location.roomType === 2){
+      openTreasure();
+    }
+  }else{
+    const chestImg = document.createElement('img');
+    chestImg.id = 'Mimic_0';
+    chestImg.classList.add('monster');
+    chestImg.src = `./assets/images/tile_objects/Chest.png`;
+    chestImg.onload= ()=>{
+      chestImg.style.height= `${chestImg.naturalHeight}px`; 
+      chestImg.style.width= `${chestImg.naturalWidth}px`; 
+    }
+    monsterContainerEl.appendChild(chestImg);
+  }
+}
+
+function spawnMimic(){
+  const chest = document.getElementById('Mimic_0');
+  chest.src = './assets/images/monsters/Mimic/Mimic_activate.gif';
+  setTimeout(() => {
+    combat = true;
+    
+  }, 2900);
+  console.log(player.location.monsters)
 }
 
 function combatRender(atk = false){
