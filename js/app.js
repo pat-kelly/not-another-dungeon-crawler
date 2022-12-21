@@ -210,10 +210,12 @@ function createMonsterList(tile=new MapTile()){
 }
 
 function attack(evt){
-  if(player.location.roomType === 4 || player.location.roomType === 2 && !combat){
-    treasureRender(true, evt);
+  
+  if(!combat){
+    if(player.location.roomType === 4 || player.location.roomType === 2){
+      treasureRender(true, evt);
+    }else return;
   }
-  if(!combat) return;
   if(!(evt.target.classList.contains('monster'))) return;
   if(evt.target.classList.contains('noClick')) return;
   //<img id="Goblin_0" class="monster" src="./assets/images/monsters/Goblin_hit.gif" style="height: 300px; width: 300px;">
@@ -236,8 +238,8 @@ function attack(evt){
           player.hp -= curTarget.dph;
           combatRender(true);
           targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_idle.gif`
-        },800)
-      },400)
+        },curTarget.atkTime)//* atk timeout
+      },curTarget.hitTime) //*hit timeout
   }else{
     targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_hit.gif`
     // targetEl.classList.remove('monster');
@@ -245,8 +247,8 @@ function attack(evt){
       targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_death.gif`
       setTimeout(()=>{
         targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_corpse.png`
-      },800)
-    }, 200)
+      },curTarget.dieTime)//*death timeout
+    }, curTarget.hitTime)//*hit timeout
   }
   }else{
     writeToGameLog(`Why are you stabbing the dead ${curTarget.type}?`)
@@ -285,11 +287,13 @@ function treasureRender(openChest, evt){
 function spawnMimic(){
   const chest = document.getElementById('Mimic_0');
   chest.src = './assets/images/monsters/Mimic/Mimic_activate.gif';
+  chest.classList.add('noClick')
   setTimeout(() => {
+    chest.classList.remove('noClick');
     combat = true;
-    
+    chest.src = './assets/images/monsters/Mimic/Mimic_idle.gif';
   }, 2900);
-  console.log(player.location.monsters)
+  // console.log(player.location.monsters)
 }
 
 function combatRender(atk = false){
