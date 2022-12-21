@@ -170,13 +170,13 @@ function handleDeadEnd(tile = new MapTile()){
       combat = true;
       break;
     case 2:
-      writeToGameLog('treasure!');
+      writeToGameLog('You see a treasure chest before you.');
       break;
     case 3:
-      writeToGameLog('you should never see this message');
+      writeToGameLog('put the boss encounter msg here #TODO');
       break;
     case 4:
-      writeToGameLog('treasure?');
+      writeToGameLog('You see a treasure chest before you.');
       createMonsterList(tile);
       break;
     default:
@@ -235,21 +235,21 @@ function attack(evt){
   //adjust monster hp and animate either hit or death
   if(curTarget.hp > 0){
     curTarget.hp -= player.dmg;
+    writeToGameLog(`You hit the ${curTarget.type} for ${player.dmg} damage!`);
     if(curTarget.hp){
       targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_hit.gif`
       setTimeout(function(){
         targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_attack.gif`
         setTimeout(function(){
           player.hp -= curTarget.dph;
+          writeToGameLog(`The ${curTarget.type} hits you for ${curTarget.dph} damage!`);
           combatRender(true);
           targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_idle.gif`
         },curTarget.atkTime)//* atk timeout
       },curTarget.hitTime) //*hit timeout
-  }else{
-    
-    writeToGameLog(`The ${curTarget.type} dropped ${rewardPlayer('monster',curTarget)} gold!`);
+    }else{
+    writeToGameLog(`The ${curTarget.type} has died, and dropped ${rewardPlayer('monster',curTarget)} gold!`);
     targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_hit.gif`
-    // targetEl.classList.remove('monster');
     setTimeout(()=>{
       targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_death.gif`
       setTimeout(()=>{
@@ -261,7 +261,7 @@ function attack(evt){
     writeToGameLog(`Why are you stabbing the dead ${curTarget.type}?`)
   }
   combatRender(true);
-}
+}//*END Attack function
 
 function treasureRender(openChest, evt){
   hideDoorsUpdateHP();
