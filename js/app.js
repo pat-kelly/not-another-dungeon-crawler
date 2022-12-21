@@ -127,9 +127,19 @@ function playerMove(direction){
   setTimeout(() => {
     transitionEl.style.backgroundColor = '';
     for(let el of document.getElementsByClassName('monster')){el.style.zIndex = '101'}
-    combat ? combatRender() : render();
+    switch(dest.roomType){
+      case 4:
+        treasureRender();
+        break;
+      case 3:
+        //bossRender();
+        break;
+      default:
+        combat ? combatRender() : render();
+        break;
+    }
   }, 200);
-}
+}//*END playerMove
 
 function handleDeadEnd(tile = new MapTile()){
   //0 is path, 1 is monster room, 2 is treasure, 3 is boss, 4 is mimic.
@@ -142,8 +152,9 @@ function handleDeadEnd(tile = new MapTile()){
 
   switch(tile.roomType){
     case 1:
-      writeToGameLog('monster room!');
-      generateMonsters(tile);
+      createMonsterList(tile);
+      tile.getMonsters();
+      // writeToGameLog(`You walk into the room, and find`);
       combat = true;
       break;
     case 2:
@@ -154,6 +165,8 @@ function handleDeadEnd(tile = new MapTile()){
       break;
     case 4:
       writeToGameLog('treasure?');
+      createMonsterList(tile);
+      
       break;
     default:
       writeToGameLog(`You seem to have hit a dead end.`)
@@ -162,29 +175,26 @@ function handleDeadEnd(tile = new MapTile()){
   }
 }
 
-function generateMonsters(tile=new MapTile()){
+function createMonsterList(tile=new MapTile()){
 
   //If there are monsters at current location
-  if(tile.monsters.length !== 0){
-    // writeToGameLog("found a monster already at your location");
-    // const monstersAtLocation = monsters.filter(mon => mon.location === player.location);
-
-    
-      //!Dont forget to re-visit this later #TODO
-    
-
-  //else no monsters at current location
+  if(tile.roomType === 4 || tile.roomType === 3){
+    //4 = mimic room, 3 = boss room. Both are outside the scope of path difficulty
+    if(tile.roomType ===4){
+      tile.monsters.push(generateMonster(tile))
+    }
   }else{
     let pathDiff = path[player.location].difficulty;
+    console.log(pathDiff, 'pathdiff');
     // while(existingDiff < tile.difficulty && tile.roomType !==4){
-    
+      // console.log(pathDiff,'pathdiff')
     // }
     let tileDiff = 0;
     while(tileDiff <= tile.difficulty && tileDiff <6){
-      tile.monsters.push(generateMonster(pathDiff))
+      tile.monsters.push(generateMonster(tile))
       tileDiff = (tile.getMonsterDiff());
     }
-    // console.log('deTile',tile);
+    console.log('deTile',tile);
     // writeToGameLog('generating new monster');
   }
   
@@ -239,7 +249,6 @@ function combatRender(atk = false){
   // attackButtonEl.style.display = '';
   monsterContainerEl.style.display = '';
   monsterHealthEl.style.display = '';
-
 
   if(!atk) monsterContainerEl.innerHTML = ''; 
   
