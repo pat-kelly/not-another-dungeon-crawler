@@ -102,7 +102,7 @@ for(let i=0; i< pathLength; i++){
     idx === lastDest ? idx === lastDest : lastDest=idx;
   }
 
-  if(i !== 9){
+  if(i !== pathLength-1){
     for(let j=1; j<=numExits; j++){
       curTile.exits.push(j);
       if(numExits === 1){
