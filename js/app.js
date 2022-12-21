@@ -140,6 +140,9 @@ function playerMove(direction){
         case 3:
           //bossRender();
           break;
+        case 2:
+          treasureRender();
+          break;
         default:
           combat ? combatRender() : render();
           break;
@@ -174,7 +177,6 @@ function handleDeadEnd(tile = new MapTile()){
     case 4:
       writeToGameLog('treasure?');
       createMonsterList(tile);
-      
       break;
     default:
       writeToGameLog(`You seem to have hit a dead end.`)
@@ -210,13 +212,13 @@ function createMonsterList(tile=new MapTile()){
 }
 
 function attack(evt){
+  if(!(evt.target.classList.contains('monster'))) return;
   
   if(!combat){
     if(player.location.roomType === 4 || player.location.roomType === 2){
       treasureRender(true, evt);
     }else return;
   }
-  if(!(evt.target.classList.contains('monster'))) return;
   if(evt.target.classList.contains('noClick')) return;
   //<img id="Goblin_0" class="monster" src="./assets/images/monsters/Goblin_hit.gif" style="height: 300px; width: 300px;">
   let idx = evt.target.id.slice(-1);
@@ -224,9 +226,10 @@ function attack(evt){
   const curTarget = player.location.monsters[idx];
   const targetEl = document.getElementById(`${curTarget.type}_${idx}`);
   targetEl.classList.add('noClick');
+  let noClickTime = curTarget.hitTime + curTarget.atkTime + 200;
   setTimeout(() => {
     targetEl.classList.remove('noClick');
-  }, 1200);
+  }, noClickTime);
   //adjust monster hp and animate either hit or death
   if(curTarget.hp > 0){
     curTarget.hp -= player.dmg;
@@ -264,24 +267,45 @@ function treasureRender(openChest, evt){
   monsterContainerEl.style.display = '';
   monsterHealthEl.style.display = '';
   monsterHealthEl.innerHTML = '';
+  monsterContainerEl.innerHTML = '';
 
-  if(openChest){
-    if(player.location.roomType === 4){
-      spawnMimic();
-    }else if(player.location.roomType === 2){
-      openTreasure();
-    }
-  }else{
-    const chestImg = document.createElement('img');
-    chestImg.id = 'Mimic_0';
-    chestImg.classList.add('monster');
-    chestImg.src = `./assets/images/tile_objects/Chest.png`;
-    chestImg.onload= ()=>{
-      chestImg.style.height= `${chestImg.naturalHeight}px`; 
-      chestImg.style.width= `${chestImg.naturalWidth}px`; 
-    }
-    monsterContainerEl.appendChild(chestImg);
+  const chestImg = document.createElement('img');
+  chestImg.id = 'Mimic_0';
+  chestImg.classList.add('monster');
+  chestImg.onload= ()=>{
+    chestImg.style.height= `${chestImg.naturalHeight}px`; 
+    chestImg.style.width= `${chestImg.naturalWidth}px`; 
   }
+  monsterContainerEl.appendChild(chestImg);
+
+  if(player.location.treasureClaimed){
+    chestImg.src = `./assets/images/tile_objects/Chest_empty.png`;
+    chestImg.classList.remove('monster');
+  }else{
+    if(openChest){
+      if(player.location.roomType === 4){
+        spawnMimic();
+      }else if(player.location.roomType === 2){
+        openTreasure();
+      }
+    }else{
+      chestImg.src = `./assets/images/tile_objects/Chest.png`;
+    }
+  }
+}
+
+function openTreasure(){
+  const chestImg = document.getElementById('Mimic_0');
+  chestImg.src = './assets/images/tile_objects/Chest_opening.gif';
+  setTimeout(() => {
+    chestImg.src = './assets/images/tile_objects/Chest_idle_gold.gif';
+    player.location.treasureClaimed = true;
+    rewardPlayer('chest');
+  }, 2000);
+}
+
+function rewardPlayer(type = ''){
+
 }
 
 function spawnMimic(){

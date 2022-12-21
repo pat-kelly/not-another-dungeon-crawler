@@ -2,7 +2,7 @@
 
 class Character{
 
-  constructor(hp, mp, location, invObj={}){
+  constructor(hp, mp, location, invObj={gold:0}){
 
     this.hp = hp;
     this.mp = mp;

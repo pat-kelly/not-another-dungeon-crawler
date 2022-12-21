@@ -10,6 +10,7 @@ class MapTile{
     this.flavorText = '';
     this.difficulty = 0;
     this.monsters = [];
+    this.treasureClaimed = false;
   }
 
   getMonsters(){
@@ -59,20 +60,20 @@ function createDeadEnd(inheritedDiff =0){
   let roomType = Math.floor((Math.random() * 100)+1);
   const curTile = new MapTile();
   
-  if(roomType < 60){ //!60
+  if(roomType < 0){ //!60
     curTile.roomType = 1;
     // curTile.difficulty = 100;
     curTile.difficulty = diff+inheritedDiff;
     diff++;
     return curTile;
   }
-  if(roomType < 75){ //!75
+  if(roomType < 100){ //!75
     curTile.roomType = 2;
     curTile.difficulty = diff+inheritedDiff;
     diff++;
     return curTile;    
   }
-  if(roomType < 95){ //!95
+  if(roomType < 0){ //!95
     return new MapTile(); 
   }
   if(pathLength/10 > numMimics){
