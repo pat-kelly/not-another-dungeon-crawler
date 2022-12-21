@@ -192,7 +192,7 @@ function createMonsterList(tile=new MapTile()){
       tile.monsters.push(generateMonster(tile))
       console.log('createMonsterList', tile);
     }
-  }else{
+  }else if(tile.monsters.length === 0){
     let pathDiff = path[player.location].difficulty;
     console.log(pathDiff, 'pathdiff');
     // while(existingDiff < tile.difficulty && tile.roomType !==4){
