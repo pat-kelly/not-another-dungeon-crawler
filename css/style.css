@@ -17,6 +17,24 @@
 
 html {
   box-sizing: border-box;
+  user-select: none;
+}
+
+#title-button{
+  position : absolute;
+  top : 440px;
+  left : 700px;
+  font-family: dalelands;
+  font-size : 32px;
+  padding : 10px;
+  border-radius : 10px;
+  background: transparent;
+  border: none;
+}
+
+#title-button:hover{
+  filter:drop-shadow(0 0 5px);
+  color:white;
 }
 
 /* The Universal Selector */
@@ -119,6 +137,9 @@ body{
   height: 1130px;
   position: absolute;
   background-image: url("../assets/images/title_screen.gif");
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #transition{
@@ -188,7 +209,10 @@ body{
 }
 
 #portrait{
+  border-radius: 5px;
   background-color: lightgray;
+  background-image: url("../assets/images/char_male.png");
+  background-size: cover;
   width: 200px;
   height: 200px;
 }
@@ -301,7 +325,7 @@ img{
   padding: 25px;
   overflow-y: scroll;
   scrollbar-color: black;
-  line-height: 2;
+  line-height: 1.25;
 
 }
 

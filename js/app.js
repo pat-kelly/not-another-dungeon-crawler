@@ -57,10 +57,12 @@ function init(){
   displayCover.style.zIndex = '101';
   // displayCover.style.display = 'none';
   const btn = document.createElement('button');
-  btn.textContent = 'HELLO';
+  btn.textContent = 'Enter the Dungeon';
   btn.addEventListener('click', hideSplash);
   displayCover.appendChild(btn);
-  
+  btn.id = 'title-button';
+
+    
 
   // //!REMOVE BEFORE LAUNCH #TODO
   // path.forEach(tile => {
@@ -75,7 +77,10 @@ function init(){
 
 function hideSplash(){
   displayCover.classList.add('animate__fadeOut');
-  displayCover.style.zIndex = -1;
+  setTimeout(() => {
+    displayCover.style.zIndex = -1;
+    displayCover.style.backgroundImage = '';
+  }, 2000);
 }
 
 function navCheck(evt){
