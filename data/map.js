@@ -1,5 +1,5 @@
 //!var diff controls overall game difficulty.
-var diff = 1, numMimics=0, pathLength =2;
+var diff = 1, numMimics=0, pathLength =10;
 const path = [];
 
 class MapTile{
