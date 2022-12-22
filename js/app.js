@@ -43,6 +43,10 @@ document.onload = init();
 function init(){
   generatePath();
   gameState = 'title';
+  audio.defaultLoop.currentTime = 0;
+  audio.titleSong.currentTime = 0;
+  audio.gameOverTrack.currentTime = 0;
+  toggleAudio();
   player = new Character(1, 100, 0);
   gameLog.textContent = '';
   won = false;
