@@ -9,8 +9,24 @@
 ## How to play
 
 ![Image of UI](assets/images/readMe/dungeon_layout.png)
-Main Display
-: This is the main render area of the game.
+#### **Main Display**
+This is the main render area of the game.
+
+#### **Character Panel**
+This is where your health, mana, and gold are displayed.[^1]
+
+#### **Monster Health Panel**
+This is where health bars and nameplates for the monsters are displayed.
+
+#### **Nav Panel**
+- Up Arrow : Moves you forward, through the door.
+- Left Arrow : Moves you through the left door.
+- Right Arrow : Moves you through the right door.
+- Back Arrow : Retreats to the last room you were in.
+
+#### **Game Log**
+Text about your adventure will be displayed here.
+
 
 ![Image of Combat Screen]()
 - this is where I describe combat
@@ -25,6 +41,8 @@ Main Display
 ### Planned Features
 - [x] Test feature
 - [ ] feature 2
+
+[^1]: Mana not currently implemented. 
 
 ### Attributions:
 - Arrow Buttons by [upklyak on Freepik](https://www.freepik.com/free-vector/set-progress-bars-game-buttons-menu-ui-gui-elements-cartoon-interface-stone-texture-user-setting-panel-slider-pause-arrows-power-life-scale-login-password-board-vector-icons_20731575.htm#query=rpg&position=28&from_view=search&track=sph?sign-up=google)
