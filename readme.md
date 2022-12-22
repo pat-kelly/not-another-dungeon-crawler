@@ -17,5 +17,5 @@
 - 'Breathe Fire II' font by [by Chequered Ink](https://www.fontspace.com/breathe-fire-ii-font-f31570)
 - Chest / Mimic sprites from [Will Tice](untiedgames.itch.io)
 - Monster sprites from [Luiz Melo](https://luizmelo.itch.io/monsters-creatures-fantasy)
-
+- Character portraits from [Fantasy Faces](https://www.fantasy-faces.com/)
 
