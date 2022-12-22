@@ -1,15 +1,18 @@
 let titleSong = new Audio('../assets/audio/tracks/title_theme_loop.wav');
   titleSong.volume = .1;
+  titleSong.loop = true;
 let gameOverTrack = new Audio('../assets/audio/tracks/gameOver.wav');
   gameOverTrack.volume = .1;
+  gameOverTrack.loop = true;
 let defaultLoop = new Audio('../assets/audio/tracks/defaultLoop.wav');
   defaultLoop.volume = .05;
-let fightIntro = new Audio('../assets/audio/tracks/fightIntro.wav');
-  fightIntro.volume = .05;
+  defaultLoop.loop = true;
 let fightLoop = new Audio('../assets/audio/tracks/fightLoop.wav');
   fightLoop.volume = .07;
+  fightLoop.loop = true;
 let bossLoop = new Audio('../assets/audio/tracks/bossLoop.wav');
   bossLoop.volume = .07;
+  bossLoop.loop = true;
 
 
 function play(fileName, volume){
@@ -44,10 +47,7 @@ function off(){
   bossLoop.pause();
   bossLoop.currentTime = 0;
   fightLoop.pause();
-  fightIntro.pause();
-  fightLoop.currentTime =0;
-  fightIntro.currentTime =0;
-  
+  fightLoop.currentTime =0;  
 }
 
-export{ play, off, titleSong, gameOverTrack, defaultLoop, fightIntro, fightLoop, bossLoop}
+export{ play, off, titleSong, gameOverTrack, defaultLoop, fightLoop, bossLoop}
