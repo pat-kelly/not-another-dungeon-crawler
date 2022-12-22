@@ -15,11 +15,10 @@ let bossLoop = new Audio('../assets/audio/tracks/bossLoop.wav');
 function play(fileName, volume){
   if(typeof fileName !== 'string' || typeof volume !== 'number') return;
 
-  let curAudio = new Audio(`../assets/audio/${fileName}.wav`)
+  let curAudio = new Audio(`../assets/audio/effects/${fileName}.wav`)
 
   curAudio.volume = volume;
   curAudio.play();
-
 }
 
 const track = [];

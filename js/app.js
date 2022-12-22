@@ -136,9 +136,9 @@ function hideSplash(){
 }
 
 function navCheck(evt){
-  if(evt.target.className !== 'nav-btn') return;
-  
+  if(evt.target.className !== 'nav-btn') return;  
   const dirClicked = evt.target.id.replace('nav-move-', '');
+  if(combat && dirClicked !== 'back') return;
   
   switch(dirClicked){
     case 'forward':
@@ -196,9 +196,9 @@ function playerMove(direction){
     return;
   }
 
+  if(!muted) audio.play('move', .5);
   transitionEl.style.backgroundColor = 'black';
   for(let el of document.getElementsByClassName('monster')){
-    // #TODO add walking sounds here
     el.style.zIndex = '99';
   }
 
