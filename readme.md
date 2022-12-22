@@ -9,7 +9,8 @@
 ## How to play
 
 ![Image of UI](assets/images/readMe/dungeon_layout.png)
-- this is where i describe the ui panel
+Main Display
+: This is the main render area of the game.
 
 ![Image of Combat Screen]()
 - this is where I describe combat
