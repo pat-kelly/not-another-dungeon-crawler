@@ -157,15 +157,15 @@ body{
 
 .game-over-div{
   color: black;
-  font-size: 48px;
-  font-family: breathe-fire;
+  font-size: 40px;
+  font-family: dalelands;
 }
 
 #game-over-container button{
   padding: 5px 15px;
   margin-top:50px;
   font-size: 32px;
-  font-family: breathe-fire;
+  font-family: dalelands;
 }
 
 #splash-screen{

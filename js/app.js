@@ -47,7 +47,7 @@ function init(){
   audio.titleSong.currentTime = 0;
   audio.gameOverTrack.currentTime = 0;
   toggleAudio();
-  player = new Character(1, 100, 0);
+  player = new Character(100, 100, 0);
   gameLog.textContent = '';
   won = false;
   combat = false;
@@ -92,9 +92,7 @@ function toggleAudio(evt){
   
   if(evt) muted ? muted = false : muted = true;
 
-  audio.titleSong.pause();
-  audio.defaultLoop.pause();
-  audio.gameOverTrack.pause();
+  audio.off();
 
   switch(gameState){
     case 'title':
@@ -103,11 +101,26 @@ function toggleAudio(evt){
     case 'gameLoop':
       muted ? audio.defaultLoop.pause() : audio.defaultLoop.play();
       break;
+    case 'combat':
+      handleCombatAudio();
+      break;
     case 'gameOver':
       muted ? audio.gameOverTrack.pause() : audio.gameOverTrack.play();
       break;
   }
   
+}
+
+function handleCombatAudio(){
+  if(combat){
+    if(typeof player.location === 'object'){
+      if(player.location.monsters[0].type === 'Demon'){
+        audio.bossLoop.play();
+      }
+    }else{
+      audio.fightLoop.play()
+    }
+  }
 }
 
 function hideSplash(){
@@ -159,6 +172,8 @@ function playerMove(direction){
     //player is going back
     if(player.locationHistory.length){
       if(combat) combat = false;
+      gameState = 'gameLoop';
+      toggleAudio();
       player.location = player.locationHistory.pop();
       writeToGameLog(path[player.location].getDescription());
     }
@@ -183,7 +198,7 @@ function playerMove(direction){
 
   transitionEl.style.backgroundColor = 'black';
   for(let el of document.getElementsByClassName('monster')){
-    // console.log(el);
+    // #TODO add walking sounds here
     el.style.zIndex = '99';
   }
 
@@ -224,14 +239,18 @@ function handleDeadEnd(tile = new MapTile()){
       tile.getMonsters();
       // writeToGameLog(`You walk into the room, and find`);
       combat = true;
+      gameState = 'combat';
+      toggleAudio();
       break;
     case 2:
       writeToGameLog('You see a treasure chest before you.');
       break;
     case 3:
-      writeToGameLog('put the boss encounter msg here #TODO');
+      writeToGameLog('You great doors swing open, and you see before you.... a Slime.');
       createMonsterList(tile);
       combat = true;
+      gameState = 'combat';
+      toggleAudio();
       break;
     case 4:
       writeToGameLog('You see a treasure chest before you.');
@@ -428,6 +447,8 @@ function spawnMimic(){
   setTimeout(() => {
     chest.classList.remove('noClick');
     combat = true;
+    gameState = 'combat';
+    toggleAudio();
     chest.src = './assets/images/monsters/Mimic/Mimic_idle.gif';
   }, 2900);
   // console.log(player.location.monsters)

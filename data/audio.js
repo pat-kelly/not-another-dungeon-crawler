@@ -4,6 +4,13 @@ let gameOverTrack = new Audio('../assets/audio/tracks/gameOver.wav');
   gameOverTrack.volume = .1;
 let defaultLoop = new Audio('../assets/audio/tracks/defaultLoop.wav');
   defaultLoop.volume = .05;
+let fightIntro = new Audio('../assets/audio/tracks/fightIntro.wav');
+  fightIntro.volume = .05;
+let fightLoop = new Audio('../assets/audio/tracks/fightLoop.wav');
+  fightLoop.volume = .07;
+let bossLoop = new Audio('../assets/audio/tracks/bossLoop.wav');
+  bossLoop.volume = .07;
+
 
 function play(fileName, volume){
   if(typeof fileName !== 'string' || typeof volume !== 'number') return;
@@ -31,14 +38,17 @@ function toggleTrack(fileName, volume){
   curAudio.play();
 }
 
-function switchTrack(fileName, volume){
-  console.log(track);
-  let prevAudio = track.pop();
-  prevAudio.pause;
+function off(){
+  titleSong.pause();
+  defaultLoop.pause();
+  gameOverTrack.pause();
+  bossLoop.pause();
+  bossLoop.currentTime = 0;
+  fightLoop.pause();
+  fightIntro.pause();
+  fightLoop.currentTime =0;
+  fightIntro.currentTime =0;
   
-  // let newAudio = new Audio(`../assets/audio/tracks/${fileName}.wav`);
-  // newAudio.volume =volume;
-  // newAudio.play();
 }
 
-export{ titleSong,gameOverTrack,defaultLoop,play }
+export{ play, off, titleSong, gameOverTrack, defaultLoop, fightIntro, fightLoop, bossLoop}
