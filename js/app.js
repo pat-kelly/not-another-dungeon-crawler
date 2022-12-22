@@ -403,6 +403,7 @@ function bossRender(transform = false, targetEl, curTarget){
     targetEl.src = `./assets/images/monsters/${curTarget.type.replace(' ','_')}/${curTarget.type.replace(' ','_')}_hit.gif`;
     player.location.monsters.pop();
     player.location.monsters.push(new Monster('Demon'));
+    toggleAudio();
   }
   
   combatRender();
