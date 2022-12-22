@@ -14,6 +14,12 @@
 ![Image of Combat Screen]()
 - this is where I describe combat
 
+### Technologies Used
+- list here
+
+### Planned Features
+- list here
+
 ### Attributions:
 - Arrow Buttons by [upklyak on Freepik](https://www.freepik.com/free-vector/set-progress-bars-game-buttons-menu-ui-gui-elements-cartoon-interface-stone-texture-user-setting-panel-slider-pause-arrows-power-life-scale-login-password-board-vector-icons_20731575.htm#query=rpg&position=28&from_view=search&track=sph?sign-up=google)
 - Textures from [Forgotten Adventures](https://www.forgotten-adventures.net/)
