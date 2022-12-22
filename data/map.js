@@ -1,5 +1,5 @@
 //!var diff controls overall game difficulty.
-var diff = 1, numMimics=0, pathLength =10;
+var diff = 1, numMimics=0, pathLength =2;
 const path = [];
 
 import {Monster, monsterList} from "./monsters.js";
@@ -119,6 +119,7 @@ for(let i=0; i< pathLength; i++){
   }else{
     const bossRoom = new MapTile();
     bossRoom.roomType = 3;
+    bossRoom.difficulty = 100;
     curTile.exits.push(1, 2)
     curTile.roomType = 3;
     curTile.dest.push(undefined,bossRoom);

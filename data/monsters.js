@@ -44,11 +44,22 @@ function generateMonster(tile = new MapTile){
   console.log(eliteChance);
   if(eliteChance > 50 && eliteChance < 52) elite = true;
   console.log(elite); */
-
-  console.log('roomtype',tile.roomType);
-
+// switch(tile.rommtype){
+//   case 4:
+//     return new Monster('Mimic');
+//     break;
+//   case 3:
+//     return new Monster('Demon Slime');
+//     break;
+//   default:
+//     return new Monster( curMonsterList[Math.floor((Math.random() * curMonsterList.length))].name, false);
+//     break;
+// }
   if(tile.roomType === 4){
     return new Monster('Mimic', false);
+  }else if(tile.roomType === 3){
+    console.log('correctRmType', tile)
+    return new Monster('Demon Slime', false);
   }else{
     return new Monster( curMonsterList[Math.floor((Math.random() * curMonsterList.length))].name, false);
   }
@@ -60,7 +71,8 @@ const monsterList = [
   {hp: 7, dph: 2, name: 'Mushroom', diff: 1, atkTime: 800, hitTime: 300, dieTime: 800},
   {hp: 10, dph: 3, name: 'Skeleton', diff: 2, atkTime: 800, hitTime: 300, dieTime: 800},
   {hp: 25, dph: 10, name: 'Mimic', diff: 25, atkTime: 1300, hitTime: 800, dieTime: 1200},
-  {hp: 500, dph: 50, name: 'Demon Slime', diff:99, atkTime:0, hitTime: 0, dieTime:0}/*,
+  {hp: 3, dph: 0, name: 'Demon Slime', diff:99, atkTime:800, hitTime: 600, dieTime:0},
+  {hp: 500, dph: 50, name: 'Demon', diff:99, atkTime:0, hitTime: 0, dieTime:0}/*,
   {hp: 5, dph: 3, name: 'Zombie', diff: 2},
   {hp: 13, dph: 4, name: 'HobGoblin', diff:2},
   {hp: 10, dph: 3, name: 'Skeleton', diff: 2} */

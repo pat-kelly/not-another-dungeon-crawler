@@ -5,7 +5,7 @@ import { Character } from "../data/char.js";
 
 /*------------ Constants ------------*/
 const player = new Character(100, 100, 0);
-let gameOver, combat, won;
+let gameOver, combat, won, numSlimesKilled;
 
 /*---- Cached Element References ----*/
 const displayWindowEl = document.getElementById('display-area');
@@ -54,6 +54,7 @@ function init(){
   hpEl.style.width = '0';
   manaEl.style.width = '0';
   displayCover.style.display = 'none';
+  monsterContainerEl.style.marginTop = '250px';
 /*   displayCover.style.backgroundColor = 'rgb(0,0,0)';
   displayCover.style.zIndex = '101';
   // displayCover.style.display = 'none';
@@ -136,7 +137,7 @@ function playerMove(direction){
     //player chose correct direction.
     player.locationHistory.push(player.location);
     player.location = dest;
-    path[player.location].roomType === 3 ? writeToGameLog(`You see before you a set of grand doors. You hear distant laughter..`) 
+    path[player.location].roomType === 3 ? writeToGameLog(`You see before you a set of large doors. There is laughter echoing through the halls..`) 
       : writeToGameLog(path[player.location].getDescription());
   }else{
     writeToGameLog("You can't go that direction!")
@@ -148,6 +149,7 @@ function playerMove(direction){
     // console.log(el);
     el.style.zIndex = '99';
   }
+
   setTimeout(() => {
     transitionEl.style.backgroundColor = '';
     for(let el of document.getElementsByClassName('monster')){el.style.zIndex = '101'}
@@ -191,10 +193,12 @@ function handleDeadEnd(tile = new MapTile()){
       break;
     case 3:
       writeToGameLog('put the boss encounter msg here #TODO');
+      createMonsterList(tile);
+      combat = true;
       break;
     case 4:
       writeToGameLog('You see a treasure chest before you.');
-      createMonsterList(tile);exits
+      createMonsterList(tile);//exits
       break;
     default:
       writeToGameLog(`You seem to have hit a dead end.`)
@@ -210,6 +214,9 @@ function createMonsterList(tile=new MapTile()){
     //4 = mimic room, 3 = boss room. Both are outside the scope of path difficulty
     if(tile.roomType === 4 && !tile.monsters.length){
       tile.monsters.push(generateMonster(tile))
+      console.log('createMonsterList', tile);
+    }else if(tile.roomType === 3 && !tile.monsters.length){
+      tile.monsters.push(generateMonster(tile));
       console.log('createMonsterList', tile);
     }
   }else if(tile.monsters.length === 0){
@@ -249,31 +256,37 @@ function attack(evt){
   setTimeout(() => {
     targetEl.classList.remove('noClick');
   }, noClickTime);
+  const targetPath = curTarget.type.replace(' ','_');
   //adjust monster hp and animate either hit or death
   if(curTarget.hp > 0){
     curTarget.hp -= player.dmg;
     writeToGameLog(`You hit the ${curTarget.type} for ${player.dmg} damage!`);
     if(curTarget.hp){
-      targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_hit.gif`
+      targetEl.src = `./assets/images/monsters/${targetPath}/${targetPath}_hit.gif`
       setTimeout(function(){
-        targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_attack.gif`
+        targetEl.src = `./assets/images/monsters/${targetPath}/${targetPath}_attack.gif`
         setTimeout(function(){
           player.hp -= curTarget.dph;
           writeToGameLog(`The ${curTarget.type} hits you for ${curTarget.dph} damage!`);
           combatRender(true);
-          targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_idle.gif`
+          targetEl.src = `./assets/images/monsters/${targetPath}/${targetPath}_idle.gif`
         },curTarget.atkTime)//* atk timeout
       },curTarget.hitTime) //*hit timeout
     }else{
-    writeToGameLog(`The ${curTarget.type} has died, and dropped ${rewardPlayer('monster',curTarget)} gold!`);
-    targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_hit.gif`
-    setTimeout(()=>{
-      targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_death.gif`
+      if(curTarget.type === 'Demon Slime'){
+        bossRender(true, targetEl, curTarget);
+        return;
+      }
+      if(curTarget.type === 'Slime') numSlimesKilled++;
+      writeToGameLog(`The ${curTarget.type} has died, and dropped ${rewardPlayer('monster',curTarget)} gold!`);
+      targetEl.src = `./assets/images/monsters/${targetPath}/${targetPath}_hit.gif`;
       setTimeout(()=>{
-        targetEl.src = `./assets/images/monsters/${curTarget.type}/${curTarget.type}_corpse.png`
-      },curTarget.dieTime)//*death timeout
-    }, curTarget.hitTime)//*hit timeout
-  }
+        targetEl.src = `./assets/images/monsters/${targetPath}/${targetPath}_death.gif`;
+        setTimeout(()=>{
+          targetEl.src = `./assets/images/monsters/${targetPath}/${targetPath}_corpse.png`;
+        },curTarget.dieTime)//*death timeout
+      }, curTarget.hitTime)//*hit timeout
+    }
   }else{
     writeToGameLog(`Why are you stabbing the dead ${curTarget.type}?`)
   }
@@ -313,6 +326,24 @@ function treasureRender(openChest, evt){
       chestImg.src = `./assets/images/tile_objects/Chest.png`;
     }
   }
+}
+
+function bossRender(transform = false, targetEl, curTarget){
+  console.log('bossRender');
+  hideDoorsUpdateHP();
+  displayWindowEl.style.backgroundImage = 'url("../assets/images/battle_room.png")'
+  monsterContainerEl.style.display = '';
+  monsterHealthEl.style.display = '';
+  monsterContainerEl.style.marginTop = '-200px';
+  if(transform){
+    console.log('curTarget', curTarget)
+    targetEl.src = `./assets/images/monsters/${curTarget.type.replace(' ','_')}/${curTarget.type.replace(' ','_')}_hit.gif`;
+    player.location.monsters.pop();
+    player.location.monsters.push(new Monster('Demon'));
+  }
+  
+  combatRender();
+  // combat ? combatRender() : render();
 }
 
 function openTreasure(){
@@ -367,14 +398,23 @@ function combatRender(atk = false){
   monsterHealthEl.innerHTML = '';
   
   player.location.monsters.forEach((monster, idx) => {
-    console.log(monster, idx);
+    console.log('generating monster elements',monster, idx);
     
     //Things that only need to render the first time.
     if(!atk){
       const monImg = document.createElement('img'); 
       monImg.id = `${monster.type}_${idx}`; 
       monImg.classList.add('monster'); 
-      monImg.src = `./assets/images/monsters/${monster.type}/${monster.type}_idle.gif` 
+      if(monster.type === 'Demon'){
+        monImg.src = `./assets/images/monsters/Demon/Demon_spawn.gif`;
+        monImg.classList.add('noClick');
+        setTimeout(() => {
+          monImg.classList.remove('noClick');
+          monImg.src = `./assets/images/monsters/Demon/Demon_idle.gif`;
+        }, 3200);
+      }else{
+        monImg.src = `./assets/images/monsters/${monster.type.replace(' ', '_')}/${monster.type.replace(' ', '_')}_idle.gif` 
+      }
       monImg.onload= ()=>{
         monImg.style.height= `${monImg.naturalHeight}px`; 
         monImg.style.width= `${monImg.naturalWidth}px`; 
@@ -386,6 +426,12 @@ function combatRender(atk = false){
         monsterEl.src = `./assets/images/monsters/${monster.type}/${monster.type}_corpse.png`
       }
     }
+
+    if(monster.type === 'Demon' && !atk){
+      //means we're spawning the Demon
+
+    }
+
     //Things that will render all the time
     const monHp = document.createElement('div');
     const monLabel = document.createElement('p');
@@ -404,6 +450,7 @@ function render(){
   monsterContainerEl.style.display = 'none';
   // attackButtonEl.style.display = 'none';
   monsterHealthEl.style.display = 'none';
+  backDoor.style.backgroundImage = 'url("../assets/images/tile_objects/backDoor.png")'
   
   if(typeof player.location === 'number' && !combat){
     if(path[player.location].roomType !==3){
