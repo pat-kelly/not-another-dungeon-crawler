@@ -5,7 +5,7 @@ import { Character } from "../data/char.js";
 import * as audio from "../data/audio.js";
 
 /*------------ Constants ------------*/
-let combat, won, numSlimesKilled, player, muted=true;
+let combat, won, numSlimesKilled, player, muted=true, gameState;
 
 /*---- Cached Element References ----*/
 const displayWindowEl = document.getElementById('display-area');
@@ -42,7 +42,8 @@ document.onload = init();
 /*------------ Game Setup ------------*/
 function init(){
   generatePath();
-  player = new Character(100, 100, 0);
+  gameState = 'title';
+  player = new Character(1, 100, 0);
   gameLog.textContent = '';
   won = false;
   combat = false;
@@ -83,17 +84,37 @@ function init(){
 }
 /*------------ Functions ------------*/
 
-function toggleAudio(){
-  muted ? muted = false : muted = true;
-  audio.toggleTrack('title_theme_loop', .25);
+function toggleAudio(evt){
+  
+  if(evt) muted ? muted = false : muted = true;
+
+  audio.titleSong.pause();
+  audio.defaultLoop.pause();
+  audio.gameOverTrack.pause();
+
+  switch(gameState){
+    case 'title':
+      muted ? audio.titleSong.pause() : audio.titleSong.play();
+      break;
+    case 'gameLoop':
+      muted ? audio.defaultLoop.pause() : audio.defaultLoop.play();
+      break;
+    case 'gameOver':
+      muted ? audio.gameOverTrack.pause() : audio.gameOverTrack.play();
+      break;
+  }
+  
 }
 
 function hideSplash(){
   displayCover.classList.add('animate__fadeOut');
   setTimeout(() => {
     displayCover.style.zIndex = -1;
-    // displayCover.style.backgroundImage = '';
+    displayCover.innerHTML = '';
+    gameState = 'gameLoop';
+    toggleAudio();
     displayCover.classList.remove('animate__fadeOut');
+    // if(!muted) audio.switchTrack('defaultLoop', .02);
   }, 1500);
 }
 
@@ -294,6 +315,8 @@ function attack(evt){
       if(curTarget.type === 'Demon'){
         writeToGameLog(`As a reward for completing the dungeon, you are awarded an extra ${rewardPlayer('flat',undefined,50)} gold!`);
         won = true;
+        gameState = 'gameOver';
+        toggleAudio();
         gameOverRender();
       }
       targetEl.src = `./assets/images/monsters/${targetPath}/${targetPath}_hit.gif`;
@@ -496,6 +519,8 @@ function hideDoorsUpdateHP(){
   backDoor.style.display = 'none';
   if(player.hp < 1){
     writeToGameLog(`You have died! so sad.`)
+    gameState = 'gameOver';
+    toggleAudio();
     gameOverRender();
     return;
   }else{
