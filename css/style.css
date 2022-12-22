@@ -20,6 +20,21 @@ html {
   user-select: none;
 }
 
+#audio-toggle{
+  z-index: 110;
+  position:absolute;
+  font-size: 50px;
+  left:10px;
+  top:10px;
+}
+
+#audio-toggle:hover{
+  filter: brightness(1.2);
+}
+#audio-toggle:active{
+  filter: brightness(.8);
+}
+
 #title-button{
   position : absolute;
   top : 440px;

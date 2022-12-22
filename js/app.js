@@ -2,15 +2,17 @@
 import { Monster,generateMonster } from "../data/monsters.js";
 import { path, MapTile, generatePath } from "../data/map.js"
 import { Character } from "../data/char.js";
+import * as audio from "../data/audio.js";
 
 /*------------ Constants ------------*/
-let combat, won, numSlimesKilled, player;
+let combat, won, numSlimesKilled, player, muted=true;
 
 /*---- Cached Element References ----*/
 const displayWindowEl = document.getElementById('display-area');
 const transitionEl = document.getElementById('transition');
 const monsterContainerEl = document.getElementById('monster-container');
 const displayCover = document.getElementById('splash-screen');
+const audioToggleEl = document.getElementById('audio-toggle');
 
 const hpEl = document.getElementById('char-hp');
 const manaEl = document.getElementById('char-mana');
@@ -33,7 +35,7 @@ const rTorch = document.getElementById('torch-right');
 /*--------- Event Listeners ---------*/
 navBox.addEventListener('click', navCheck);
 displayWindowEl.addEventListener('click', attack);
-
+audioToggleEl.addEventListener('click', toggleAudio);
 
 document.onload = init();
 
@@ -80,6 +82,10 @@ function init(){
   render();
 }
 /*------------ Functions ------------*/
+
+function toggleAudio(){
+  muted ? muted = false : muted = true;
+}
 
 function hideSplash(){
   displayCover.classList.add('animate__fadeOut');
