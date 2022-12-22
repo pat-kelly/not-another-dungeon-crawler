@@ -85,6 +85,7 @@ function init(){
 
 function toggleAudio(){
   muted ? muted = false : muted = true;
+  audio.toggleTrack('title_theme_loop', .25);
 }
 
 function hideSplash(){
