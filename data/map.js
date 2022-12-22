@@ -2,6 +2,8 @@
 var diff = 1, numMimics=0, pathLength =10;
 const path = [];
 
+import {Monster, monsterList} from "./monsters.js";
+
 class MapTile{
   constructor(roomType=0, exits=[], dest=[]){
     this.exits = exits;
@@ -31,10 +33,9 @@ class MapTile{
   getDescription(){
     let retStr = `You have entered a room with `;
     retStr += (this.exits.length === 1 ? `1 door. ` : `${this.exits.length} doors. `)
-
+//check for boss
     retStr += `You may go `
-
-    switch(this.exits.length){
+    switch(this.exits.length){  //*#TODO - when I change where the doors can be, i'll need to adjust this as well.
       case 1: retStr += `left. `; break;
       case 2: retStr += `left, or straight. `; break;
       case 3: retStr += `left, straight, or right. `; break;
@@ -115,7 +116,13 @@ for(let i=0; i< pathLength; i++){
         } 
       }
     }
-  }else curTile.roomType = 3;
+  }else{
+    const bossRoom = new MapTile();
+    bossRoom.roomType = 3;
+    curTile.exits.push(1, 2)
+    curTile.roomType = 3;
+    curTile.dest.push(undefined,bossRoom);
+  } 
 
   path.push(curTile);
 

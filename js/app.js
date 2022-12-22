@@ -48,27 +48,28 @@ function init(){
   leftDoor.style.display = 'none';
   rightDoor.style.display = 'none';
   backDoor.style.display = 'none';
+  backDoor.style.backgroundImage = 'url("../assets/images/tile_objects/backDoor.png")'
   lTorch.style.display = 'none';
   rTorch.style.display = 'none';
   hpEl.style.width = '0';
   manaEl.style.width = '0';
-  
-  displayCover.style.backgroundColor = 'rgb(0,0,0)';
+  displayCover.style.display = 'none';
+/*   displayCover.style.backgroundColor = 'rgb(0,0,0)';
   displayCover.style.zIndex = '101';
   // displayCover.style.display = 'none';
   const btn = document.createElement('button');
   btn.textContent = 'Enter the Dungeon';
   btn.addEventListener('click', hideSplash);
   displayCover.appendChild(btn);
-  btn.id = 'title-button';
+  btn.id = 'title-button'; */
 
     
 
-  // //!REMOVE BEFORE LAUNCH #TODO
-  // path.forEach(tile => {
-  //   // writeToGameLog(JSON.stringify(tile));
-  //   console.log(tile);
-  // });
+  //!REMOVE BEFORE LAUNCH #TODO
+  path.forEach(tile => {
+    // writeToGameLog(JSON.stringify(tile));
+    console.log(tile);
+  });
 
 
   render();
@@ -113,6 +114,7 @@ function playerMove(direction){
   if(typeof player.location === 'number'){
     dest = path[player.location].getDest(direction);
     console.log(dest,'dest');
+    console.log(path[player.location],'curPath')
   }
 
   if(direction === 0){
@@ -134,7 +136,8 @@ function playerMove(direction){
     //player chose correct direction.
     player.locationHistory.push(player.location);
     player.location = dest;
-    writeToGameLog(path[player.location].getDescription());
+    path[player.location].roomType === 3 ? writeToGameLog(`You see before you a set of grand doors. You hear distant laughter..`) 
+      : writeToGameLog(path[player.location].getDescription());
   }else{
     writeToGameLog("You can't go that direction!")
     return;
@@ -158,7 +161,8 @@ function playerMove(direction){
           treasureRender();
           break;
         case 3:
-          //bossRender();
+          console.log('boss?')
+          bossRender();
           break;
         case 2:
           treasureRender();
@@ -174,13 +178,7 @@ function playerMove(direction){
 
 function handleDeadEnd(tile = new MapTile()){
   //0 is path, 1 is monster room, 2 is treasure, 3 is boss, 4 is mimic.
-  // console.log('curTile', path[player.location])
-  // console.log('deads', deadEnds)
-  // console.log('curDead', tile);
-  // console.log(tile.roomType)
-
-  // let percent = Math.floor((Math.random() * 100)+1);
-
+  
   switch(tile.roomType){
     case 1:
       createMonsterList(tile);
@@ -196,7 +194,7 @@ function handleDeadEnd(tile = new MapTile()){
       break;
     case 4:
       writeToGameLog('You see a treasure chest before you.');
-      createMonsterList(tile);
+      createMonsterList(tile);exits
       break;
     default:
       writeToGameLog(`You seem to have hit a dead end.`)
@@ -408,21 +406,24 @@ function render(){
   monsterHealthEl.style.display = 'none';
   
   if(typeof player.location === 'number' && !combat){
-    path[player.location].exits.forEach(exit => {
-      // writeToGameLog(exit);
-      switch(exit){
-        case 1:
-          // console.log('case1')
-          leftDoor.style.display = '';
-          break;
-        case 2:
-          backDoor.style.display = '';
-          break;
-        case 3:
-          rightDoor.style.display = '';
-          break;
-      }
-    });
+    if(path[player.location].roomType !==3){
+      path[player.location].exits.forEach(exit => {
+        switch(exit){
+          case 1:
+            leftDoor.style.display = '';
+            break;
+          case 2:
+            backDoor.style.display = '';
+            break;
+          case 3:
+            rightDoor.style.display = '';
+            break;
+        }//*END switch
+      });//*END forEach
+    }else{
+      backDoor.style.display = '';
+      backDoor.style.backgroundImage = 'url("../assets/images/tile_objects/boss_door.png")';
+    }
   }
 }
 

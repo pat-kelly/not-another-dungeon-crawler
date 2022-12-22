@@ -35,6 +35,7 @@ html {
 #title-button:hover{
   filter:drop-shadow(0 0 5px);
   color:white;
+  cursor: pointer;
 }
 
 /* The Universal Selector */
@@ -175,7 +176,7 @@ body{
 }
 
 #back-door{
-  background-image: url("../assets/images/tile_objects/backDoor.png");
+  
   background-size: cover;
   /* z-index: 10; */
   position:absolute;
