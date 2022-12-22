@@ -40,7 +40,7 @@ document.onload = init();
 /*------------ Game Setup ------------*/
 function init(){
   generatePath();
-  player = new Character(1, 100, 0);
+  player = new Character(100, 100, 0);
   gameLog.textContent = '';
   won = false;
   combat = false;
