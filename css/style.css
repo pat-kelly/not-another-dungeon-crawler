@@ -34,7 +34,7 @@ html {
 
 #title-button:hover{
   filter:drop-shadow(0 0 5px);
-  color:white;
+  color: white;
   cursor: pointer;
 }
 
@@ -130,15 +130,36 @@ body{
   height: 100%;
 }
 
+#game-over-container{
+  display:flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  background-color: rgba(220, 220, 220, .8);
+  padding: 20px 40px;
+  border-radius: 20px;
+}
 
+.game-over-div{
+  color: black;
+  font-size: 48px;
+  font-family: breathe-fire;
+}
+
+#game-over-container button{
+  padding: 5px 15px;
+  margin-top:50px;
+  font-size: 32px;
+  font-family: breathe-fire;
+}
 
 #splash-screen{
   /* display:none; */
   width: 1600px;
   height: 1130px;
   position: absolute;
-  background-image: url("../assets/images/title_screen.gif");
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }

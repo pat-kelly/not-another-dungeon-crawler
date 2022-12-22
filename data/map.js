@@ -1,8 +1,6 @@
 //!var diff controls overall game difficulty.
-var diff = 1, numMimics=0, pathLength =2;
+var diff = 1, numMimics=0, pathLength =10;
 const path = [];
-
-import {Monster, monsterList} from "./monsters.js";
 
 class MapTile{
   constructor(roomType=0, exits=[], dest=[]){
@@ -86,48 +84,56 @@ function createDeadEnd(inheritedDiff =0){
 
 //* levelUp - make it so 1 and 2 door rooms are random. #TODO
 
-let lastDest = 0;
+function generatePath(){
 
-for(let i=0; i< pathLength; i++){
-  let numExits = Math.floor((Math.random() * 3)+1);
-
-  const curTile = new MapTile();
-  curTile.difficulty = i+1;
-  
-  let idx = Math.floor((Math.random() * (numExits))+1);
-  
-  //This stops the game from taking the same exit twice.
-  //UNLESS the room being generated only has 1 exit. see above todo.
-  while(idx === lastDest){
-    idx = Math.floor((Math.random() * (numExits))+1);
-    idx === lastDest ? idx === lastDest : lastDest=idx;
+  while(path.length){
+    path.pop();
   }
 
-  if(i !== pathLength-1){
-    for(let j=1; j<=numExits; j++){
-      curTile.exits.push(j);
-      if(numExits === 1){
-        curTile.dest.push(i+1)
-      }else{
-        if(j === idx){
-          curTile.dest.push(i+1);
-        }else{
-          curTile.dest.push(createDeadEnd(i));
-        } 
-      }
+  let lastDest = 0;
+  for(let i=0; i< pathLength; i++){
+    let numExits = Math.floor((Math.random() * 3)+1);
+  
+    const curTile = new MapTile();
+    curTile.difficulty = i+1;
+    
+    let idx = Math.floor((Math.random() * (numExits))+1);
+    
+    //This stops the game from taking the same exit twice.
+    //UNLESS the room being generated only has 1 exit. see above todo.
+    while(idx === lastDest){
+      idx = Math.floor((Math.random() * (numExits))+1);
+      idx === lastDest ? idx === lastDest : lastDest=idx;
     }
-  }else{
-    const bossRoom = new MapTile();
-    bossRoom.roomType = 3;
-    bossRoom.difficulty = 100;
-    curTile.exits.push(1, 2)
-    curTile.roomType = 3;
-    curTile.dest.push(undefined,bossRoom);
-  } 
-
-  path.push(curTile);
-
+  
+    if(i !== pathLength-1){
+      for(let j=1; j<=numExits; j++){
+        curTile.exits.push(j);
+        if(numExits === 1){
+          curTile.dest.push(i+1)
+        }else{
+          if(j === idx){
+            curTile.dest.push(i+1);
+          }else{
+            curTile.dest.push(createDeadEnd(i));
+          } 
+        }
+      }
+    }else{
+      const bossRoom = new MapTile();
+      bossRoom.roomType = 3;
+      bossRoom.difficulty = 100;
+      curTile.exits.push(1, 2)
+      curTile.roomType = 3;
+      curTile.dest.push(undefined,bossRoom);
+    } 
+  
+    path.push(curTile);
+  
+  }
 }
 
-export{MapTile, path}
+
+
+export{MapTile, path, generatePath}
 

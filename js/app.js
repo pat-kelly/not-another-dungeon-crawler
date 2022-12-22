@@ -1,11 +1,10 @@
 /*------------ Imports ------------*/
 import { Monster,generateMonster } from "../data/monsters.js";
-import { path, MapTile } from "../data/map.js"
+import { path, MapTile, generatePath } from "../data/map.js"
 import { Character } from "../data/char.js";
 
 /*------------ Constants ------------*/
-const player = new Character(100, 100, 0);
-let gameOver, combat, won, numSlimesKilled;
+let combat, won, numSlimesKilled, player;
 
 /*---- Cached Element References ----*/
 const displayWindowEl = document.getElementById('display-area');
@@ -40,7 +39,9 @@ document.onload = init();
 
 /*------------ Game Setup ------------*/
 function init(){
-  gameOver = false;
+  generatePath();
+  player = new Character(1, 100, 0);
+  gameLog.textContent = '';
   won = false;
   combat = false;
   // transitionEl.style.display = 'none';
@@ -53,18 +54,21 @@ function init(){
   rTorch.style.display = 'none';
   hpEl.style.width = '0';
   manaEl.style.width = '0';
-  displayCover.style.display = 'none';
+  // displayCover.style.display = 'none';
   monsterContainerEl.style.marginTop = '250px';
-/*   displayCover.style.backgroundColor = 'rgb(0,0,0)';
+  displayCover.innerHTML = '';
+  displayCover.style.backgroundColor = 'rgb(0,0,0)';
   displayCover.style.zIndex = '101';
   // displayCover.style.display = 'none';
+  // background-image: url("../assets/images/title_screen.gif");
+  displayCover.style.backgroundImage = 'url("./assets/images/title_screen.gif")';
   const btn = document.createElement('button');
   btn.textContent = 'Enter the Dungeon';
   btn.addEventListener('click', hideSplash);
   displayCover.appendChild(btn);
-  btn.id = 'title-button'; */
+  btn.id = 'title-button';
 
-    
+  // gameOverRender();
 
   //!REMOVE BEFORE LAUNCH #TODO
   path.forEach(tile => {
@@ -81,8 +85,9 @@ function hideSplash(){
   displayCover.classList.add('animate__fadeOut');
   setTimeout(() => {
     displayCover.style.zIndex = -1;
-    displayCover.style.backgroundImage = '';
-  }, 2000);
+    // displayCover.style.backgroundImage = '';
+    displayCover.classList.remove('animate__fadeOut');
+  }, 1500);
 }
 
 function navCheck(evt){
@@ -279,6 +284,11 @@ function attack(evt){
       }
       if(curTarget.type === 'Slime') numSlimesKilled++;
       writeToGameLog(`The ${curTarget.type} has died, and dropped ${rewardPlayer('monster',curTarget)} gold!`);
+      if(curTarget.type === 'Demon'){
+        writeToGameLog(`As a reward for completing the dungeon, you are awarded an extra ${rewardPlayer('flat',undefined,50)} gold!`);
+        won = true;
+        gameOverRender();
+      }
       targetEl.src = `./assets/images/monsters/${targetPath}/${targetPath}_hit.gif`;
       setTimeout(()=>{
         targetEl.src = `./assets/images/monsters/${targetPath}/${targetPath}_death.gif`;
@@ -356,7 +366,7 @@ function openTreasure(){
   }, 2000);
 }
 
-function rewardPlayer(type = '',mon){
+function rewardPlayer(type = '',mon, amt=0){
   let diff, amount;
   typeof player.location === 'number' ? diff=player.location : diff=player.location.difficulty;
   switch(type){
@@ -365,9 +375,13 @@ function rewardPlayer(type = '',mon){
       player.inventory.gold += amount;
       break;
     case 'monster':
-      typeof mon === 'Monster' ? amount = Math.floor((Math.random() * mon.diff)+1)
+      typeof mon === 'object' ? amount = Math.floor((Math.random() * mon.diff)+1)
           : amount = Math.floor((Math.random())+1)
       player.inventory.gold += amount;
+      break;
+    case 'flat':
+      amount = amt;
+      player.inventory.gold += amt;
       break;
   }
   return amount;
@@ -427,11 +441,6 @@ function combatRender(atk = false){
       }
     }
 
-    if(monster.type === 'Demon' && !atk){
-      //means we're spawning the Demon
-
-    }
-
     //Things that will render all the time
     const monHp = document.createElement('div');
     const monLabel = document.createElement('p');
@@ -481,7 +490,7 @@ function hideDoorsUpdateHP(){
   if(player.hp < 1){
     writeToGameLog(`You have died! so sad.`)
     gameOverRender();
-    hpEl.textContent = '0';
+    return;
   }else{
     hpEl.textContent = player.hp;
     hpEl.style.width = `${player.hp * 2}px`;
@@ -492,6 +501,21 @@ function hideDoorsUpdateHP(){
 }
 
 function gameOverRender(){
+  displayCover.style.zIndex = '101';
+  displayCover.classList.add('animate__fadeIn');
+  displayCover.innerHTML = '';
+  displayCover.style.color = 'white';
+
+displayCover.innerHTML=`
+  <div id="game-over-container">
+    <div class="game-over-div">${won ? `You beat the boss and escaped the dungeon!` : `The dungeon has claimed another life`}</div>
+    <div class="game-over-div">You were able to make it ${typeof player.location === 'number' ? player.location : player.locationHistory[player.locationHistory.length]} rooms</div>
+    <div class="game-over-div">Total Gold Collected: ${player.inventory.gold}</div>
+    <button id="resetBtn">Play again?</button>
+  </div>
+`;
+
+document.getElementById('resetBtn').addEventListener('click', init);
 
 }
 
