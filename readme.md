@@ -9,22 +9,22 @@
 ## How to play
 
 ![Image of UI](assets/images/readMe/dungeon_layout.png)
-#### **Main Display**
+#### **<span style="color:slateblue">Main Display</span>** 
 This is the main render area of the game.
 
-#### **Character Panel**
+#### **<span style="color:slateblue">Character Panel</span>** 
 This is where your health, mana, and gold are displayed.[^1]
 
-#### **Monster Health Panel**
+#### **<span style="color:slateblue">Monster Health Area</span>** 
 This is where health bars and nameplates for the monsters are displayed.
 
-#### **Nav Panel**
+#### **<span style="color:slateblue">Navigation Panel</span>** 
 - Up Arrow : Moves you forward, through the door.
 - Left Arrow : Moves you through the left door.
 - Right Arrow : Moves you through the right door.
 - Back Arrow : Retreats to the last room you were in.
 
-#### **Game Log**
+#### **<span style="color:slateblue">Game Log</span>** 
 Text about your adventure will be displayed here.
 
 
