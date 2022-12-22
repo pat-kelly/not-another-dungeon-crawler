@@ -6,21 +6,22 @@ import { Character } from "../data/char.js";
 /*------------ Constants ------------*/
 const player = new Character(100, 100, 0);
 let gameOver, combat, won;
-//const monsters = []; //?Depreciated - moved to map tiles
-
 
 /*---- Cached Element References ----*/
-const navBox = document.getElementById('nav');
-const gameLog = document.getElementById('text-log');
+const displayWindowEl = document.getElementById('display-area');
+const transitionEl = document.getElementById('transition');
+const monsterContainerEl = document.getElementById('monster-container');
+const displayCover = document.getElementById('splash-screen');
+
 const hpEl = document.getElementById('char-hp');
 const manaEl = document.getElementById('char-mana');
-const displayWindowEl = document.getElementById('display-area');
-const monsterContainerEl = document.getElementById('monster-container');
-const attackButtonEl = document.getElementById('attack');
-const monsterHealthEl = document.getElementById('monster-health-bars');
-const transitionEl = document.getElementById('transition');
 const goldEl = document.getElementById('char-gold');
+const monsterHealthEl = document.getElementById('monster-health-bars');
 
+const gameLog = document.getElementById('text-log');
+const navBox = document.getElementById('nav');
+
+// const attackButtonEl = document.getElementById('attack'); #TODO -remove this.
 
 //doors
 const leftDoor = document.getElementById('left-door');
@@ -43,26 +44,39 @@ function init(){
   won = false;
   combat = false;
   // transitionEl.style.display = 'none';
+  // attackButtonEl.style.display = 'none';
   leftDoor.style.display = 'none';
   rightDoor.style.display = 'none';
   backDoor.style.display = 'none';
-  attackButtonEl.style.display = 'none';
   lTorch.style.display = 'none';
   rTorch.style.display = 'none';
   hpEl.style.width = '0';
   manaEl.style.width = '0';
   
+  displayCover.style.backgroundColor = 'rgb(0,0,0)';
+  displayCover.style.zIndex = '101';
+  // displayCover.style.display = 'none';
+  const btn = document.createElement('button');
+  btn.textContent = 'HELLO';
+  btn.addEventListener('click', hideSplash);
+  displayCover.appendChild(btn);
   
-  //!REMOVE BEFORE LAUNCH #TODO
-  path.forEach(tile => {
-    // writeToGameLog(JSON.stringify(tile));
-    console.log(tile);
-  });
+
+  // //!REMOVE BEFORE LAUNCH #TODO
+  // path.forEach(tile => {
+  //   // writeToGameLog(JSON.stringify(tile));
+  //   console.log(tile);
+  // });
 
 
   render();
 }
 /*------------ Functions ------------*/
+
+function hideSplash(){
+  displayCover.classList.add('animate__fadeOut');
+  displayCover.style.zIndex = -1;
+}
 
 function navCheck(evt){
   if(evt.target.className !== 'nav-btn') return;
@@ -385,7 +399,7 @@ function render(){
   displayWindowEl.style.backgroundImage = 'url("../assets/images/room.png")';
   hideDoorsUpdateHP();
   monsterContainerEl.style.display = 'none';
-  attackButtonEl.style.display = 'none';
+  // attackButtonEl.style.display = 'none';
   monsterHealthEl.style.display = 'none';
   
   if(typeof player.location === 'number' && !combat){

@@ -59,7 +59,6 @@ body{
 }
 
 
-
 #border-ext{  
   background-image: url("../assets/images/gameBorder.png");
   background-position: center;
@@ -110,6 +109,16 @@ body{
   position:absolute;
   width: 100%;
   height: 100%;
+}
+
+
+
+#splash-screen{
+  /* display:none; */
+  width: 1600px;
+  height: 1130px;
+  position: absolute;
+  background-image: url("../assets/images/title_screen.gif");
 }
 
 #transition{
@@ -199,7 +208,7 @@ body{
   
   width:100%;
   margin-top: 30px;
-  overflow: scroll;
+  /* overflow: scroll; */
   height:400px;
 }
 
@@ -239,7 +248,7 @@ body{
   height:550px;
   flex-wrap: wrap;
   justify-content: space-around;
-  overflow-y: scroll;
+  /* overflow:hidden; */
 }
 
 .monster{
@@ -273,6 +282,7 @@ img{
   text-align: center;
 }
 
+
 #text-wrapper{
   padding:25px;
   /* background-color: rgb(247, 184, 184); */
@@ -286,7 +296,8 @@ img{
   width: 1230px;
   border: 3px solid black;
   border-radius: 0;
-  /* background-color: blue; */
+  font-family: draconis;
+  font-size: 30px;
   padding: 25px;
   overflow-y: scroll;
   scrollbar-color: black;
