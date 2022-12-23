@@ -53,12 +53,10 @@ html {
   cursor: pointer;
 }
 
-/* The Universal Selector */
-*, /* All elements*/
+
+*, 
 *::before, /* All ::before pseudo-elements */
 *::after { /* All ::after pseudo-elements */
-  /* height & width will now include border & padding by default
-     but can be over-ridden as needed */
   box-sizing: inherit;
 }
 
@@ -80,16 +78,7 @@ body{
   display:flex;
   justify-content: space-between;
   background-color: gray;
-  /* min-width: 75vw; */
-  /* border-top: 5px solid;
-  border-left: 5px solid;
-  border-right: 5px solid;
-  border-color: rgba(0, 0, 0, 1);  */
-  /* border-top-left-radius: 5px;
-  border-top-right-radius: 5px; */
-  /* margin: 2px 2px 0 2px; */
   max-width: 1600px;
-  /* z-index: 5; */
 }
 
 
@@ -102,23 +91,12 @@ body{
   justify-content: center;
   align-items: center;
   height: 1500px;
-  /* background-color: transparent; */
-  /* background-size: 1600px; */
-  /* border: 1px solid rgba(0, 0, 0, 0.4); */
 }
 
 #container-bottom{
   display:flex;
   justify-content: space-between;
   background-color: gray;
-  /* min-width: 75vw; */
-  /* border-bottom: 5px solid;
-  border-left: 5px solid;
-  border-right: 5px solid;
-  border-color: rgba(0, 0, 0, 1); */
-  /* border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px; */
-  /* margin: 0 2px 2px 2px; */
   max-width: 1600px;
   background-image: url("../assets/images/parchment.jpg");
   background-position: center;
@@ -129,7 +107,6 @@ body{
 #display-area{
   background-color: lightgray;
   position: relative;
-  /* border: 1px solid black; */
   width: 1280px;
   height: 800px;
   background-size: cover;
@@ -139,7 +116,6 @@ body{
 #left-door{
   background-image: url("../assets/images/tile_objects/leftDoor.png");
   background-size: cover;
-  /* z-index: 10; */
   position:absolute;
   width: 100%;
   height: 100%;
@@ -169,7 +145,6 @@ body{
 }
 
 #splash-screen{
-  /* display:none; */
   width: 1600px;
   height: 1130px;
   position: absolute;
@@ -180,7 +155,6 @@ body{
 }
 
 #transition{
-  
   z-index: 100;
   width: 100%;
   height: 100%;
@@ -191,7 +165,6 @@ body{
 #right-door{
   background-image: url("../assets/images/tile_objects/rightDoor.png");
   background-size: cover;
-  /* z-index: 10; */
   position:absolute;
   width: 100%;
   height: 100%;
@@ -212,9 +185,7 @@ body{
 }
 
 #back-door{
-  
   background-size: cover;
-  /* z-index: 10; */
   position:absolute;
   width: 100%;
   height: 100%;
@@ -222,7 +193,6 @@ body{
 
 #right-panel{
   width: 320px;
-  /* border: 1px solid black; */
   background-color: rgb(170, 161, 161);
   background-image: url("../assets/images/char_panel_bg.png");
   display:flex;
@@ -266,10 +236,8 @@ body{
   display: flex;
   flex-direction: column;
   align-items: center;
-  
   width:100%;
   margin-top: 30px;
-  /* overflow: scroll; */
   height:400px;
 }
 
@@ -282,7 +250,6 @@ body{
 #map-inv-panel{
   margin-top: 20px;
   width: 320px;
-  /* height:320px; */
   display:flex;
   flex-direction: column;
   justify-content: center;
@@ -298,24 +265,15 @@ body{
 }
 
 #monster-container{
-  /* background-image: url("../assets/raw_assets/Idle_scaled_3x_pngcrushed.png"); */
-  /* background-position: 0 0;
-  background-repeat: no-repeat;
-  background-size: cover; */
-  /* background-color: darkgray; */
   display:flex;
-  /* flex-direction: column; */
   height:550px;
   flex-wrap: wrap;
   justify-content: space-around;
-  /* overflow:hidden; */
 }
 
 .monster{
-  /* animation: idle 1s steps(4) infinite; */
   border:none;
   border-radius: 100%;
-  /* transition: .2s; */
   z-index: 101;
 }
 
@@ -345,9 +303,6 @@ img{
 
 #text-wrapper{
   padding:25px;
-  /* background-color: rgb(247, 184, 184); */
-  /* border: 1px solid black; */
-  /* background: transparent; */
 }
 
 #text-log{
@@ -367,18 +322,13 @@ img{
 
 #nav{
   width:320px;
-  /* border: 3px solid black;
-  border-radius: 50%; */
-  /* background: antiquewhite; */
   display:flex;
   justify-content: center;
   background-image: url("../assets/images/nav/arrow_surround.png");
-  /* background-size: cover; */
   background-repeat: no-repeat;
 }
 
 #button-container{
-  /* margin-top: 40px; */
   display:flex;
   justify-content: center;
   flex-direction: column;

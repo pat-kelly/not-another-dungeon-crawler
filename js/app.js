@@ -61,29 +61,16 @@ function init(){
   rTorch.style.display = 'none';
   hpEl.style.width = '0';
   manaEl.style.width = '0';
-  // displayCover.style.display = 'none';
   monsterContainerEl.style.marginTop = '250px';
   displayCover.innerHTML = '';
   displayCover.style.backgroundColor = 'rgb(0,0,0)';
   displayCover.style.zIndex = '101';
-  // displayCover.style.display = 'none';
-  // background-image: url("../assets/images/title_screen.gif");
   displayCover.style.backgroundImage = 'url("./assets/images/title_screen.gif")';
   const btn = document.createElement('button');
   btn.textContent = 'Enter the Dungeon';
   btn.addEventListener('click', hideSplash);
   displayCover.appendChild(btn);
   btn.id = 'title-button';
-
-  // gameOverRender();
-
-  //!REMOVE BEFORE LAUNCH #TODO
-  path.forEach(tile => {
-    // writeToGameLog(JSON.stringify(tile));
-    console.log(tile);
-  });
-
-
   render();
 }
 /*------------ Functions ------------*/
@@ -112,9 +99,7 @@ function toggleAudio(evt){
 }
 
 function handleCombatAudio(){
-  console.log('handleCombatAudio', combat, muted);
   if(combat){
-    console.log('audioCombat');
     if(typeof player.location === 'object'){
       if(player.location.monsters[0].type === 'Demon'){
         if(!muted) audio.bossLoop.play();
@@ -168,8 +153,6 @@ function playerMove(direction){
 
   if(typeof player.location === 'number'){
     dest = path[player.location].getDest(direction);
-    console.log(dest,'dest');
-    console.log(path[player.location],'curPath')
   }
 
   if(direction === 0){
@@ -219,7 +202,6 @@ function playerMove(direction){
           treasureRender();
           break;
         case 3:
-          console.log('boss?')
           bossRender();
           break;
         case 2:
@@ -274,24 +256,19 @@ function createMonsterList(tile=new MapTile()){
     //4 = mimic room, 3 = boss room. Both are outside the scope of path difficulty
     if(tile.roomType === 4 && !tile.monsters.length){
       tile.monsters.push(generateMonster(tile))
-      console.log('createMonsterList', tile);
     }else if(tile.roomType === 3 && !tile.monsters.length){
       tile.monsters.push(generateMonster(tile));
-      console.log('createMonsterList', tile);
     }
   }else if(tile.monsters.length === 0){
-    let pathDiff = path[player.location].difficulty;
-    console.log(pathDiff, 'pathdiff');
-    // while(existingDiff < tile.difficulty && tile.roomType !==4){
-      // console.log(pathDiff,'pathdiff')
-    // }
+    /* let pathDiff = path[player.location].difficulty;
+    while(existingDiff < tile.difficulty && tile.roomType !==4){
+      console.log(pathDiff,'pathdiff')
+    } */ //*#TODO
     let tileDiff = 0;
     while(tileDiff <= tile.difficulty && tileDiff <6){
       tile.monsters.push(generateMonster(tile))
       tileDiff = (tile.getMonsterDiff());
     }
-    console.log('deTile',tile);
-    // writeToGameLog('generating new monster');
   }
   
 }
@@ -399,14 +376,12 @@ function treasureRender(openChest, evt){
 }
 
 function bossRender(transform = false, targetEl, curTarget){
-  console.log('bossRender');
   hideDoorsUpdateHP();
   displayWindowEl.style.backgroundImage = 'url("../assets/images/battle_room.png")'
   monsterContainerEl.style.display = '';
   monsterHealthEl.style.display = '';
   monsterContainerEl.style.marginTop = '-200px';
   if(transform){
-    console.log('curTarget', curTarget)
     targetEl.src = `./assets/images/monsters/${curTarget.type.replace(' ','_')}/${curTarget.type.replace(' ','_')}_hit.gif`;
     player.location.monsters.pop();
     player.location.monsters.push(new Monster('Demon'));
@@ -414,7 +389,6 @@ function bossRender(transform = false, targetEl, curTarget){
   }
   
   combatRender();
-  // combat ? combatRender() : render();
 }
 
 function openTreasure(){
@@ -459,7 +433,6 @@ function spawnMimic(){
     chest.classList.remove('noClick');
     chest.src = './assets/images/monsters/Mimic/Mimic_idle.gif';
   }, 2900);
-  // console.log(player.location.monsters)
 }
 
 function combatRender(atk = false){
@@ -475,7 +448,6 @@ function combatRender(atk = false){
   monsterHealthEl.innerHTML = '';
   
   player.location.monsters.forEach((monster, idx) => {
-    console.log('generating monster elements',monster, idx);
     
     //Things that only need to render the first time.
     if(!atk){

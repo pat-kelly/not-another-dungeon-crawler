@@ -27,18 +27,16 @@ class Monster{
   }
 
   getBaseStats(nameStr){
-    console.log(nameStr);
     return monsterList.find(mon => mon.name.toLowerCase() === nameStr.toLowerCase())
   }
 
 }
 
 function generateMonster(tile = new MapTile){
-  console.log('generateMon', tile);
   const curMonsterList = monsterList.filter((mon) => mon.diff <= tile.difficulty);
-  console.log('curList',curMonsterList);
-  if(curMonsterList.length === 0) return; //*don't think i need this anymore.
+  if(curMonsterList.length === 0) return; 
 
+  //*#TODO
 /*   let eliteChance = (Math.random() * 100)+1;
   let elite = false;
   console.log(eliteChance);
@@ -58,7 +56,6 @@ function generateMonster(tile = new MapTile){
   if(tile.roomType === 4){
     return new Monster('Mimic', false);
   }else if(tile.roomType === 3){
-    console.log('correctRmType', tile)
     return new Monster('Demon Slime', false);
   }else{
     return new Monster( curMonsterList[Math.floor((Math.random() * curMonsterList.length))].name, false);

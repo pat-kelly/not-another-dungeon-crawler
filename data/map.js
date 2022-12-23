@@ -14,14 +14,9 @@ class MapTile{
   }
 
   getMonsters(){
-    const monObj = {};
-    console.log(this.monsters)
     this.monsters.forEach((mon, idx)=>{
       mon[idx] = mon[idx] ? mon[idx] +1 : 1;
     })
-
-    console.log(monObj);
-    
   }
 
   getDest(exitNum){
@@ -31,7 +26,7 @@ class MapTile{
   getDescription(){
     let retStr = `You have entered a room with `;
     retStr += (this.exits.length === 1 ? `1 door. ` : `${this.exits.length} doors. `)
-//check for boss
+    
     retStr += `You may go `
     switch(this.exits.length){  //*#TODO - when I change where the doors can be, i'll need to adjust this as well.
       case 1: retStr += `left. `; break;
@@ -61,7 +56,6 @@ function createDeadEnd(inheritedDiff =0){
   
   if(roomType < 65){ //!65
     curTile.roomType = 1;
-    // curTile.difficulty = 100;
     curTile.difficulty = diff+inheritedDiff;
     diff++;
     return curTile;
