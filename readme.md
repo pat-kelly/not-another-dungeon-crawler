@@ -53,6 +53,7 @@ Text about your adventure will be displayed here.
 ### 🧊 Planned Features
 - [x] Room toughness scales with player location
 - [ ] Game Balance
+- [ ] Re-write async timing.
 - [ ] Path scaling
 - [ ] Chance of elite versions of monsters to spawn
 - [ ] Mobile version
