@@ -52,6 +52,7 @@ Text about your adventure will be displayed here.
 
 ### 🧊 Planned Features
 - [x] Room toughness scales with player location
+- [ ] Preload images in the background so user doesn't have to wait
 - [ ] Game Balance
 - [ ] Re-write async timing.
 - [ ] Path scaling
