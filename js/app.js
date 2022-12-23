@@ -477,14 +477,30 @@ function combatRender(atk = false){
     }
 
     //Things that will render all the time
-    const monHp = document.createElement('div');
     const monLabel = document.createElement('p');
-    monLabel.textContent = `${monster.type} HP`;
+    monLabel.textContent = `${monster.type === 'Demon Slime' ? 'Slime' : monster.type} HP`;
     monsterHealthEl.appendChild(monLabel);
-    monHp.classList.add('health-bar');
-    monHp.style.width = `${monster.hp * 10}px`;
-    monHp.style.height = '10px'
-    monsterHealthEl.appendChild(monHp);
+
+    
+    let numBars = monster.hp / 30;
+    let remainder = monster.hp;
+    
+    let curBar;
+    while(numBars > 0){
+      if(numBars > 1){
+        curBar = 30;
+      }else{
+        curBar = remainder;
+      }
+      remainder -= curBar;
+      
+      const monHp = document.createElement('div');
+      monHp.classList.add('health-bar');
+      monHp.style.width = `${curBar * 10}px`;
+      monHp.style.height = '10px';
+      monsterHealthEl.appendChild(monHp);
+      numBars -= 1;
+    }
   });
 }//*END combatRender
 
