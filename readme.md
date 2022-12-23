@@ -27,9 +27,19 @@ This is where health bars and nameplates for the monsters are displayed.
 #### **<span style="color:slateblue">Game Log</span>** 
 Text about your adventure will be displayed here.
 
+### Combat
+![Image of Combat Screen](assets/images/readMe/combat_screen.png)
+- Combat works by clicking on the monster you want to attack.
+- Every monster has a custom animation, and will hit you back when attacked, so pick your fights!
+- Combat can be run away from by clicking the 'back' arrow in the navigation pane.
+- Monsters drop gold upon death.
 
-![Image of Combat Screen]()
-- this is where I describe combat
+![Highlighted monster](assets/images/readMe/highlightedMonster.png)
+<p>This is a monster that is targeted.</p>
+
+![standard monster](assets/images/readMe/regular_monster.png)
+
+<p>This is a monster that is not targeted.</p>
 
 ### Technologies Used
 - ![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
@@ -50,6 +60,7 @@ Text about your adventure will be displayed here.
 - 'Breathe Fire II' font by [by Chequered Ink](https://www.fontspace.com/breathe-fire-ii-font-f31570)
 - Chest / Mimic sprites from [Will Tice](untiedgames.itch.io)
 - Monster sprites from [Luiz Melo](https://luizmelo.itch.io/monsters-creatures-fantasy)
+- More sprites from [Chierit](https://chierit.itch.io/)
 - Character portraits from [Fantasy Faces](https://www.fantasy-faces.com/)
 - Music by [Marllon Silva a.k.a xDeviruchi](https://xdeviruchi.itch.io/8-bit-fantasy-adventure-music-pack)
 
