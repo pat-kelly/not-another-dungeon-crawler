@@ -265,7 +265,7 @@ function createMonsterList(tile=new MapTile()){
       console.log(pathDiff,'pathdiff')
     } */ //*#TODO
     let tileDiff = 0;
-    while(tileDiff <= tile.difficulty && tileDiff <6){
+    while(tileDiff <= tile.difficulty){
       tile.monsters.push(generateMonster(tile))
       tileDiff = (tile.getMonsterDiff());
     }
@@ -295,9 +295,11 @@ function attack(evt){
   }, noClickTime);
   const targetPath = curTarget.type.replace(' ','_');
   //adjust monster hp and animate either hit or death
+  let playerDmg = player.getDmg();
   if(curTarget.hp > 0){
-    curTarget.hp -= player.dmg;
-    writeToGameLog(`You hit the ${curTarget.type === 'Demon Slime' ? 'Slime' : curTarget.type} for ${player.dmg} damage!`);
+    if(playerDmg > curTarget.hp) curTarget.hp = 0;
+    else curTarget.hp -= playerDmg;
+    writeToGameLog(`You hit the ${curTarget.type === 'Demon Slime' ? 'Slime' : curTarget.type} for ${playerDmg} damage!`);
     if(!muted && curTarget.type !== 'Mimic') audio.play(curTarget.type, .1);
     if(!muted && curTarget.type === 'Demon Slime') audio.play('Slime', .1);
     if(curTarget.hp){
@@ -317,7 +319,7 @@ function attack(evt){
         bossRender(true, targetEl, curTarget);
         return;
       }
-      if(curTarget.type === 'Slime') numSlimesKilled++;
+      if(curTarget.type === 'Slime') numSlimesKilled++; //*#TODO - work this into the boss difficulty
       writeToGameLog(`The ${curTarget.type} has died, and dropped ${rewardPlayer('monster',curTarget)} gold!`);
       if(curTarget.type === 'Demon'){
         writeToGameLog(`As a reward for completing the dungeon, you are awarded an extra ${rewardPlayer('flat',undefined,50)} gold!`);
@@ -439,7 +441,6 @@ function combatRender(atk = false){
   hideDoorsUpdateHP();
   if(typeof player.location === 'number') return; //*if the player's location is a number, we shouldn't be here.
   displayWindowEl.style.backgroundImage = 'url("../assets/images/battle_room.png")'
-  // attackButtonEl.style.display = '';
   monsterContainerEl.style.display = '';
   monsterHealthEl.style.display = '';
 

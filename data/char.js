@@ -4,10 +4,15 @@ class Character{
 
     this.hp = hp;
     this.mp = mp;
-    this.dmg = 1;
     this.location = location;
     this.locationHistory = [];
     this.inventory = invObj;
+  }
+
+  getDmg(){
+    //TODO - once I have an inventory, adjust this based off equipped stuff.
+    //TODO - Work hit chances in
+    return(Math.floor(Math.random() * 4)+1);
   }
 }
 
