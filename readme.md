@@ -15,10 +15,12 @@ This is the main render area of the game.
 #### **<span style="color:slateblue">Character Panel</span>** 
 This is where your health, mana, and gold are displayed.[^1]
 
+[^1]: Mana not currently implemented. 
+
 #### **<span style="color:slateblue">Monster Health Area</span>** 
 This is where health bars and nameplates for the monsters are displayed.
 
-#### **<span style="color:slateblue">Navigation Panel</span>** 
+#### **```diff - Navigation Panel ```** 
 - Up Arrow : Moves you forward, through the door.
 - Left Arrow : Moves you through the left door.
 - Right Arrow : Moves you through the right door.
@@ -48,13 +50,19 @@ Text about your adventure will be displayed here.
 - ![Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
 - ![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
 
-### Planned Features
-- [x] Test feature
-- [ ] feature 2
+### 🧊 Planned Features
+- [x] Room toughness scales with player location
+- [ ] Game Balance
+- [ ] Path scaling
+- [ ] Chance of elite versions of monsters to spawn
+- [ ] Mobile version
+- [ ] Dungeon clutter
+- [ ] More monsters
+- [ ] More levels
+- [ ] Working Inventory
 
-[^1]: Mana not currently implemented. 
 
-### Attributions:
+### 📣 Attributions:
 - Arrow Buttons by [upklyak on Freepik](https://www.freepik.com/free-vector/set-progress-bars-game-buttons-menu-ui-gui-elements-cartoon-interface-stone-texture-user-setting-panel-slider-pause-arrows-power-life-scale-login-password-board-vector-icons_20731575.htm#query=rpg&position=28&from_view=search&track=sph?sign-up=google)
 - Textures from [Forgotten Adventures](https://www.forgotten-adventures.net/)
 - 'Breathe Fire II' font by [by Chequered Ink](https://www.fontspace.com/breathe-fire-ii-font-f31570)
@@ -63,4 +71,7 @@ Text about your adventure will be displayed here.
 - More sprites from [Chierit](https://chierit.itch.io/)
 - Character portraits from [Fantasy Faces](https://www.fantasy-faces.com/)
 - Music by [Marllon Silva a.k.a xDeviruchi](https://xdeviruchi.itch.io/8-bit-fantasy-adventure-music-pack)
+- Lots of random art from [itch.io](https://itch.io)
+- Sound effects from [mixkit](https://mixkit.co) and [freesound](https://freesound.org)
+- If you see an asset you created and your not attributed here, please [reach out!](mailto:kelly.patj@gmail.com)
 
