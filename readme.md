@@ -1,35 +1,35 @@
 ![not another dungeon crawler title](assets/images/title_screen.gif)
 
-### !Another Dungeon Crawler is a quasi-procedurally generated dungeon crawling adventure. Explore a dingy dungeon, fighting monsters and collecting treasure! Can you survive long enough to find the boss?
+### !(not) Another Dungeon Crawler is a quasi-procedurally generated dungeon crawling adventure. Explore a dingy dungeon, fighting monsters and collecting treasure! Can you survive long enough to find the boss?
 ---
-## [Launch Game!](https://not-another-dungeon-crawler.netlify.app/)
+# [Launch Game!](https://not-another-dungeon-crawler.netlify.app/)
 > Planning board can be found on [Trello](https://trello.com/b/EX9tzIpp/anotherdungeoncrawler).
 ---
 
 ## How to play
 
 ![Image of UI](assets/images/readMe/dungeon_layout.png)
-#### **<span style="color:slateblue">Main Display</span>** 
+#### **Main Display** 
 This is the main render area of the game.
 
-#### **<span style="color:slateblue">Character Panel</span>** 
+#### **Character Panel** 
 This is where your health, mana, and gold are displayed.[^1]
 
 [^1]: Mana not currently implemented. 
 
-#### **<span style="color:slateblue">Monster Health Area</span>** 
+#### **Monster Health Area** 
 This is where health bars and nameplates for the monsters are displayed.
 
-#### **```diff - Navigation Panel ```** 
+#### **Navigation Panel** 
 - Up Arrow : Moves you forward, through the door.
 - Left Arrow : Moves you through the left door.
 - Right Arrow : Moves you through the right door.
 - Back Arrow : Retreats to the last room you were in.
 
-#### **<span style="color:slateblue">Game Log</span>** 
+#### **Game Log** 
 Text about your adventure will be displayed here.
 
-### Combat
+### ⚔️ Combat
 ![Image of Combat Screen](assets/images/readMe/combat_screen.png)
 - Combat works by clicking on the monster you want to attack.
 - Every monster has a custom animation, and will hit you back when attacked, so pick your fights!
@@ -43,7 +43,7 @@ Text about your adventure will be displayed here.
 
 <p>This is a monster that is not targeted.</p>
 
-### Technologies Used
+### 🗜️ Technologies Used
 - ![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
 - ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 - ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
