@@ -99,7 +99,6 @@ function generatePath(){
   
     const curTile = new MapTile();
     curTile.difficulty = i+1;
-    
     let idx = Math.floor((Math.random() * (numExits))+1);
     
     //This stops the game from taking the same exit twice.
@@ -133,10 +132,8 @@ function generatePath(){
   
     path.push(curTile);
   
-  }
-}
-
-
+  }//*END forLoop
+}//*END Generate Path
 
 export{MapTile, path, generatePath}
 

@@ -573,8 +573,8 @@ function gameOverRender(){
 displayCover.innerHTML=`
   <div id="game-over-container">
     <div class="game-over-div">${won ? `You beat the boss and escaped the dungeon!` : `The dungeon has claimed another life`}</div>
-    <div class="game-over-div">You were able to make it ${typeof player.location === 'number' ? player.location : player.locationHistory[player.locationHistory.length-1]} rooms</div>
-    <div class="game-over-div">Total Gold Collected: ${player.inventory.gold}</div>
+    <div class="game-over-div">You were able to make it <span class="red-text">${typeof player.location === 'number' ? player.location : player.locationHistory[player.locationHistory.length-1]}</span> rooms</div>
+    <div class="game-over-div">Total Gold Collected:<span class="red-text"> ${player.inventory.gold}</span></div>
     <button id="resetBtn">Play again?</button>
   </div>
 `;
