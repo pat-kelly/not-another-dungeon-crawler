@@ -35,7 +35,7 @@ const rTorch = document.getElementById('torch-right');
 /*--------- Event Listeners ---------*/
 navBox.addEventListener('click', navCheck);
 displayWindowEl.addEventListener('click', attack);
-audioToggleEl.addEventListener('click', toggleAudio);
+audioToggleEl.addEventListener('click', audioHandler);
 
 document.onload = init();
 
@@ -46,7 +46,7 @@ function init(){
   audio.defaultLoop.currentTime = 0;
   audio.titleSong.currentTime = 0;
   audio.gameOverTrack.currentTime = 0;
-  toggleAudio();
+  audioHandler();
   player = new Character(100, 100, 0);
   gameLog.textContent = '';
   won = false;
@@ -75,7 +75,7 @@ function init(){
 }
 /*------------ Functions ------------*/
 
-function toggleAudio(evt){
+function audioHandler(evt){
   
   if(evt) muted ? muted = false : muted = true;
 
@@ -99,15 +99,15 @@ function toggleAudio(evt){
 }
 
 function handleCombatAudio(){
-  if(combat){
+  if(combat && !muted){
     if(typeof player.location === 'object'){
       if(player.location.monsters[0].type === 'Demon'){
-        if(!muted) audio.bossLoop.play();
+        audio.bossLoop.play();
       }else{
-        if(!muted) audio.fightLoop.play()
+        if((player.location.checkAliveMonsters())) audio.fightLoop.play()
       }
     }else{
-      if(!muted) audio.fightLoop.play()
+      audio.fightLoop.play()
     }
   }
 }
@@ -118,7 +118,7 @@ function hideSplash(){
     displayCover.style.zIndex = -1;
     displayCover.innerHTML = '';
     gameState = 'gameLoop';
-    toggleAudio();
+    audioHandler();
     displayCover.classList.remove('animate__fadeOut');
     // if(!muted) audio.switchTrack('defaultLoop', .02);
   }, 1500);
@@ -160,7 +160,7 @@ function playerMove(direction){
     if(player.locationHistory.length){
       if(combat) combat = false;
       gameState = 'gameLoop';
-      toggleAudio();
+      audioHandler();
       player.location = player.locationHistory.pop();
       writeToGameLog(path[player.location].getDescription());
     }
@@ -217,7 +217,7 @@ function playerMove(direction){
 }//*END playerMove
 
 function handleDeadEnd(tile = new MapTile()){
-  //0 is path, 1 is monster room, 2 is treasure, 3 is boss, 4 is mimic.
+  // 0 is path, 1 is monster room, 2 is treasure, 3 is boss, 4 is mimic.
   
   switch(tile.roomType){
     case 1:
@@ -225,8 +225,8 @@ function handleDeadEnd(tile = new MapTile()){
       tile.getMonsters();
       // writeToGameLog(`You walk into the room, and find`);
       combat = true;
-      gameState = 'combat';
-      toggleAudio();
+      if(tile.checkAliveMonsters()) gameState = 'combat';
+      audioHandler();
       break;
     case 2:
       writeToGameLog('You see a treasure chest before you.');
@@ -236,7 +236,7 @@ function handleDeadEnd(tile = new MapTile()){
       createMonsterList(tile);
       combat = true;
       gameState = 'combat';
-      toggleAudio();
+      audioHandler();
       break;
     case 4:
       writeToGameLog('You see a treasure chest before you.');
@@ -316,14 +316,14 @@ function attack(evt){
       if(curTarget.type === 'Demon Slime'){
         bossRender(true, targetEl, curTarget);
         return;
-      }audio.play
+      }
       if(curTarget.type === 'Slime') numSlimesKilled++;
       writeToGameLog(`The ${curTarget.type} has died, and dropped ${rewardPlayer('monster',curTarget)} gold!`);
       if(curTarget.type === 'Demon'){
         writeToGameLog(`As a reward for completing the dungeon, you are awarded an extra ${rewardPlayer('flat',undefined,50)} gold!`);
         won = true;
         gameState = 'gameOver';
-        toggleAudio();
+        audioHandler();
         gameOverRender();
       }
       targetEl.src = `./assets/images/monsters/${targetPath}/${targetPath}_hit.gif`;
@@ -385,7 +385,7 @@ function bossRender(transform = false, targetEl, curTarget){
     targetEl.src = `./assets/images/monsters/${curTarget.type.replace(' ','_')}/${curTarget.type.replace(' ','_')}_hit.gif`;
     player.location.monsters.pop();
     player.location.monsters.push(new Monster('Demon'));
-    toggleAudio();
+    audioHandler();
   }
   
   combatRender();
@@ -428,7 +428,7 @@ function spawnMimic(){
   chest.classList.add('noClick')
   gameState = 'combat';
   combat = true;
-  toggleAudio();
+  audioHandler();
   setTimeout(() => {
     chest.classList.remove('noClick');
     chest.src = './assets/images/monsters/Mimic/Mimic_idle.gif';
@@ -525,7 +525,7 @@ function hideDoorsUpdateHP(){
   if(player.hp < 1){
     writeToGameLog(`You have died! so sad.`)
     gameState = 'gameOver';
-    toggleAudio();
+    audioHandler();
     gameOverRender();
     return;
   }else{

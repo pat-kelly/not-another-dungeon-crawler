@@ -40,6 +40,14 @@ class MapTile{
     return retStr;
   }
 
+  checkAliveMonsters(){
+    let alive = false;
+    this.monsters.forEach(mon=>{
+      if(mon.hp > 0) alive=true;
+    })
+    return alive;
+  }
+
   getMonsterDiff(){
     return this.monsters.reduce((acc,mon)=>{
       acc += mon.diff;
