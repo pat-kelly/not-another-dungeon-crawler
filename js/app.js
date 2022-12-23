@@ -112,13 +112,17 @@ function toggleAudio(evt){
 }
 
 function handleCombatAudio(){
+  console.log('handleCombatAudio', combat, muted);
   if(combat){
+    console.log('audioCombat');
     if(typeof player.location === 'object'){
       if(player.location.monsters[0].type === 'Demon'){
-        audio.bossLoop.play();
+        if(!muted) audio.bossLoop.play();
+      }else{
+        if(!muted) audio.fightLoop.play()
       }
     }else{
-      audio.fightLoop.play()
+      if(!muted) audio.fightLoop.play()
     }
   }
 }
@@ -196,7 +200,7 @@ function playerMove(direction){
     return;
   }
 
-  if(!muted) audio.play('move', .5);
+  if(!muted) audio.play('move', .3);
   transitionEl.style.backgroundColor = 'black';
   for(let el of document.getElementsByClassName('monster')){
     el.style.zIndex = '99';
@@ -246,7 +250,7 @@ function handleDeadEnd(tile = new MapTile()){
       writeToGameLog('You see a treasure chest before you.');
       break;
     case 3:
-      writeToGameLog('You great doors swing open, and you see before you.... a Slime.');
+      writeToGameLog('The great doors swing open, and you see before you.... a Slime.');
       createMonsterList(tile);
       combat = true;
       gameState = 'combat';
@@ -316,14 +320,17 @@ function attack(evt){
   //adjust monster hp and animate either hit or death
   if(curTarget.hp > 0){
     curTarget.hp -= player.dmg;
-    writeToGameLog(`You hit the ${curTarget.type} for ${player.dmg} damage!`);
+    writeToGameLog(`You hit the ${curTarget.type === 'Demon Slime' ? 'Slime' : curTarget.type} for ${player.dmg} damage!`);
+    if(!muted && curTarget.type !== 'Mimic') audio.play(curTarget.type, .1);
+    if(!muted && curTarget.type === 'Demon Slime') audio.play('Slime', .1);
     if(curTarget.hp){
       targetEl.src = `./assets/images/monsters/${targetPath}/${targetPath}_hit.gif`
       setTimeout(function(){
         targetEl.src = `./assets/images/monsters/${targetPath}/${targetPath}_attack.gif`
+        if(!muted && curTarget.type === 'Mimic') audio.play(curTarget.type, .1);
         setTimeout(function(){
           player.hp -= curTarget.dph;
-          writeToGameLog(`The ${curTarget.type} hits you for ${curTarget.dph} damage!`);
+          writeToGameLog(`The ${curTarget.type === 'Demon Slime' ? 'Slime' : curTarget.type} hits you for ${curTarget.dph} damage!`);
           combatRender(true);
           targetEl.src = `./assets/images/monsters/${targetPath}/${targetPath}_idle.gif`
         },curTarget.atkTime)//* atk timeout
@@ -332,7 +339,7 @@ function attack(evt){
       if(curTarget.type === 'Demon Slime'){
         bossRender(true, targetEl, curTarget);
         return;
-      }
+      }audio.play
       if(curTarget.type === 'Slime') numSlimesKilled++;
       writeToGameLog(`The ${curTarget.type} has died, and dropped ${rewardPlayer('monster',curTarget)} gold!`);
       if(curTarget.type === 'Demon'){
@@ -445,11 +452,11 @@ function spawnMimic(){
   const chest = document.getElementById('Mimic_0');
   chest.src = './assets/images/monsters/Mimic/Mimic_activate.gif';
   chest.classList.add('noClick')
+  gameState = 'combat';
+  combat = true;
+  toggleAudio();
   setTimeout(() => {
     chest.classList.remove('noClick');
-    combat = true;
-    gameState = 'combat';
-    toggleAudio();
     chest.src = './assets/images/monsters/Mimic/Mimic_idle.gif';
   }, 2900);
   // console.log(player.location.monsters)

@@ -11,7 +11,7 @@ let fightLoop = new Audio('../assets/audio/tracks/fightLoop.wav');
   fightLoop.volume = .07;
   fightLoop.loop = true;
 let bossLoop = new Audio('../assets/audio/tracks/bossLoop.wav');
-  bossLoop.volume = .07;
+  bossLoop.volume = .085;
   bossLoop.loop = true;
 
 
