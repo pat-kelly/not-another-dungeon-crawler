@@ -199,6 +199,7 @@ body{
   flex-direction: column;
   align-items: center;
   max-height: 800px;
+  overflow:hidden;
 }
 
 #character-panel{

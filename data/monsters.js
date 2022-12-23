@@ -67,9 +67,9 @@ const monsterList = [
   {hp: 3, dph: 1, name: 'Goblin', diff: 1, atkTime: 800, hitTime: 300, dieTime: 800} ,
   {hp: 7, dph: 2, name: 'Mushroom', diff: 1, atkTime: 800, hitTime: 300, dieTime: 800},
   {hp: 10, dph: 3, name: 'Skeleton', diff: 2, atkTime: 800, hitTime: 300, dieTime: 800},
-  {hp: 25, dph: 10, name: 'Mimic', diff: 25, atkTime: 1300, hitTime: 800, dieTime: 1200},
+  {hp: 25, dph: 6, name: 'Mimic', diff: 25, atkTime: 1300, hitTime: 800, dieTime: 1200},
   {hp: 3, dph: 0, name: 'Demon Slime', diff:99, atkTime:800, hitTime: 600, dieTime:0},
-  {hp: 50, dph: 15, name: 'Demon', diff:99, atkTime:1500, hitTime: 500, dieTime:2200}/*,
+  {hp: 50, dph: 7, name: 'Demon', diff:99, atkTime:1500, hitTime: 500, dieTime:2200}/*,
   {hp: 5, dph: 3, name: 'Zombie', diff: 2},
   {hp: 13, dph: 4, name: 'HobGoblin', diff:2},
   {hp: 10, dph: 3, name: 'Skeleton', diff: 2} */

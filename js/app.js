@@ -222,8 +222,19 @@ function handleDeadEnd(tile = new MapTile()){
   switch(tile.roomType){
     case 1:
       createMonsterList(tile);
-      tile.getMonsters();
-      // writeToGameLog(`You walk into the room, and find`);
+      let curMonsters = tile.getMonsters();
+      let strToPrint = `You walk into the room to find `;
+      let idx = Object.keys(curMonsters).length;
+      for(let mon in curMonsters){
+        if(idx === 1) strToPrint += ', and ';
+        else if(idx !== Object.keys(curMonsters).length) strToPrint += ', ';
+
+        curMonsters[mon] > 1 ? strToPrint += `${curMonsters[mon]} ${mon}s` 
+          : strToPrint += `${curMonsters[mon]} ${mon}`;
+        
+        idx --;
+      }
+      writeToGameLog(strToPrint);
       combat = true;
       if(tile.checkAliveMonsters()) gameState = 'combat';
       audioHandler();
@@ -265,7 +276,7 @@ function createMonsterList(tile=new MapTile()){
       console.log(pathDiff,'pathdiff')
     } */ //*#TODO
     let tileDiff = 0;
-    while(tileDiff <= tile.difficulty){
+    while(tileDiff <= tile.difficulty && tileDiff < 8){
       tile.monsters.push(generateMonster(tile))
       tileDiff = (tile.getMonsterDiff());
     }
@@ -283,7 +294,6 @@ function attack(evt){
     }else return;
   }
   if(evt.target.classList.contains('noClick')) return;
-  //<img id="Goblin_0" class="monster" src="./assets/images/monsters/Goblin_hit.gif" style="height: 300px; width: 300px;">
   let idx = evt.target.id.slice(-1);
   
   const curTarget = player.location.monsters[idx];

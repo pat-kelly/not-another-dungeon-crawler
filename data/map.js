@@ -14,9 +14,10 @@ class MapTile{
   }
 
   getMonsters(){
-    this.monsters.forEach((mon, idx)=>{
-      mon[idx] = mon[idx] ? mon[idx] +1 : 1;
-    })
+    return this.monsters.reduce((acc, mon)=>{
+      acc[mon.type] = acc[mon.type] ? acc[mon.type] +1 : 1;
+      return acc;
+    },{})
   }
 
   getDest(exitNum){
