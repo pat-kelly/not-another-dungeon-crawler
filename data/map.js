@@ -59,20 +59,20 @@ function createDeadEnd(inheritedDiff =0){
   let roomType = Math.floor((Math.random() * 100)+1);
   const curTile = new MapTile();
   
-  if(roomType < 0){ //!60
+  if(roomType < 65){ //!65
     curTile.roomType = 1;
     // curTile.difficulty = 100;
     curTile.difficulty = diff+inheritedDiff;
     diff++;
     return curTile;
   }
-  if(roomType < 0){ //!75
+  if(roomType < 80){ //!80
     curTile.roomType = 2;
     curTile.difficulty = diff+inheritedDiff;
     diff++;
     return curTile;    
   }
-  if(roomType < 0){ //!95
+  if(roomType < 95){ //!95
     return new MapTile(); 
   }
   if(pathLength/10 > numMimics){
