@@ -287,7 +287,8 @@ body{
 }
 
 .monster:hover{
-  filter: brightness(1.5);  
+  filter: brightness(1.5);
+  cursor: url('../assets/images/nav/sword.png'), pointer;
 }
 
 .moving{
@@ -363,6 +364,7 @@ img{
 
 .nav-btn:hover{
   filter: brightness(1.3);
+  cursor: pointer;
 }
 
 .nav-btn:active{
